@@ -1,0 +1,28 @@
+#content {
+  font-family: 'Muli', sans-serif;
+  font-size: 28px;
+}
+
+.top-panel {
+  background-color: #2F8441;
+  color: whitesmoke;
+}
+
+.top-panel p {
+  font-weight: bold;
+}
+
+.top-panel img {
+  padding-top: .5em;
+}
+
+.top-panel .title {
+  margin-top: 0;
+  padding-top: 0.2em;
+  font-family: 'Monoton', cursive;
+  font-size: 108px;
+}
+
+.search-area {
+  padding: 1em;
+}

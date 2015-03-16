@@ -4,23 +4,22 @@ import (
   "net/http"
   "github.com/codegangsta/negroni"
   "github.com/gorilla/mux"
-  "github.com/yosssi/gold"
+  "github.com/unrolled/render"
   "os"
 )
 
 func main() {
   n := negroni.Classic()
   router := mux.NewRouter()
+  router.Handle("/", http.FileServer(http.Dir("./views")))
 
-  g := gold.NewGenerator(os.Getenv("ENV") == "production")
+  r := render.New()
 
-  router.HandleFunc("/", func(resp http.ResponseWriter, req *http.Request) {
-    tpl, err := g.ParseFile("./views/index.gold")
-    if err != nil {
-      http.Error(resp, "template parsing failed", http.StatusInternalServerError)
-    } else {
-      tpl.Execute(resp, nil)
-    }
+  api := router.PathPrefix("/api").Subrouter()
+  api.HandleFunc("/services", func(resp http.ResponseWriter, req *http.Request) {
+  	r.JSON(resp, http.StatusOK, map[string]string{
+  		"hello": "json",
+  	})
   }).Methods("GET")
 
   n.UseHandler(router)

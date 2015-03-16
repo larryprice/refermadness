@@ -1,0 +1,65 @@
+<!-- index.html -->
+<html>
+  <head>
+    <title>Refer Madness</title>
+
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico">
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/jsx">
+      var SearchArea = React.createClass({
+        render: function() {
+          return (
+            <div className="search-area">
+              <div className="container">
+                <input type="text" className="form-control" placeholder="Give me a service name or URL!"/>
+              </div>
+            </div>
+          );
+        }
+      });
+
+      var Title = React.createClass({
+        render: function() {
+          return (
+            <div className="title">{this.props.children}</div>
+          )
+        }
+      });
+
+      var TopPanel = React.createClass({
+        render: function() {
+          return (
+            <div className="top-panel text-center">
+              <Title>Refer Madness</Title>
+              <p>No friends, family, or followers? No problem.</p>
+              <p>Find a random referral link to get discounts.</p>
+              <p>Then submit your own code or URL to start reaping rewards.</p>
+              <SearchArea />
+            </div>
+          );
+        }
+      });
+
+      React.render(
+        <TopPanel />,
+        document.getElementById('content')
+      );
+    </script>
+
+    <script src="https://fb.me/react-0.13.0.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
+  </body>
+</html>
