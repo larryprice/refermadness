@@ -8,6 +8,12 @@ import (
   "os"
 )
 
+type service struct {
+	name string
+	id   string
+	url  string
+}
+
 func main() {
   n := negroni.Classic()
   router := mux.NewRouter()
