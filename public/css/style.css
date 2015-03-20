@@ -26,3 +26,23 @@
 .search-area {
   padding: 1em;
 }
+
+.lonely-panel {
+  background-color: #55A466;
+  color: whitesmoke;
+}
+
+.hook-panel {
+  background-color: #86C493;
+  color: whitesmoke;
+}
+
+/*.search-box {
+  animation: move 3s ease;
+}
+
+@keyframes move {
+  50% {
+     transform: translate(0, 100px);
+  }
+}*/
