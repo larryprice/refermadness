@@ -133,6 +133,34 @@ var HookPanel = React.createClass({
   }
 });
 
+var RecentPanel = React.createClass({
+  render: function() {
+    return (
+      <div className="recent-panel">
+      </div>
+    );
+  }
+});
+
+
+var RandomPanel = React.createClass({
+  render: function() {
+    return (
+      <div className="random-panel">
+      </div>
+    );
+  }
+});
+
+var ContactPanel = React.createClass({
+  render: function() {
+    return (
+      <div className="contact-panel">
+      </div>
+    );
+  }
+});
+
 var HomePage = React.createClass({
   render: function() {
     return (
@@ -140,6 +168,9 @@ var HomePage = React.createClass({
         <TopPanel />
         <LonelyPanel />
         <HookPanel />
+        <RecentPanel />
+        <RandomPanel />
+        <ContactPanel />
       </div>
     );
   }
