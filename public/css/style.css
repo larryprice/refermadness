@@ -1,6 +1,8 @@
 #content {
   font-family: 'Muli', sans-serif;
   font-size: 28px;
+  height: 100%;
+  background-color: #2F8441;
 }
 
 .top-panel {

@@ -55,8 +55,10 @@ var SearchArea = React.createClass({
     query = $.trim(query);
     if (query === "") {
       this.setState({data: []});
+      this.props.onEmptySearch();
       return
     }
+    this.props.onNonEmptySearch();
     var searchResults = testData.filter(function(val) {
       return val.name.indexOf(query) > -1 || val.url.indexOf(query) > -1;
     });
@@ -81,6 +83,16 @@ var Title = React.createClass({
 });
 
 var TopPanel = React.createClass({
+  handleEmptySearch: function() {
+    if (this.props.onSearchInactivated) {
+      this.props.onSearchInactivated();
+    }
+  },
+  handleSearchActivated: function() {
+    if (this.props.onSearchActivated) {
+      this.props.onSearchActivated();
+    }
+  },
   render: function() {
     return (
       <div className="top-panel text-center">
@@ -88,7 +100,7 @@ var TopPanel = React.createClass({
           <Title>Refer Madness</Title>
           <h1><strong>Looking for referral links?</strong></h1>
           <h2><strong>Start searching below to find your product or service.</strong></h2>
-          <SearchArea />
+          <SearchArea onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
         </div>
       </div>
     );
@@ -162,17 +174,31 @@ var ContactPanel = React.createClass({
 });
 
 var HomePage = React.createClass({
+  getInitialState: function() {
+    return {searchActive: false};
+  },
+  handleSearchActivated: function() {
+    this.setState({searchActive: true});
+  },
   render: function() {
-    return (
-      <div className="home-page">
-        <TopPanel />
-        <LonelyPanel />
-        <HookPanel />
-        <RecentPanel />
-        <RandomPanel />
-        <ContactPanel />
-      </div>
-    );
+    if (this.state.searchActive) {
+      return (
+        <div className="home-page">
+          <TopPanel />
+        </div>
+      );
+    } else {
+      return (
+        <div className="home-page">
+          <TopPanel onSearchActivated={this.handleSearchActivated} />
+          <LonelyPanel />
+          <HookPanel />
+          <RecentPanel />
+          <RandomPanel />
+          <ContactPanel />
+        </div>
+      );
+    }
   }
 });
 
