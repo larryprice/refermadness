@@ -98,8 +98,8 @@ var TopPanel = React.createClass({
       <div className="top-panel text-center">
         <div className="container">
           <Title>Refer Madness</Title>
-          <h1><strong>Looking for referral links?</strong></h1>
-          <h2><strong>Start searching below to find your product or service.</strong></h2>
+          <h1 className="top-panel-message"><strong>Looking for referral links?</strong></h1>
+          <h2 className="top-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
           <SearchArea onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
         </div>
       </div>

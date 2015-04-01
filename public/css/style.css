@@ -39,12 +39,13 @@
   color: whitesmoke;
 }
 
-/*.search-box {
-  animation: move 3s ease;
+.top-panel-message.fadeout {
+  transition: font-size 3s, margin-top 1s;
+  margin-top: -20px;
+  font-size: 0;
 }
 
-@keyframes move {
-  50% {
-     transform: translate(0, 100px);
-  }
-}*/
+.title.shrink {
+  transition: font-size 3s;
+  font-size: 48px;
+}
