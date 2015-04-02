@@ -16,6 +16,9 @@ var Result = React.createClass({
         <h4>
           {this.props.url}
         </h4>
+        <h5>
+          Some short description here?
+        </h5>
       </div>
     );
   }
@@ -44,7 +47,8 @@ var SearchBox = React.createClass({
   render: function() {
     return (
       <div className="search-box">
-        <input type="text" onChange={this.onTextChange} className="form-control input-lg" placeholder="Give me a service name or URL!" ref="text"/>
+        <input type="text" onChange={this.onTextChange} className="form-control input-lg"
+               placeholder="Give me a service name or URL!" ref="text" autoFocus />
       </div>
     );
   }

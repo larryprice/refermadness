@@ -22,7 +22,19 @@
   margin-top: 0;
   padding-top: 0.2em;
   font-family: 'Monoton', cursive;
-  font-size: 108px;
+  font-size: 56px;
+}
+
+@media (min-width: 380px) {
+  .top-panel .title {
+    font-size: 64px;
+  }
+}
+
+@media (min-width: 768px) {
+  .top-panel .title {
+    font-size: 108px;
+  }
 }
 
 .search-area {
@@ -35,6 +47,7 @@
 
 .search-result {
   border: solid 1px;
+  padding: 1em;
 }
 
 .lonely-panel {
