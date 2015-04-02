@@ -29,6 +29,14 @@
   padding: 1em;
 }
 
+.search-results {
+  margin-top: 1em;
+}
+
+.search-result {
+  border: solid 1px;
+}
+
 .lonely-panel {
   background-color: #55A466;
   color: whitesmoke;
@@ -40,12 +48,13 @@
 }
 
 .top-panel-message.fadeout {
-  transition: font-size 3s, margin-top 1s;
+  transition: font-size 2s, margin-top 1s, opacity 2s;
   margin-top: -20px;
   font-size: 0;
+  opacity: 0;
 }
 
 .title.shrink {
-  transition: font-size 3s;
+  transition: font-size 2s;
   font-size: 48px;
 }

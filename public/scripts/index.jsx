@@ -13,6 +13,9 @@ var Result = React.createClass({
         <h2>
           {this.props.name}
         </h2>
+        <h4>
+          {this.props.url}
+        </h4>
       </div>
     );
   }
@@ -22,7 +25,7 @@ var SearchResults = React.createClass({
   render: function() {
     var results = this.props.data.map(function (result) {
       return (
-        <Result name={result.name} key={result.name} />
+        <Result name={result.name} url={result.url} key={result.name} />
       );
     });
 
@@ -91,6 +94,8 @@ var TopPanel = React.createClass({
   handleSearchActivated: function() {
     if (this.props.onSearchActivated) {
       this.props.onSearchActivated();
+      $(".top-panel-message").addClass("fadeout");
+      $(".title").addClass("shrink");
     }
   },
   render: function() {
