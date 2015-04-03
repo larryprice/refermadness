@@ -89,7 +89,7 @@ var Title = React.createClass({
   }
 });
 
-var TopPanel = React.createClass({
+var SearchPanel = React.createClass({
   handleEmptySearch: function() {
     if (this.props.onSearchInactivated) {
       this.props.onSearchInactivated();
@@ -98,17 +98,17 @@ var TopPanel = React.createClass({
   handleSearchActivated: function() {
     if (this.props.onSearchActivated) {
       this.props.onSearchActivated();
-      $(".top-panel-message").addClass("fadeout");
+      $(".search-panel-message").addClass("fadeout");
       $(".title").addClass("shrink");
     }
   },
   render: function() {
     return (
-      <div className="top-panel text-center">
+      <div className="search-panel text-center">
         <div className="container">
           <Title>Refer Madness</Title>
-          <h1 className="top-panel-message"><strong>Looking for referral links?</strong></h1>
-          <h2 className="top-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
+          <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
+          <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
           <SearchArea onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
         </div>
       </div>
@@ -193,13 +193,13 @@ var HomePage = React.createClass({
     if (this.state.searchActive) {
       return (
         <div className="home-page">
-          <TopPanel />
+          <SearchPanel />
         </div>
       );
     } else {
       return (
         <div className="home-page">
-          <TopPanel onSearchActivated={this.handleSearchActivated} />
+          <SearchPanel onSearchActivated={this.handleSearchActivated} />
           <LonelyPanel />
           <HookPanel />
           <RecentPanel />
