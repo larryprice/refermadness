@@ -47,7 +47,12 @@
 
 .search-result {
   border: solid 1px;
-  padding: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.search-result {
+  word-wrap: break-word;
 }
 
 .lonely-panel {
