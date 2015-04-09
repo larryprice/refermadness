@@ -49,10 +49,11 @@
   border: solid 1px;
   margin-right: 1em;
   margin-bottom: 1em;
+  word-wrap: break-word;
 }
 
-.search-result {
-  word-wrap: break-word;
+.search-result:hover {
+  cursor: pointer;
 }
 
 .lonely-panel {

@@ -26,7 +26,7 @@ var SearchPanel = React.createClass({
           <Title>Refer Madness</Title>
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
-          <SearchArea onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
+          <SearchPage onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
         </div>
       </div>
     );
