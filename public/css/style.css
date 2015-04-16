@@ -77,3 +77,12 @@
   transition: font-size 2s;
   font-size: 48px;
 }
+
+.service-area {
+  margin-top: 1.5em;
+}
+
+.service-area .service-name {
+  font-size: 44px;
+  font-weight: bold;
+}

@@ -8,16 +8,16 @@ var testData = [
 
 var Result = React.createClass({
   viewFull: function() {
-    this.props.onSelected(this.props.id);
+    this.props.onSelected(this.props.data);
   },
   render: function() {
     return (
       <div className="search-result col-lg-3 col-md-4 col-sm-6 col-xs-12" onClick={this.viewFull}>
         <h2>
-          {this.props.name}
+          {this.props.data.name}
         </h2>
         <h4>
-          {this.props.url}
+          {this.props.data.url}
         </h4>
         <h5>
           Some short description here?
@@ -28,14 +28,14 @@ var Result = React.createClass({
 });
 
 var SearchResults = React.createClass({
-  selectResult: function(id) {
-    this.props.onResultSelected(id)
+  selectResult: function(data) {
+    this.props.onResultSelected(data)
   },
   render: function() {
     var that = this;
     var results = this.props.data.map(function (result) {
       return (
-        <Result name={result.name} url={result.url} key={result.name} id={result.id} onSelected={that.selectResult} />
+        <Result data={result} onSelected={that.selectResult} />
       );
     });
 
@@ -78,8 +78,8 @@ var SearchPage = React.createClass({
     });
     this.setState({data: searchResults});
   },
-  resultSelected: function(id) {
-    this.setState({selected: id})
+  resultSelected: function(data) {
+    this.setState({selected: data})
   },
   render: function() {
     if (this.state.selected === -1) {
@@ -91,7 +91,10 @@ var SearchPage = React.createClass({
       );
     } else {
       return (
-        <ServicePage id={this.state.selected} />
+        <div className="search-area">
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox"/>
+          <ServicePage data={this.state.selected} />
+        </div>
       )
     }
   }
