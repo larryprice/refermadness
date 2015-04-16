@@ -17,6 +17,7 @@ var SearchPanel = React.createClass({
       this.props.onSearchActivated();
       $(".search-panel-message").addClass("fadeout");
       $(".title").addClass("shrink");
+      history.pushState(null, null, "/search");
     }
   },
   render: function() {
@@ -101,6 +102,10 @@ var ContactPanel = React.createClass({
 
 var HomePage = React.createClass({
   getInitialState: function() {
+    $(window).on("popstate", function() {
+      window.location = window.location.href;
+    })
+
     return {searchActive: false};
   },
   handleSearchActivated: function() {

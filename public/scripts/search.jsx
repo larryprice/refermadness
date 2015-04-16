@@ -35,7 +35,7 @@ var SearchResults = React.createClass({
     var that = this;
     var results = this.props.data.map(function (result) {
       return (
-        <Result data={result} onSelected={that.selectResult} />
+        <Result key={result.id} data={result} onSelected={that.selectResult} />
       );
     });
 
@@ -79,7 +79,9 @@ var SearchPage = React.createClass({
     this.setState({data: searchResults});
   },
   resultSelected: function(data) {
-    this.setState({selected: data})
+    this.setState({selected: data});
+    history.pushState(null, null, "/search?q=" + $(React.findDOMNode(this.refs.searchbox)).find("input").val());
+    history.pushState(null, null, "/service/" + data.id);
   },
   render: function() {
     if (this.state.selected === -1) {
