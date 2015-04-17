@@ -82,9 +82,13 @@ var SearchPage = React.createClass({
   handleSearchTextChange: function(query) {
     var data = this.getFilteredData(query);
     if (data.length > 0) {
-      this.props.onNonEmptySearch();
+      if (this.props.onNonEmptySearch) {
+        this.props.onNonEmptySearch();
+      }
     } else {
-      this.props.onEmptySearch();
+      if (this.props.onEmptySearch) {
+        this.props.onEmptySearch();
+      }
     }
     this.setState({data: data});
   },

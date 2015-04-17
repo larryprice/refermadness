@@ -7,7 +7,7 @@ var ServicePage = React.createClass({
             {this.props.data.name}
           </h1>
           <h2 className="text-center">
-            {this.props.data.url}
+            <a href={this.props.data.url}>{this.props.data.url}</a>
           </h2>
           <h4 className="text-center">
             A description of the service.

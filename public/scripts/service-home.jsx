@@ -6,8 +6,9 @@ var Title = React.createClass({
   }
 });
 
-var SearchPanel = React.createClass({
+var ServicePanel = React.createClass({
   render: function() {
+    var selected = -1;
     return (
       <div className="search-panel text-center">
         <div className="container">
@@ -19,21 +20,21 @@ var SearchPanel = React.createClass({
   }
 });
 
-var SearchHome = React.createClass({
+var ServiceHome = React.createClass({
   render: function() {
     $(window).off("popstate").on("popstate", function() {
       window.location = window.location.href;
     });
 
     return (
-      <div className="search-home">
-          <SearchPanel />
+      <div className="service-home">
+        <ServicePanel />
       </div>
     );
   }
 });
 
 React.render(
-  <SearchHome />,
+  <ServiceHome />,
   document.getElementById('content')
 );
