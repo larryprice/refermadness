@@ -54,8 +54,8 @@ var SearchBox = React.createClass({
   render: function() {
     return (
       <div className="search-box">
-        <input type="text" onChange={this.onTextChange} className="form-control input-lg"
-               placeholder="Give me a service name or URL!" ref="text" autoFocus />
+        <input type="text" onChange={this.onTextChange} className="form-control input-lg" ref="text"
+               placeholder="Give me a service name or URL!" value={this.props.initialSearch} />
       </div>
     );
   }
@@ -63,20 +63,30 @@ var SearchBox = React.createClass({
 
 var SearchPage = React.createClass({
   getInitialState: function() {
-    return {data: [], selected: -1};
-  },
-  handleSearchTextChange: function(query) {
-    query = $.trim(query);
-    if (query === "") {
-      this.setState({data: []});
-      this.props.onEmptySearch();
-      return
+    var search = window.location.search, query = "";
+    if (search.startsWith("?q=")) {
+      query = search.substring(search.indexOf("=")+1);
     }
-    this.props.onNonEmptySearch();
-    var searchResults = testData.filter(function(val) {
+    return {data: this.getFilteredData(query), selected: -1, initialSearch: query};
+  },
+  getFilteredData: function(query) {
+    query = $.trim(query);
+    this.setState({initialSearch: query});
+    if (query === "") {
+      return [];
+    }
+    return testData.filter(function(val) {
       return val.name.indexOf(query) > -1 || val.url.indexOf(query) > -1;
     });
-    this.setState({data: searchResults});
+  },
+  handleSearchTextChange: function(query) {
+    var data = this.getFilteredData(query);
+    if (data.length > 0) {
+      this.props.onNonEmptySearch();
+    } else {
+      this.props.onEmptySearch();
+    }
+    this.setState({data: data});
   },
   resultSelected: function(data) {
     this.setState({selected: data});
@@ -87,14 +97,14 @@ var SearchPage = React.createClass({
     if (this.state.selected === -1) {
       return (
         <div className="search-area">
-          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox"/>
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
           <SearchResults data={this.state.data} onResultSelected={this.resultSelected} />
         </div>
       );
     } else {
       return (
         <div className="search-area">
-          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox"/>
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
           <ServicePage data={this.state.selected} />
         </div>
       )

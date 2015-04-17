@@ -100,11 +100,11 @@ var ContactPanel = React.createClass({
   }
 });
 
-var HomePage = React.createClass({
+var LandingHome = React.createClass({
   getInitialState: function() {
-    $(window).on("popstate", function() {
+    $(window).off("popstate").on("popstate", function() {
       window.location = window.location.href;
-    })
+    });
 
     return {searchActive: false};
   },
@@ -134,6 +134,6 @@ var HomePage = React.createClass({
 });
 
 React.render(
-  <HomePage />,
+  <LandingHome />,
   document.getElementById('content')
 );
