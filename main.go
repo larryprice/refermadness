@@ -10,9 +10,10 @@ import (
 )
 
 type service struct {
-	name string
-	id   string
-	url  string
+	Name 				string
+	ID   				string
+	URL  				string
+	Description string
 }
 
 func main() {

@@ -67,11 +67,17 @@ var SearchPage = React.createClass({
     if (search.startsWith("?q=")) {
       query = search.substring(search.indexOf("=")+1);
     }
-    return {data: this.getFilteredData(query), selected: -1, initialSearch: query};
+    return {
+      data: this.getFilteredData(query),
+      selected: this.props.selected || -1,
+      initialSearch: query
+    };
   },
   getFilteredData: function(query) {
     query = $.trim(query);
-    this.setState({initialSearch: query});
+    if (this.isMounted()) {
+      this.setState({initialSearch: query});
+    }
     if (query === "") {
       return [];
     }

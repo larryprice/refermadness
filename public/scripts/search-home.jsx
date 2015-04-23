@@ -1,7 +1,11 @@
 var Title = React.createClass({
   render: function() {
     return (
-      <div className="title shrink">{this.props.children}</div>
+      <div className="title shrink">
+        <a href="/" alt="Return to home page.">
+          {this.props.children}
+        </a>
+      </div>
     )
   }
 });

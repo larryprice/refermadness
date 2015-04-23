@@ -25,6 +25,11 @@
   font-size: 56px;
 }
 
+.title a {
+  color: white;
+  text-decoration: none;
+}
+
 @media (min-width: 380px) {
   .search-panel .title {
     font-size: 64px;
@@ -85,4 +90,8 @@
 .service-area .service-name {
   font-size: 44px;
   font-weight: bold;
+}
+
+.view-result a {
+  color: white;
 }
