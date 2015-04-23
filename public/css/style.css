@@ -95,3 +95,9 @@
 .view-result a {
   color: white;
 }
+
+.search-box .disabled {
+  color: grey;
+  font-style: italic;
+  cursor: pointer;
+}

@@ -52,12 +52,22 @@ var SearchBox = React.createClass({
     this.props.onSearchTextChange(React.findDOMNode(this.refs.text).value);
   },
   render: function() {
-    return (
-      <div className="search-box">
-        <input type="text" onChange={this.onTextChange} className="form-control input-lg" ref="text"
-               placeholder="Give me a service name or URL!" value={this.props.initialSearch} />
-      </div>
-    );
+    if (this.props.isReadonly !== true) {
+      return (
+        <div className="search-box">
+          <input type="text" onChange={this.onTextChange} className="form-control input-lg" ref="text"
+                 placeholder="Give me a service name or URL!" value={this.props.initialSearch} />
+        </div>
+      );
+    } else {
+      var searchTerm = this.props.initialSearch;
+      return (
+          <div className="search-box">
+            <input type="text" onChange={this.onTextChange} className="form-control input-lg disabled" disabled ref="text"
+                   placeholder="Give me a service name or URL!" value={"dsjifadjsijds"} />
+          </div>
+        );
+    }
   }
 });
 
@@ -114,7 +124,7 @@ var SearchPage = React.createClass({
     } else {
       return (
         <div className="search-area">
-          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch} isReadonly={true}/>
           <ServicePage data={this.state.selected} />
         </div>
       )
