@@ -51,6 +51,11 @@ var SearchBox = React.createClass({
   onTextChange: function(e) {
     this.props.onSearchTextChange(React.findDOMNode(this.refs.text).value);
   },
+  edit: function(e) {
+    var currentSearch = React.findDOMNode(this.refs.text).value;
+    this.props.onSearchTextChange(currentSearch);
+    history.pushState(null, null, "/search?q=" + currentSearch);
+  },
   render: function() {
     if (this.props.isReadonly !== true) {
       return (
@@ -60,11 +65,10 @@ var SearchBox = React.createClass({
         </div>
       );
     } else {
-      var searchTerm = this.props.initialSearch || "fiejafioj";
       return (
           <div className="search-box">
-            <input type="text" onChange={this.onTextChange} className="form-control input-lg disabled" disabled ref="text"
-                   placeholder="Give me a service name or URL!" value={searchTerm} />
+            <input type="text" onChange={this.onTextChange} onClick={this.edit} className="form-control input-lg disabled" ref="text"
+                   placeholder="Give me a service name or URL!" value={this.props.initialSearch} />
           </div>
         );
     }
@@ -72,11 +76,14 @@ var SearchBox = React.createClass({
 });
 
 var SearchPage = React.createClass({
-  getInitialState: function() {
-    var search = window.location.search, query = "";
+  getSearchParam: function() {
+    var search = window.location.search;
     if (search.startsWith("?q=")) {
-      query = search.substring(search.indexOf("=")+1);
+      return search.substring(search.indexOf("=")+1);
     }
+  },
+  getInitialState: function() {
+    var query = this.getSearchParam();
     return {
       data: this.getFilteredData(query),
       selected: this.props.selected || -1,
@@ -106,12 +113,13 @@ var SearchPage = React.createClass({
         this.props.onEmptySearch();
       }
     }
-    this.setState({data: data});
+    this.setState({data: data, selected: -1});
   },
   resultSelected: function(data) {
     this.setState({selected: data});
-    history.pushState(null, null, "/search?q=" + $(React.findDOMNode(this.refs.searchbox)).find("input").val());
-    history.pushState(null, null, "/service/" + data.id);
+    var searchText = $(React.findDOMNode(this.refs.searchbox)).find("input").val()
+    history.pushState(null, null, "/search?q=" + searchText);
+    history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
   },
   render: function() {
     if (this.state.selected === -1) {
@@ -122,6 +130,7 @@ var SearchPage = React.createClass({
         </div>
       );
     } else {
+      var searchText = this.state.initialSearch || this.getSearchParam() || this.state.selected.name
       return (
         <div className="search-area">
           <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch || this.state.selected.name} isReadonly={true}/>
