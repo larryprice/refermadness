@@ -12,12 +12,11 @@ var Title = React.createClass({
 
 var ServicePanel = React.createClass({
   render: function() {
-    var selected = -1;
     return (
       <div className="search-panel text-center">
         <div className="container">
           <Title>Refer Madness</Title>
-          <SearchPage selected={testData[0]} />
+          <SearchPage selected={this.props.service} />
         </div>
       </div>
     );
@@ -30,9 +29,15 @@ var ServiceHome = React.createClass({
       window.location = window.location.href;
     });
 
+    // strip the service name from the URL
+    var serviceId = window.location.pathname.replace("/service/", "");
+    var service = testData.filter(function(data) {
+      return data.id === serviceId;
+    })[0];
+
     return (
       <div className="service-home">
-        <ServicePanel />
+        <ServicePanel service={service} />
       </div>
     );
   }

@@ -60,11 +60,11 @@ var SearchBox = React.createClass({
         </div>
       );
     } else {
-      var searchTerm = this.props.initialSearch;
+      var searchTerm = this.props.initialSearch || "fiejafioj";
       return (
           <div className="search-box">
             <input type="text" onChange={this.onTextChange} className="form-control input-lg disabled" disabled ref="text"
-                   placeholder="Give me a service name or URL!" value={"dsjifadjsijds"} />
+                   placeholder="Give me a service name or URL!" value={searchTerm} />
           </div>
         );
     }
@@ -124,7 +124,7 @@ var SearchPage = React.createClass({
     } else {
       return (
         <div className="search-area">
-          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch} isReadonly={true}/>
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch || this.state.selected.name} isReadonly={true}/>
           <ServicePage data={this.state.selected} />
         </div>
       )
