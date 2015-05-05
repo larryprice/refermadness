@@ -2,11 +2,11 @@
   font-family: 'Muli', sans-serif;
   font-size: 28px;
   height: 100%;
-  background-color: #2F8441;
+  background-color: #00B655;
 }
 
 .search-panel {
-  background-color: #2F8441;
+  background-color: #00B655;
   color: whitesmoke;
 }
 
@@ -62,12 +62,12 @@
 }
 
 .lonely-panel {
-  background-color: #55A466;
+  background-color: #2ABB6D;
   color: whitesmoke;
 }
 
 .hook-panel {
-  background-color: #86C493;
+  background-color: #4EC987;
   color: whitesmoke;
 }
 
