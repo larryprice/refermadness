@@ -91,6 +91,20 @@
   font-size: 44px;
   font-weight: bold;
 }
+.service-area .random-referral-code {
+  margin-top: 2em;
+}
+
+.service-area .add-referral-code .btn-default {
+  background-color: transparent;
+  color: inherit;
+  border-color: whitesmoke;
+  margin-top: 5em;
+}
+
+.service-area .add-referral-code .btn-default span {
+  margin-right: .5em;
+}
 
 .view-result a {
   color: white;

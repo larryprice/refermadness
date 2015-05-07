@@ -15,7 +15,7 @@ var ServicePage = React.createClass({
             </h4>
           </div>
         </div>
-        <div className="row">
+        <div className="row random-referral-code">
           <div className="col-xs-12">
             <h3>
               Use this referral code:
@@ -23,6 +23,14 @@ var ServicePage = React.createClass({
             <h1>
               ywj-rpl
             </h1>
+          </div>
+        </div>
+        <div className="row add-referral-code">
+          <div className="col-xs-12">
+            <button className="btn btn-lg btn-default">
+              <span className="glyphicon glyphicon-plus" />
+              Have your own code? Add it!
+            </button>
           </div>
         </div>
       </div>
