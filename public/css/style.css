@@ -102,6 +102,10 @@
   margin-top: 5em;
 }
 
+.service-area .add-referral-code .btn-default:hover {
+  opacity: 0.85;
+}
+
 .service-area .add-referral-code .btn-default span {
   margin-right: .5em;
 }
