@@ -44,10 +44,54 @@ var LonelyPanel = React.createClass({
       <div className="lonely-panel">
         <div className="container">
           <div className="row">
-            <div className="col-md-4 col-xs-1 text-center"><h1>No</h1><h2>friends?</h2></div>
-            <div className="col-md-4 col-xs-1 text-center"><h1>No</h1><h2>family?</h2></div>
-            <div className="col-md-4 col-xs-1 text-center"><h1>No</h1><h2>followers?</h2></div>
-            <div className="col-xs-12 text-center"><h1>No</h1><h1>problem.</h1></div>
+            <div className="col-md-4 col-xs-1">
+              <div className="row">
+                <div className="col-xs-12 text-center">
+                  <h1>No</h1><h2>friends?</h2>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-12">
+                  <div id="no-friends" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-xs-1">
+              <div className="row">
+                <div className="col-xs-12 text-center">
+                  <h1>No</h1><h2>family?</h2>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-12">
+                  <div id="no-family" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4 col-xs-1">
+              <div className="row">
+                <div className="col-xs-12 text-center">
+                  <h1>No</h1><h2>followers?</h2>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-12">
+                  <div id="no-followers" />
+                </div>
+              </div>
+            </div>
+            <div className="row" id="no-problem">
+              <div className="col-xs-12">
+                <div className="row">
+                  <div className="col-xs-12 text-center"><h1>No problem.</h1></div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-12 text-center">
+                    <img src="/img/no-problem.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
