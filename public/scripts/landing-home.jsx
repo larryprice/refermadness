@@ -44,7 +44,7 @@ var LonelyPanel = React.createClass({
       <div className="lonely-panel">
         <div className="container">
           <div className="row">
-            <div className="col-md-4 col-xs-1">
+            <div className="col-md-4 col-xs-12">
               <div className="row">
                 <div className="col-xs-12 text-center">
                   <h1>No</h1><h2>friends?</h2>
@@ -56,7 +56,7 @@ var LonelyPanel = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="col-md-4 col-xs-1">
+            <div className="col-md-4 col-xs-12">
               <div className="row">
                 <div className="col-xs-12 text-center">
                   <h1>No</h1><h2>family?</h2>
@@ -68,7 +68,7 @@ var LonelyPanel = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="col-md-4 col-xs-1">
+            <div className="col-md-4 col-xs-12">
               <div className="row">
                 <div className="col-xs-12 text-center">
                   <h1>No</h1><h2>followers?</h2>
@@ -105,13 +105,18 @@ var HookPanel = React.createClass({
       <div className="hook-panel">
         <div className="container">
           <div className="row">
-            <div className="col-md-7 col-xs-12">
-              <h2>Find a random referral link to get discounts...</h2>
+            <div className="col-xs-12 text-center">
+              <h1>Find a random referral code to get mutual discounts</h1>
             </div>
           </div>
-          <div>
-            <div className="col-md-10 col-md-offset-2 col-xs-12">
-              <h2>...Then submit your own code or URL to start getting benefits.</h2>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <img width="300px" src="/img/helping-hands.png" alt="Friends with benefits" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <h1>Then submit your own for others to use</h1>
             </div>
           </div>
         </div>
