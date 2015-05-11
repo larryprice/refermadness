@@ -104,6 +104,8 @@
   color: inherit;
   border-color: whitesmoke;
   margin-top: 5em;
+  white-space: normal;
+  margin-bottom: 1em;
 }
 
 .service-area .add-referral-code .btn-default:hover {
@@ -116,6 +118,7 @@
 
 .view-result a {
   color: white;
+  word-wrap: break-word;
 }
 
 .get-started-panel .btn-default {
@@ -221,6 +224,7 @@
 #footer .container {
   border-top: .05em solid whitesmoke;
   padding: 15px;
+  padding-bottom: 0;
 }
 
 html, body {height: 100%;}
