@@ -1,21 +1,9 @@
-var Title = React.createClass({
-  render: function() {
-    return (
-      <div className="title shrink">
-        <a href="/" alt="Return to home page.">
-          {this.props.children}
-        </a>
-      </div>
-    )
-  }
-});
-
 var ServicePanel = React.createClass({
   render: function() {
     return (
       <div className="search-panel text-center">
         <div className="container">
-          <Title>Refer Madness</Title>
+          <SmallTitle />
           <SearchPage selected={this.props.service} />
         </div>
       </div>

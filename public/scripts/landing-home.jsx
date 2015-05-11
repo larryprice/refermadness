@@ -1,15 +1,3 @@
-var Title = React.createClass({
-  render: function() {
-    return (
-      <div className="title">
-        <a href="/" alt="Return to home page.">
-          {this.props.children}
-        </a>
-      </div>
-    )
-  }
-});
-
 var SearchPanel = React.createClass({
   handleEmptySearch: function() {
     if (this.props.onSearchInactivated) {
@@ -28,7 +16,7 @@ var SearchPanel = React.createClass({
     return (
       <div className="search-panel text-center">
         <div className="container">
-          <Title>Refer Madness</Title>
+          <Title />
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
           <SearchPage onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />

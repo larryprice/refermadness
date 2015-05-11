@@ -25,6 +25,10 @@
   font-size: 56px;
 }
 
+.search-home .search-area, .service-home .search-area {
+  margin-top: 0;
+}
+
 .title a {
   color: white;
   text-decoration: none;

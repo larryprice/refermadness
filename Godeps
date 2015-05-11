@@ -1,3 +1,4 @@
 github.com/codegangsta/negroni 1dd3ab0ff5
 github.com/gorilla/mux 8a875a034c
 github.com/unrolled/render 4af7c60063
+github.com/stretchr/gomniauth 64e995fba5
