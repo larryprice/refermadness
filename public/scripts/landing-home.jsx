@@ -129,6 +129,7 @@ var RecentPanel = React.createClass({
   render: function() {
     return (
       <div className="recent-panel">
+
       </div>
     );
   }
@@ -144,10 +145,45 @@ var RandomPanel = React.createClass({
   }
 });
 
-var ContactPanel = React.createClass({
+var GetStartedPanel = React.createClass({
+  focusOnSearch: function() {
+    $(".search-panel")[0].scrollIntoView();
+    $(".search-box input").focus();
+  },
   render: function() {
     return (
-      <div className="contact-panel">
+      <div className="get-started-panel">
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <h1>
+                Why haven&apos;t you started yet?
+              </h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <h1>
+                It&apos;s <em>literally <strong>free</strong></em>.
+              </h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <h1>
+                You could even <strong>make</strong> money.
+              </h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 text-center">
+              <a className="btn btn-default" href="javascript:void(0)" onClick={this.focusOnSearch}>
+              <span className="glyphicon glyphicon-search" />
+                Go ahead - search for a service
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -179,7 +215,7 @@ var LandingHome = React.createClass({
           <HookPanel />
           <RecentPanel />
           <RandomPanel />
-          <ContactPanel />
+          <GetStartedPanel />
         </div>
       );
     }

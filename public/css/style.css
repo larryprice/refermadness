@@ -44,6 +44,7 @@
 
 .search-area {
   padding: 1em;
+  margin-top: 20px;
 }
 
 .search-results {
@@ -61,7 +62,7 @@
   cursor: pointer;
 }
 
-.lonely-panel {
+.lonely-panel, .get-started-panel {
   background-color: #2ABB6D;
   color: whitesmoke;
 }
@@ -112,6 +113,21 @@
 
 .view-result a {
   color: white;
+}
+
+.get-started-panel .btn-default {
+  font-size: 36px;
+  background-color: transparent;
+  color: inherit;
+  border-color: whitesmoke;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  white-space: normal;
+}
+
+.get-started-panel .glyphicon-search {
+  top: 5px;
+  margin-right: .4em;
 }
 
 .search-box .disabled {
