@@ -16,7 +16,27 @@
   </head>
   <body>
   
-    {{template "body" .}}
+    <div id="wrap">
+      {{template "body" .}}
+    </div>
+    <div id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-3">
+            <small class="pull-left">© 2015 <a href="//larry-price.com">Larry Price</a></small>
+          </div>
+          <div class="col-xs-3 text-center">
+            <small><a href="/legal">Legal</a></small>
+          </div>
+          <div class="col-xs-3 text-center">
+            <small><a href="mailto:larry@larry-price.com">Contact</a></small>
+          </div>
+          <div class="col-xs-3">
+            <small class="pull-right"><a href="//github.com/larryprice/refermadness">Source</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://fb.me/react-0.13.0.js"></script>
     <script src="https://fb.me/JSXTransformer-0.13.0.js"></script>

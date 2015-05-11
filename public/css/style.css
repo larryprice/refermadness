@@ -6,7 +6,7 @@
   color: whitesmoke;
 }
 
-.search-panel {
+.search-panel, #footer {
   background-color: #00B655;
 }
 
@@ -120,7 +120,7 @@
   color: inherit;
   border-color: whitesmoke;
   margin-top: .5em;
-  margin-bottom: .5em;
+  margin-bottom: 2em;
   white-space: normal;
 }
 
@@ -212,4 +212,30 @@
 
 .popular-panel .search-result, .recent-panel .search-result {
   margin-top: .4em;
+}
+
+#footer .container {
+  border-top: .05em solid whitesmoke;
+  padding: 15px;
+}
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#content {
+  padding-bottom: 50px;
+}
+
+#footer {
+  position: relative;
+  margin-top: -50px;  negative value of footer height 
+  min-height: 50px;
+  height: 50px;
+  clear:both;
+  color: whitesmoke;
+}
+
+#footer a {
+  color: whitesmoke;
 }
