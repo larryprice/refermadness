@@ -3,11 +3,11 @@
   font-size: 28px;
   height: 100%;
   background-color: #00B655;
+  color: whitesmoke;
 }
 
 .search-panel {
   background-color: #00B655;
-  color: whitesmoke;
 }
 
 .search-panel p {
@@ -53,7 +53,8 @@
 
 .search-result {
   border: solid 1px;
-  margin-right: 1em;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
   margin-bottom: 1em;
   word-wrap: break-word;
 }
@@ -62,14 +63,12 @@
   cursor: pointer;
 }
 
-.lonely-panel, .get-started-panel {
+.lonely-panel, .recent-panel, .popular-panel {
   background-color: #2ABB6D;
-  color: whitesmoke;
 }
 
-.hook-panel {
+.hook-panel, .get-started-panel {
   background-color: #4EC987;
-  color: whitesmoke;
 }
 
 .search-panel-message.fadeout {
@@ -130,6 +129,10 @@
   margin-right: .4em;
 }
 
+.recent-panel .container {
+  border-top: solid whitesmoke;
+}
+
 .search-box .disabled {
   color: grey;
   font-style: italic;
@@ -188,4 +191,25 @@
 #no-problem {
   margin-top: 2em;
   margin-bottom: 2em;
+}
+
+@media (min-width: 768px) {
+  .col-md-3-point-5 {
+    width: 49%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-3-point-5 {
+    width: 24%;
+  }
+}
+
+.popular-panel .row, .recent-panel .row {
+  padding-top: 1em;
+  padding-bottom: .6em;
+}
+
+.popular-panel .search-result, .recent-panel .search-result {
+  margin-top: .4em;
 }

@@ -125,21 +125,67 @@ var HookPanel = React.createClass({
   }
 });
 
-var RecentPanel = React.createClass({
+var PopularPanel = React.createClass({
+  selectResult: function(data) {
+    window.location.href = "/service/" + data.id;
+  },
   render: function() {
-    return (
-      <div className="recent-panel">
+    var testData = [
+      {name: "Test #3", url: "https://3test.org", id: "3"},
+      {name: "Test #4", url: "https://signup.4test.net/", id: "4"},
+      {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5"}
+    ];
+    var that = this;
+    var results = testData.map(function (result) {
+      return (
+        <Result key={result.id} data={result} onSelected={that.selectResult} />
+      );
+    });
 
+    return (
+      <div className="popular-panel">
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-md-3 text-center">
+              <h1>Most</h1>
+              <h1>Popular</h1>
+            </div>
+            {results}
+          </div>
+        </div>
       </div>
     );
   }
 });
 
-
-var RandomPanel = React.createClass({
+var RecentPanel = React.createClass({
+  selectResult: function(data) {
+    window.location.href = "/service/" + data.id;
+  },
   render: function() {
+    var testData = [
+      {name: "Test #3", url: "https://3test.org", id: "3"},
+      {name: "Test #4", url: "https://signup.4test.net/", id: "4"},
+      {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5"}
+    ];
+    var that = this;
+    var results = testData.map(function (result) {
+      return (
+        <Result key={result.id} data={result} onSelected={that.selectResult} />
+      );
+    });
+
     return (
-      <div className="random-panel">
+      <div className="recent-panel">
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-md-3 text-center">
+              <h1>Most</h1>
+              <h1>Recent</h1>
+            </div>
+            {results}
+          </div>
+        </div>
       </div>
     );
   }
@@ -213,8 +259,8 @@ var LandingHome = React.createClass({
           <SearchPanel onSearchActivated={this.handleSearchActivated} />
           <LonelyPanel />
           <HookPanel />
+          <PopularPanel />
           <RecentPanel />
-          <RandomPanel />
           <GetStartedPanel />
         </div>
       );

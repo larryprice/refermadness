@@ -12,7 +12,7 @@ var Result = React.createClass({
   },
   render: function() {
     return (
-      <div className="search-result col-lg-3 col-md-4 col-sm-6 col-xs-12" onClick={this.viewFull}>
+      <div className="search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.viewFull}>
         <h2>
           {this.props.data.name}
         </h2>
