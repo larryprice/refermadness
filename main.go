@@ -23,6 +23,10 @@ func main() {
     t, _ := template.ParseFiles("views/layout.html", "views/index.html")
     t.Execute(w, nil)
 	});
+	router.HandleFunc("/legal", func(w http.ResponseWriter, r *http.Request) {
+    t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
+    t.Execute(w, nil)
+	});
 	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
     t, _ := template.ParseFiles("views/layout.html", "views/search.html")
     t.Execute(w, nil)
