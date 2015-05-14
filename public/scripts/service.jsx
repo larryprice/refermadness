@@ -1,8 +1,18 @@
 var AddButton = React.createClass({
   showSearchBox: function() {
-    $(".add-code-msg").toggleClass("hide-me");
-    $(".add-code-entry").toggleClass("hide-me");
-    $(".add-code-btn").toggleClass("hide-me");
+    if ($(".add-code-entry").val() !== "") {
+      $(".add-code-entry").addClass("disabled");
+      $(".add-code-entry").prop("disabled", true);
+      $(".add-code-btn .glyphicon-plus").addClass("spin");
+      console.log("submit to server");
+      setTimeout(function() {
+        $(".add-code-btn .glyphicon-plus").removeClass("spin");
+      }, 3000)
+    } else {
+      $(".add-code-msg").toggleClass("hide-me");
+      $(".add-code-entry").toggleClass("hide-me");
+      $(".add-code-btn").toggleClass("hide-me");
+    }
   },
   render: function() {
     return (
