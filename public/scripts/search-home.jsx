@@ -3,7 +3,6 @@ var SearchPanel = React.createClass({
     return (
       <div className="search-panel text-center">
         <div className="container">
-          <SmallTitle />
           <SearchPage />
         </div>
       </div>
@@ -19,7 +18,8 @@ var SearchHome = React.createClass({
 
     return (
       <div className="search-home">
-          <SearchPanel />
+        <Header smallTitle={true} />
+        <SearchPanel />
       </div>
     );
   }

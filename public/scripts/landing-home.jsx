@@ -15,8 +15,8 @@ var SearchPanel = React.createClass({
   render: function() {
     return (
       <div className="search-panel text-center">
+        <Header />
         <div className="container">
-          <Title />
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
           <SearchPage onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
@@ -68,15 +68,15 @@ var LonelyPanel = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="row" id="no-problem">
-              <div className="col-xs-12">
-                <div className="row">
-                  <div className="col-xs-12 text-center"><h1>No problem.</h1></div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-12 text-center">
-                    <img src="/img/no-problem.png" />
-                  </div>
+          </div>
+          <div className="row" id="no-problem">
+            <div className="col-xs-12">
+              <div className="row">
+                <div className="col-xs-12 text-center"><h1>No problem.</h1></div>
+              </div>
+              <div className="row">
+                <div className="col-xs-12 text-center">
+                  <img src="/img/no-problem.png" />
                 </div>
               </div>
             </div>

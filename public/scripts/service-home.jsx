@@ -3,7 +3,6 @@ var ServicePanel = React.createClass({
     return (
       <div className="search-panel text-center">
         <div className="container">
-          <SmallTitle />
           <SearchPage selected={this.props.service} />
         </div>
       </div>
@@ -25,6 +24,7 @@ var ServiceHome = React.createClass({
 
     return (
       <div className="service-home">
+        <Header smallTitle={true} />
         <ServicePanel service={service} />
       </div>
     );

@@ -17,7 +17,7 @@
   padding-top: .5em;
 }
 
-.search-panel .title {
+.title {
   margin-top: 0;
   padding-top: 0.2em;
   font-family: 'Monoton', cursive;
@@ -33,14 +33,19 @@
   text-decoration: none;
 }
 
+.login-btn {
+  margin-top: 1em;
+  color: whitesmoke
+}
+
 @media (min-width: 380px) {
-  .search-panel .title {
+  .title {
     font-size: 64px;
   }
 }
 
 @media (min-width: 768px) {
-  .search-panel .title {
+  .title {
     font-size: 108px;
   }
 }
