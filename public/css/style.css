@@ -103,7 +103,7 @@
   margin-top: 2em;
 }
 
-.btn-default, .btn-default:hover {
+.btn-default, .btn-default:hover, .btn-default:focus {
   background-color: transparent;
   color: inherit;
   border-color: whitesmoke;

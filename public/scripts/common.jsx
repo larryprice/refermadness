@@ -47,7 +47,7 @@ var Header = React.createClass({
             </div>
 
             <div className="col-xs-12 col-sm-2 text-center">
-              <button className="login-btn btn btn-default">Sign Up or Log In</button>
+              <input type="submit" className="login-btn btn btn-default" value="Sign Up or Log In" onclick="javascript:void(0)" />
             </div>
           </div>
       </div>
