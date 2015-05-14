@@ -1,3 +1,26 @@
+var AddButton = React.createClass({
+  showSearchBox: function() {
+    $(".add-code-msg").toggleClass("hide-me");
+    $(".add-code-entry").toggleClass("hide-me");
+    $(".add-code-btn").toggleClass("hide-me");
+  },
+  render: function() {
+    return (
+      <div className="row add-referral-code">
+        <div className="col-xs-12">
+          <input type="text" className="add-code-entry hide-me form-control input-lg" placeholder="Enter your code..." />
+          <button className="btn btn-lg btn-default add-code-btn" onClick={this.showSearchBox}>
+            <span className="glyphicon glyphicon-plus" />
+            <div className="add-code-msg">
+              Have your own code? Add it!
+            </div>
+          </button>
+        </div>
+      </div>
+    );
+  }
+});
+
 var ServicePage = React.createClass({
   render: function() {
     return (
@@ -25,14 +48,7 @@ var ServicePage = React.createClass({
             </h1>
           </div>
         </div>
-        <div className="row add-referral-code">
-          <div className="col-xs-12">
-            <button className="btn btn-lg btn-default">
-              <span className="glyphicon glyphicon-plus" />
-              Have your own code? Add it!
-            </button>
-          </div>
-        </div>
+        <AddButton />
       </div>
     );
   }

@@ -114,11 +114,6 @@
   opacity: 0.85;
 }
 
-.service-area .add-referral-code .btn-default {
-  margin-top: 5em;
-  margin-bottom: 1em;
-}
-
 .service-area .add-referral-code .btn-default span {
   margin-right: .5em;
 }
@@ -264,4 +259,61 @@ body {
 
 #footer a {
   color: whitesmoke;
+}
+
+.add-code-btn .glyphicon {
+  top: -3px;
+}
+
+.add-code-btn {
+  margin-top: 3px;
+  height: 46px;
+}
+
+.add-code-btn.hide-me {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.add-code-msg {
+  display: inline-block;
+  width: 14em;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 2s;
+}
+
+.add-code-msg.hide-me {
+  width: 0;
+  overflow: hidden;
+  margin-right: -9px !important;
+  white-space: nowrap;
+}
+
+.add-code-entry {
+  display: inline-block;
+  width: 14em;
+  transition: width 2s, opacity 2s, padding 2s;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.add-code-entry.hide-me {
+  opacity: 0;
+  width: 0;
+  padding: 0;
+}
+
+.add-referral-code {
+  margin-top: 5em;
+}
+
+@media (max-width: 400px) {
+  .add-code-entry:not(.hide-me) {
+    width: 12em;
+  }
+
+  .add-code-btn:not(.hide-me) {
+    font-size: 15px;
+  }
 }
