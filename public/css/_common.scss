@@ -1,0 +1,30 @@
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  background-color: transparent;
+  color: inherit;
+  border-color: whitesmoke;
+  white-space: normal;
+}
+
+.btn-default:hover {
+  opacity: 0.85;
+}
+
+input[type=text].disabled {
+  color: grey;
+  font-style: italic;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .col-md-3-point-5 {
+    width: 49%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-3-point-5 {
+    width: 24%;
+  }
+}

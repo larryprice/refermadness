@@ -1,0 +1,38 @@
+.search-panel {
+  background-color: #00B655;
+
+  p {
+    font-weight: bold;
+  }
+
+  img {
+    padding-top: .5em;
+  }
+}
+
+.search-home .search-area {
+  margin-top: 0;
+}
+
+.search-results {
+  margin-top: 1em;
+}
+
+.search-result {
+  border: solid 1px;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
+  margin-bottom: 1em;
+  word-wrap: break-word;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.search-panel-message.fadeout {
+  transition: font-size 2s, margin-top 1s, opacity 2s;
+  margin-top: -20px;
+  font-size: 0;
+  opacity: 0;
+}

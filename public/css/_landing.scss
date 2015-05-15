@@ -1,0 +1,103 @@
+#no-family, #no-friends, #no-followers {
+  width: 100%;
+  height: 150px;
+  background-size: 150px;
+  padding: 3em;
+
+  &:after {
+    background:
+       linear-gradient(-135deg,
+           rgba(0,0,0,0) 0%,
+           rgba(0,0,0,0) calc(50% - 2px),
+           whitesmoke 50%,
+           rgba(0,0,0,0) calc(50% + 2px),
+           rgba(0,0,0,0) 100%),
+       linear-gradient(-45deg,
+           rgba(0,0,0,0) 0%,
+           rgba(0,0,0,0) calc(50% - 2px),
+           whitesmoke 50%,
+           rgba(0,0,0,0) calc(50% + 2px),
+           rgba(0,0,0,0) 100%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: '';
+  }
+}
+
+#no-friends {
+  background: url("/img/no-friends.png") no-repeat scroll 50% 50%;
+}
+
+#no-family {
+  background: url("/img/no-family.png") no-repeat scroll 50% 50%;
+}
+
+#no-followers {
+  background: url("/img/no-followers.png") no-repeat scroll 50% 50%;
+}
+
+#no-problem {
+  margin-top: 2em;
+  margin-bottom: 2em;
+
+  h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 1em;
+  }
+}
+
+.get-started-panel {
+  .btn-default {
+    font-size: 36px;
+    background-color: transparent;
+    color: inherit;
+    border-color: whitesmoke;
+    margin-top: .5em;
+    margin-bottom: 2em;
+    white-space: normal;
+  }
+
+  .glyphicon-search {
+    top: 5px;
+    margin-right: .4em;
+  }
+}
+
+.recent-panel .container {
+  border-top: solid whitesmoke;
+}
+
+.lonely-panel,
+.recent-panel,
+.popular-panel {
+  background-color: #2ABB6D;
+}
+
+.hook-panel,
+.get-started-panel {
+  background-color: #4EC987;
+}
+
+.popular-panel, .recent-panel {
+  .row {
+    padding-top: 1em;
+    padding-bottom: .6em;
+  }
+
+  .search-result {
+    margin-top: .4em;
+  }
+}
+
+.service-area {
+  margin-top: 1.5em;
+}
+
+.search-area {
+  padding: 1em;
+  margin-top: 20px;
+}
