@@ -1,7 +1,7 @@
 var EditButton = React.createClass({
   startEdit: function() {
     if ($(".add-code-entry").hasClass("disabled")) {
-      $(".add-code-entry").removeClass("disabled").focus();
+      $(".add-code-entry").removeClass("disabled").select();
       $(".add-code-btn .glyphicon").addClass("fade-out");
       setTimeout(function() {
         $(".add-code-btn .glyphicon").removeClass("glyphicon-pencil fade-out").addClass("glyphicon-save fade-in");
@@ -17,10 +17,13 @@ var EditButton = React.createClass({
         this.props.saved($(".add-code-entry").val());
       }
       $(".add-code-entry").addClass("disabled");
-      $(".add-code-btn .glyphicon").addClass("fade-out");
+        $(".add-code-btn .glyphicon").addClass("spin");
       setTimeout(function() {
-        $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out").addClass("glyphicon-pencil fade-in");
-      }, 500);
+        $(".add-code-btn .glyphicon").addClass("fade-out");
+        setTimeout(function() {
+          $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out spin").addClass("glyphicon-pencil fade-in");
+        }, 500);
+      }, 300); // simulate ajax
     }
   },
   render: function() {
@@ -119,7 +122,7 @@ var ServicePage = React.createClass({
               {this.props.data.name}
             </h1>
             <h2 className="text-center">
-              <a href={this.props.data.url}>{this.props.data.url}</a>
+              <a href={this.props.data.url} target="blank">{this.props.data.url}</a>
             </h2>
             <h4 className="text-center">
               A brief description of the service.
