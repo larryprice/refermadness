@@ -1,3 +1,35 @@
+var EditButton = React.createClass({
+  startEdit: function() {
+    if ($(".add-code-entry").hasClass("disabled")) {
+      $(".add-code-entry").removeClass("disabled").focus();
+      $(".add-code-btn .glyphicon").addClass("fade-out");
+      setTimeout(function() {
+        $(".add-code-btn .glyphicon").removeClass("glyphicon-pencil fade-out").addClass("glyphicon-save fade-in");
+      }, 500);
+    }
+  },
+  render: function() {
+    return (
+      <div className="edit-referral-code">
+        <div className="row">
+          <div className="col-xs-12">
+            <input type="text" className="add-code-entry form-control input-lg disabled"
+                   placeholder="Enter your code..." defaultValue={this.props.value} onClick={this.startEdit} />
+            <button className="btn btn-lg btn-default add-code-btn hide-me" onClick={this.startEdit}>
+              <span className="glyphicon glyphicon-pencil" />
+            </button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 referral-code-views">
+            <em>0 views since 14 May 2015</em>
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
 var AddButton = React.createClass({
   showSearchBox: function() {
     if ($(".add-code-entry").val() !== "") {
@@ -5,13 +37,22 @@ var AddButton = React.createClass({
       $(".add-code-entry").prop("disabled", true);
       $(".add-code-btn .glyphicon-plus").addClass("spin");
       console.log("submit to server");
+      var that = this;
       setTimeout(function() {
-        $(".add-code-btn .glyphicon-plus").removeClass("spin");
-      }, 3000)
+        $(".add-code-btn .glyphicon").addClass("fade-out");
+        setTimeout(function() {
+          $(".add-code-btn .glyphicon")
+            .removeClass("fade-out spin glyphicon-plus")
+            .addClass("glyphicon-pencil fade-in");
+          $(".add-code-entry").prop("disabled", false);
+          that.props.onComplete($(".add-code-entry").val());
+        }, 500);
+      }, 300);
     } else {
       $(".add-code-msg").toggleClass("hide-me");
       $(".add-code-entry").toggleClass("hide-me");
       $(".add-code-btn").toggleClass("hide-me");
+      $(".add-code-entry").focus();
     }
   },
   render: function() {
@@ -28,6 +69,28 @@ var AddButton = React.createClass({
         </div>
       </div>
     );
+  }
+});
+
+var ReferralCodeEntry = React.createClass({
+  toggleMode: function(value) {
+    this.setState({value: value});
+  },
+  getInitialState: function() {
+    return {
+      value: ""
+    };
+  },
+  render: function() {
+    if (this.state.value !== "") {
+      return (
+        <EditButton value={this.state.value} />
+      );
+    } else {
+      return (
+        <AddButton onComplete={this.toggleMode} />
+      );
+    }
   }
 });
 
@@ -58,7 +121,7 @@ var ServicePage = React.createClass({
             </h1>
           </div>
         </div>
-        <AddButton />
+        <ReferralCodeEntry />
       </div>
     );
   }

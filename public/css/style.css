@@ -261,7 +261,7 @@ body {
   color: whitesmoke;
 }
 
-.add-code-btn .glyphicon {
+.add-referral-code .add-code-btn .glyphicon {
   top: -3px;
 }
 
@@ -273,6 +273,7 @@ body {
 .add-code-btn.hide-me {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border-left-color: lightgrey;
 }
 
 .add-code-msg {
@@ -292,7 +293,7 @@ body {
 
 .add-code-entry {
   display: inline-block;
-  width: 14em;
+  width: 18em;
   transition: width 2s, opacity 2s, padding 2s;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -304,18 +305,30 @@ body {
   padding: 0;
 }
 
-.add-referral-code {
+.add-referral-code, .edit-referral-code {
   margin-top: 5em;
 }
 
-.add-code-btn .glyphicon-plus.spin {
-  animation-name:             spin; 
+.add-code-btn .glyphicon.spin {
+  animation-name:             loading-spin; 
   animation-duration:         1s; 
   animation-iteration-count:  infinite;
   animation-timing-function: linear;
 }
 
-@keyframes spin {
+.add-code-btn .glyphicon {
+  transition: opacity .75s;
+}
+
+.add-code-btn .glyphicon.fade-in {
+  opacity: 1;
+}
+
+.add-code-btn .glyphicon.fade-out {
+  opacity: 0;
+}
+
+@keyframes loading-spin {
   from {
     transform: rotate(0deg);
   }
@@ -332,4 +345,9 @@ body {
   .add-code-btn:not(.hide-me) {
     font-size: 15px;
   }
+}
+
+.edit-referral-code .referral-code-views {
+  margin-top: .5em;
+  font-size: 60%;
 }
