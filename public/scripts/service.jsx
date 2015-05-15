@@ -8,6 +8,21 @@ var EditButton = React.createClass({
       }, 500);
     }
   },
+  clickButton: function() {
+    if ($(".add-code-entry").hasClass("disabled")) {
+      this.startEdit();
+    } else {
+      if ($(".add-code-entry").val() !== this.props.value) {
+        console.log("submit new code");
+        this.props.saved($(".add-code-entry").val());
+      }
+      $(".add-code-entry").addClass("disabled");
+      $(".add-code-btn .glyphicon").addClass("fade-out");
+      setTimeout(function() {
+        $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out").addClass("glyphicon-pencil fade-in");
+      }, 500);
+    }
+  },
   render: function() {
     return (
       <div className="edit-referral-code">
@@ -15,7 +30,7 @@ var EditButton = React.createClass({
           <div className="col-xs-12">
             <input type="text" className="add-code-entry form-control input-lg disabled"
                    placeholder="Enter your code..." defaultValue={this.props.value} onClick={this.startEdit} />
-            <button className="btn btn-lg btn-default add-code-btn hide-me" onClick={this.startEdit}>
+            <button className="btn btn-lg btn-default add-code-btn hide-me" onClick={this.clickButton}>
               <span className="glyphicon glyphicon-pencil" />
             </button>
           </div>
@@ -45,7 +60,7 @@ var AddButton = React.createClass({
             .removeClass("fade-out spin glyphicon-plus")
             .addClass("glyphicon-pencil fade-in");
           $(".add-code-entry").prop("disabled", false);
-          that.props.onComplete($(".add-code-entry").val());
+          that.props.saved($(".add-code-entry").val());
         }, 500);
       }, 300);
     } else {
@@ -73,7 +88,7 @@ var AddButton = React.createClass({
 });
 
 var ReferralCodeEntry = React.createClass({
-  toggleMode: function(value) {
+  onSave: function(value) {
     this.setState({value: value});
   },
   getInitialState: function() {
@@ -84,11 +99,11 @@ var ReferralCodeEntry = React.createClass({
   render: function() {
     if (this.state.value !== "") {
       return (
-        <EditButton value={this.state.value} />
+        <EditButton value={this.state.value} saved={this.onSave} />
       );
     } else {
       return (
-        <AddButton onComplete={this.toggleMode} />
+        <AddButton saved={this.onSave} />
       );
     }
   }
