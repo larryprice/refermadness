@@ -112,6 +112,27 @@ var ReferralCodeEntry = React.createClass({
   }
 });
 
+var ReferralCodeActions = React.createClass({
+  render: function() {
+    return (
+      <div className="referral-code-actions">
+        <button className="btn btn-default btn-xs">
+          <span className="glyphicon glyphicon-copy"></span>
+          Clipboard
+        </button>
+        <button className="btn btn-default btn-xs">
+          <span className="glyphicon glyphicon-random"></span>
+          Shuffle
+        </button>
+        <button className="btn btn-default btn-xs">
+          <span className="glyphicon glyphicon-flag"></span>
+          Report
+        </button>
+      </div>
+    )
+  }
+});
+
 var ServicePage = React.createClass({
   render: function() {
     return (
@@ -137,6 +158,7 @@ var ServicePage = React.createClass({
             <h1>
               ywj-rpl
             </h1>
+            <ReferralCodeActions />
           </div>
         </div>
         <ReferralCodeEntry />

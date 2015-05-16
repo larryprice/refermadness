@@ -8,6 +8,19 @@
 
   .random-referral-code {
     margin-top: 2em;
+
+    .referral-code-actions {
+      margin-top: 1.5em;
+
+      button {
+        margin-right: 1em;
+        margin-left: 1em;
+      }
+
+      .glyphicon {
+        margin-right: .5em;
+      }
+    }
   }
 
   .view-result a {

@@ -112,6 +112,13 @@ body {
     font-weight: bold; }
   .service-home .search-area .random-referral-code {
     margin-top: 2em; }
+    .service-home .search-area .random-referral-code .referral-code-actions {
+      margin-top: 1.5em; }
+      .service-home .search-area .random-referral-code .referral-code-actions button {
+        margin-right: 1em;
+        margin-left: 1em; }
+      .service-home .search-area .random-referral-code .referral-code-actions .glyphicon {
+        margin-right: .5em; }
   .service-home .search-area .view-result a {
     color: white;
     word-wrap: break-word; }
