@@ -113,10 +113,13 @@ var ReferralCodeEntry = React.createClass({
 });
 
 var ReferralCodeActions = React.createClass({
+  componentDidMount: function() {
+    new ZeroClipboard($(".btn-copy"));
+  },
   render: function() {
     return (
       <div className="referral-code-actions">
-        <button className="btn btn-default btn-xs">
+        <button className="btn btn-default btn-xs btn-copy" data-clipboard-text={this.props.code}>
           <span className="glyphicon glyphicon-copy"></span>
           Clipboard
         </button>
@@ -155,10 +158,10 @@ var ServicePage = React.createClass({
             <h3>
               Use this referral code:
             </h3>
-            <h1>
+            <h1 className="referral-code">
               ywj-rpl
             </h1>
-            <ReferralCodeActions />
+            <ReferralCodeActions code={"ywj-rpl"} />
           </div>
         </div>
         <ReferralCodeEntry />
