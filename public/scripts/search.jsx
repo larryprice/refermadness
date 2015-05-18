@@ -1,9 +1,9 @@
 var testData = [
-  {name: "Test #1", url: "https://test1.com", id: "1"},
-  {name: "Test #2", url: "https://example.test2.com", id: "2"},
-  {name: "Test #3", url: "https://3test.org", id: "3"},
-  {name: "Test #4", url: "https://signup.4test.net/", id: "4"},
-  {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5"}
+  {name: "Test #1", url: "https://test1.com", id: "1", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {name: "Test #2", url: "https://example.test2.com", id: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {name: "Test #3", url: "https://3test.org", id: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {name: "Test #4", url: "https://signup.4test.net/", id: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]}
 ];
 
 var Result = React.createClass({

@@ -23,16 +23,32 @@
     }
   }
 
+  .referral-code {
+    transition: opacity .4s;
+
+    &.fade-in {
+      opacity: 1;
+    }
+
+    &.fade-out {
+      opacity: 0;
+    }
+  }
+
   .add-referral-code, .edit-referral-code, .referral-code-actions {
     .glyphicon {
       &.spin {
         animation-name: loading-spin;
         animation-duration: 1s;
         animation-timing-function: linear;
-      }
 
-      &.infinite {
-        animation-iteration-count: infinite;
+        &.infinite {
+          animation-iteration-count: infinite;
+        }
+
+        &.fast {
+          animation-duration: 350ms;
+        }
       }
     }
   }

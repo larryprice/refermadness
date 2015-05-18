@@ -114,30 +114,46 @@ var ReferralCodeEntry = React.createClass({
 
 var ReferralCodeActions = React.createClass({
   componentDidMount: function() {
-    var zclip = new ZeroClipboard($(".btn-copy"));
+    var zclip = new ZeroClipboard($(".copy-code"));
     zclip.on('ready', function(event) {
       zclip.on('copy', function(event) {
-        $(".btn-copy .glyphicon").addClass("spin");
+        $(".copy-code .glyphicon").addClass("spin fast");
       });
       zclip.on('afterCopy', function(event) {
         setTimeout(function () {
-          $(".btn-copy .glyphicon").removeClass("spin");
-        }, 1000);
+          $(".copy-code .glyphicon").removeClass("spin");
+        }, 400);
       });
     });
+  },
+  shuffle: function() {
+    $(".shuffle-code .glyphicon").addClass("spin fast infinite");
+    console.log(window.location.pathname + "/code" + window.location.search);
+    var that = this;
+    setTimeout(function() {
+      $(".shuffle-code .glyphicon").removeClass("infinite");
+      that.props.onNewCode(testData[0].codes[1]);
+    }, 400); // simulate ajax
+  },
+  report: function() {
+    $(".report-code .glyphicon").addClass("spin fast infinite");
+    console.log(window.location.pathname + "/report" + window.location.search);
+    setTimeout(function() {
+      $(".report-code .glyphicon").removeClass("infinite");
+    }, 400); // simulate ajax
   },
   render: function() {
     return (
       <div className="referral-code-actions">
-        <button className="btn btn-default btn-xs btn-copy" data-clipboard-text={this.props.code}>
+        <button className="btn btn-default btn-xs copy-code" data-clipboard-text={this.props.code}>
           <span className="glyphicon glyphicon-copy"></span>
           Clipboard
         </button>
-        <button className="btn btn-default btn-xs">
+        <button className="btn btn-default btn-xs shuffle-code" onClick={this.shuffle}>
           <span className="glyphicon glyphicon-random"></span>
           Shuffle
         </button>
-        <button className="btn btn-default btn-xs">
+        <button className="btn btn-default btn-xs report-code" onClick={this.report}>
           <span className="glyphicon glyphicon-flag"></span>
           Report
         </button>
@@ -147,6 +163,18 @@ var ReferralCodeActions = React.createClass({
 });
 
 var ServicePage = React.createClass({
+  getInitialState: function() {
+    return {
+      code: this.props.data.codes[0]
+    };
+  },
+  setCode: function(code) {
+    this.state.code = code;
+    $(".referral-code").addClass("fade-out");
+    setTimeout(function() {
+      $(".referral-code").text(code.code).removeClass("fade-out").addClass("fade-in");
+    }, 300);
+  },
   render: function() {
     return (
       <div className="service-area">
@@ -169,9 +197,9 @@ var ServicePage = React.createClass({
               Use this referral code:
             </h3>
             <h1 className="referral-code">
-              ywj-rpl
+              {this.state.code.code}
             </h1>
-            <ReferralCodeActions code={"ywj-rpl"} />
+            <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
           </div>
         </div>
         <ReferralCodeEntry />
