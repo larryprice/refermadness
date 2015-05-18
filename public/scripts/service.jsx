@@ -17,11 +17,11 @@ var EditButton = React.createClass({
         this.props.saved($(".add-code-entry").val());
       }
       $(".add-code-entry").addClass("disabled");
-        $(".add-code-btn .glyphicon").addClass("spin");
+      $(".add-code-btn .glyphicon").addClass("spin infinite");
       setTimeout(function() {
         $(".add-code-btn .glyphicon").addClass("fade-out");
         setTimeout(function() {
-          $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out spin").addClass("glyphicon-pencil fade-in");
+          $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out infinite").addClass("glyphicon-pencil fade-in");
         }, 500);
       }, 300); // simulate ajax
     }
@@ -114,7 +114,17 @@ var ReferralCodeEntry = React.createClass({
 
 var ReferralCodeActions = React.createClass({
   componentDidMount: function() {
-    new ZeroClipboard($(".btn-copy"));
+    var zclip = new ZeroClipboard($(".btn-copy"));
+    zclip.on('ready', function(event) {
+      zclip.on('copy', function(event) {
+        $(".btn-copy .glyphicon").addClass("spin");
+      });
+      zclip.on('afterCopy', function(event) {
+        setTimeout(function () {
+          $(".btn-copy .glyphicon").removeClass("spin");
+        }, 1000);
+      });
+    });
   },
   render: function() {
     return (

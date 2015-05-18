@@ -119,6 +119,12 @@ body {
         margin-left: 1em; }
       .service-home .search-area .random-referral-code .referral-code-actions .glyphicon {
         margin-right: .5em; }
+  .service-home .search-area .add-referral-code .glyphicon.spin, .service-home .search-area .edit-referral-code .glyphicon.spin, .service-home .search-area .referral-code-actions .glyphicon.spin {
+    animation-name: loading-spin;
+    animation-duration: 1s;
+    animation-timing-function: linear; }
+  .service-home .search-area .add-referral-code .glyphicon.infinite, .service-home .search-area .edit-referral-code .glyphicon.infinite, .service-home .search-area .referral-code-actions .glyphicon.infinite {
+    animation-iteration-count: infinite; }
   .service-home .search-area .view-result a {
     color: white;
     word-wrap: break-word; }
@@ -151,11 +157,6 @@ body {
         border-left-color: lightgrey; }
       .service-home .search-area .add-referral-code .add-code-btn .glyphicon, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon {
         transition: opacity .75s; }
-        .service-home .search-area .add-referral-code .add-code-btn .glyphicon.spin, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon.spin {
-          animation-name: loading-spin;
-          animation-duration: 1s;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear; }
         .service-home .search-area .add-referral-code .add-code-btn .glyphicon.fade-in, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon.fade-in {
           opacity: 1; }
         .service-home .search-area .add-referral-code .add-code-btn .glyphicon.fade-out, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon.fade-out {

@@ -23,6 +23,20 @@
     }
   }
 
+  .add-referral-code, .edit-referral-code, .referral-code-actions {
+    .glyphicon {
+      &.spin {
+        animation-name: loading-spin;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+      }
+
+      &.infinite {
+        animation-iteration-count: infinite;
+      }
+    }
+  }
+
   .view-result a {
     color: white;
     word-wrap: break-word;
@@ -75,13 +89,6 @@
 
       .glyphicon {
         transition: opacity .75s;
-
-        &.spin {
-          animation-name:             loading-spin; 
-          animation-duration:         1s; 
-          animation-iteration-count:  infinite;
-          animation-timing-function: linear;
-        }
 
         &.fade-in {
           opacity: 1;
