@@ -112,16 +112,42 @@ var ReferralCodeEntry = React.createClass({
   }
 });
 
+var ReportButton = React.createClass({
+  report: function() {
+    this.props.onStartReportCode();
+    setTimeout(function() {
+      $(".report-code-text").addClass("hidden");
+      $(".report-code-ask").removeClass("hidden");
+    }, 300);
+  },
+  render: function() {
+    return (
+      <div className="report-bad-code">
+        <span className="report-code-ask hidden">Are you sure this code didn&apos;t work?</span>
+        <button className="btn btn-default btn-xs report-code" onClick={this.report}>
+          <span className="glyphicon glyphicon-flag"></span>
+          <span className="report-code-text">Report</span>
+          <span className="report-code-ask hidden">Yes</span>
+        </button>
+        <button className="btn btn-default btn-xs report-code-cancel report-code-ask hidden" onClick={this.report}>
+          <span className="glyphicon glyphicon-ban-circle"></span>
+          No
+        </button>
+      </div>
+    );
+  }
+});
+
 var ReferralCodeActions = React.createClass({
   componentDidMount: function() {
     var zclip = new ZeroClipboard($(".copy-code"));
     zclip.on('ready', function(event) {
       zclip.on('copy', function(event) {
-        $(".copy-code .glyphicon").addClass("spin fast");
+        $(".copy-code .glyphicon").addClass("shake");
       });
       zclip.on('afterCopy', function(event) {
         setTimeout(function () {
-          $(".copy-code .glyphicon").removeClass("spin");
+          $(".copy-code .glyphicon").removeClass("shake");
         }, 400);
       });
     });
@@ -135,12 +161,12 @@ var ReferralCodeActions = React.createClass({
       that.props.onNewCode(testData[0].codes[1]);
     }, 400); // simulate ajax
   },
-  report: function() {
-    $(".report-code .glyphicon").addClass("spin fast infinite");
-    console.log(window.location.pathname + "/report" + window.location.search);
+  hideButtons: function() {
+    $(".referral-code-actions").addClass("fade-out");
     setTimeout(function() {
-      $(".report-code .glyphicon").removeClass("infinite");
-    }, 400); // simulate ajax
+      $(".copy-code, .shuffle-code").addClass("hidden");
+      $(".referral-code-actions").removeClass("fade-out").addClass("fade-in");
+    }, 500);
   },
   render: function() {
     return (
@@ -153,10 +179,7 @@ var ReferralCodeActions = React.createClass({
           <span className="glyphicon glyphicon-random"></span>
           Shuffle
         </button>
-        <button className="btn btn-default btn-xs report-code" onClick={this.report}>
-          <span className="glyphicon glyphicon-flag"></span>
-          Report
-        </button>
+        <ReportButton onStartReportCode={this.hideButtons} />
       </div>
     )
   }

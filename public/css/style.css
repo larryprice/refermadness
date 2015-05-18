@@ -113,12 +113,24 @@ body {
   .service-home .search-area .random-referral-code {
     margin-top: 2em; }
     .service-home .search-area .random-referral-code .referral-code-actions {
-      margin-top: 1.5em; }
+      margin-top: 1.5em;
+      transition: opacity .5s; }
       .service-home .search-area .random-referral-code .referral-code-actions button {
         margin-right: 1em;
         margin-left: 1em; }
+      .service-home .search-area .random-referral-code .referral-code-actions.fade-in {
+        opacity: 1; }
+      .service-home .search-area .random-referral-code .referral-code-actions.fade-out {
+        opacity: 0; }
       .service-home .search-area .random-referral-code .referral-code-actions .glyphicon {
         margin-right: .5em; }
+      .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code {
+        display: inline; }
+        .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code > span.report-code-ask {
+          font-size: 16px;
+          vertical-align: middle; }
+        .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code .report-code-cancel {
+          margin-left: 0; }
   .service-home .search-area .referral-code {
     transition: opacity .4s; }
     .service-home .search-area .referral-code.fade-in {
@@ -133,6 +145,12 @@ body {
       animation-iteration-count: infinite; }
     .service-home .search-area .add-referral-code .glyphicon.spin.fast, .service-home .search-area .edit-referral-code .glyphicon.spin.fast, .service-home .search-area .referral-code-actions .glyphicon.spin.fast {
       animation-duration: 350ms; }
+  .service-home .search-area .add-referral-code .glyphicon.shake, .service-home .search-area .edit-referral-code .glyphicon.shake, .service-home .search-area .referral-code-actions .glyphicon.shake {
+    animation-name: shake;
+    animation-duration: 200ms;
+    transform-origin: 50% 50%;
+    animation-iteration-count: 2;
+    animation-timing-function: linear; }
   .service-home .search-area .view-result a {
     color: white;
     word-wrap: break-word; }
@@ -190,6 +208,13 @@ body {
     transform: rotate(0deg); }
   to {
     transform: rotate(360deg); } }
+@keyframes shake {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.7); }
+  100% {
+    transform: scale(1); } }
 #no-family, #no-friends, #no-followers {
   width: 100%;
   height: 150px;

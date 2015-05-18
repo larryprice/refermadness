@@ -11,14 +11,36 @@
 
     .referral-code-actions {
       margin-top: 1.5em;
+      transition: opacity .5s;
 
       button {
         margin-right: 1em;
         margin-left: 1em;
       }
 
+      &.fade-in {
+        opacity: 1;
+      }
+
+      &.fade-out {
+        opacity: 0;
+      }
+
       .glyphicon {
         margin-right: .5em;
+      }
+
+      .report-bad-code {
+        display: inline;
+
+        > span.report-code-ask {
+          font-size: 16px;
+          vertical-align: middle;
+        }
+
+        .report-code-cancel {
+          margin-left: 0;
+        }
       }
     }
   }
@@ -49,6 +71,14 @@
         &.fast {
           animation-duration: 350ms;
         }
+      }
+
+      &.shake {
+        animation-name: shake;
+        animation-duration: 200ms;
+        transform-origin: 50% 50%;
+        animation-iteration-count: 2;
+        animation-timing-function: linear;
       }
     }
   }
@@ -149,4 +179,10 @@
   to { 
     transform: rotate(360deg);
   }
+}
+
+@keyframes shake {
+  0% { transform: scale(1); }
+  50% {transform: scale(0.7); }
+  100% { transform: scale(1); }
 }
