@@ -30,17 +30,19 @@ input[type=text].disabled {
   margin-top: 0;
   padding-top: 0.2em;
   font-family: 'Monoton', cursive;
-  font-size: 56px; }
+  font-size: 56px;
+  transition: font-size 2s; }
   .title a {
     color: white;
     text-decoration: none; }
   .title.shrink {
-    transition: font-size 2s;
     font-size: 48px; }
 
 .login-btn {
-  margin-top: 1em;
-  color: whitesmoke; }
+  margin-top: 1em; }
+  .login-btn .glyphicon {
+    font-size: 12px;
+    margin-right: .5em; }
 
 @media (min-width: 380px) {
   .title {

@@ -10,6 +10,7 @@
   padding-top: 0.2em;
   font-family: 'Monoton', cursive;
   font-size: 56px;
+  transition: font-size 2s;
 
   a {
     color: white;
@@ -17,14 +18,17 @@
   }
 
   &.shrink {
-    transition: font-size 2s;
     font-size: 48px;
   }
 }
 
 .login-btn {
   margin-top: 1em;
-  color: whitesmoke
+
+  .glyphicon {
+    font-size: 12px;
+    margin-right: .5em;
+  }
 }
 
 @media (min-width: 380px) {

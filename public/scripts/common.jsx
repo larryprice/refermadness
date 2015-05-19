@@ -26,15 +26,32 @@ var TitleArea = React.createClass({
   render: function() {
     if (this.props.smallTitle) {
       return (
-        <SmallTitle />
+        <div className="col-sm-offset-2 col-sm-8 col-xs-12">
+          <SmallTitle />
+        </div>
       )
     } else {
       return (
-        <Title />
+        <div className="col-sm-offset-2 col-sm-8 col-xs-12">
+          <Title />
+        </div>
       )
     }
   }
 });
+
+var LoginButton = React.createClass({
+  render: function() {
+    return (
+      <div className="col-xs-12 col-sm-2 text-center">
+        <button type="submit" className="login-btn btn btn-default" onclick="javascript:void(0)">
+          <span className="glyphicon glyphicon-lock"></span>
+          Sign Up or Log In
+        </button>
+      </div>
+    )
+  }
+})
 
 var Header = React.createClass({
   render: function() {
@@ -42,13 +59,8 @@ var Header = React.createClass({
       <div className="header">
         <div className="container-fluid">
           <div className="row ">
-            <div className="col-sm-offset-2 col-sm-8 col-xs-12">
-              <TitleArea smallTitle={this.props.smallTitle} />
-            </div>
-
-            <div className="col-xs-12 col-sm-2 text-center">
-              <input type="submit" className="login-btn btn btn-default" value="Sign Up or Log In" onclick="javascript:void(0)" />
-            </div>
+            <TitleArea smallTitle={this.props.smallTitle} />
+            <LoginButton />
           </div>
       </div>
     </div>
