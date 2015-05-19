@@ -101,108 +101,109 @@ body {
   .search-result:hover {
     cursor: pointer; }
 
-.search-panel-message.fadeout {
-  transition: font-size 2s, margin-top 1s, opacity 2s;
-  margin-top: -20px;
-  font-size: 0;
-  opacity: 0; }
+.search-panel-message {
+  transition: all 2s; }
+  .search-panel-message.fadeout {
+    margin-top: -15px;
+    font-size: 0;
+    opacity: 0; }
 
-.service-home .search-area {
+.search-area {
   margin-top: 0; }
-  .service-home .search-area .service-name {
+  .search-area .service-name {
     font-size: 44px;
     font-weight: bold; }
-  .service-home .search-area .random-referral-code {
+  .search-area .random-referral-code {
     margin-top: 2em; }
-    .service-home .search-area .random-referral-code .referral-code-actions {
+    .search-area .random-referral-code .referral-code-actions {
       margin-top: 1.5em;
       transition: opacity .5s; }
-      .service-home .search-area .random-referral-code .referral-code-actions button {
+      .search-area .random-referral-code .referral-code-actions button {
         margin-right: 1em;
         margin-left: 1em; }
-      .service-home .search-area .random-referral-code .referral-code-actions.fade-in {
+      .search-area .random-referral-code .referral-code-actions.fade-in {
         opacity: 1; }
-      .service-home .search-area .random-referral-code .referral-code-actions.fade-out {
+      .search-area .random-referral-code .referral-code-actions.fade-out {
         opacity: 0; }
-      .service-home .search-area .random-referral-code .referral-code-actions .glyphicon {
+      .search-area .random-referral-code .referral-code-actions .glyphicon {
         margin-right: .5em; }
-      .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code {
+      .search-area .random-referral-code .referral-code-actions .report-bad-code {
         display: inline; }
-        .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code > span.report-code-ask {
+        .search-area .random-referral-code .referral-code-actions .report-bad-code > span.report-code-ask {
           font-size: 15px;
           vertical-align: middle; }
-        .service-home .search-area .random-referral-code .referral-code-actions .report-bad-code .report-code-cancel {
+        .search-area .random-referral-code .referral-code-actions .report-bad-code .report-code-cancel {
           margin-left: 0; }
-  .service-home .search-area .referral-code {
+  .search-area .referral-code {
     transition: opacity .4s; }
-    .service-home .search-area .referral-code.fade-in {
+    .search-area .referral-code.fade-in {
       opacity: 1; }
-    .service-home .search-area .referral-code.fade-out {
+    .search-area .referral-code.fade-out {
       opacity: 0; }
-  .service-home .search-area .add-referral-code .glyphicon.spin, .service-home .search-area .edit-referral-code .glyphicon.spin, .service-home .search-area .referral-code-actions .glyphicon.spin {
+  .search-area .add-referral-code .glyphicon.spin, .search-area .edit-referral-code .glyphicon.spin, .search-area .referral-code-actions .glyphicon.spin {
     animation-name: loading-spin;
     animation-duration: 1s;
     animation-timing-function: linear; }
-    .service-home .search-area .add-referral-code .glyphicon.spin.infinite, .service-home .search-area .edit-referral-code .glyphicon.spin.infinite, .service-home .search-area .referral-code-actions .glyphicon.spin.infinite {
+    .search-area .add-referral-code .glyphicon.spin.infinite, .search-area .edit-referral-code .glyphicon.spin.infinite, .search-area .referral-code-actions .glyphicon.spin.infinite {
       animation-iteration-count: infinite; }
-    .service-home .search-area .add-referral-code .glyphicon.spin.fast, .service-home .search-area .edit-referral-code .glyphicon.spin.fast, .service-home .search-area .referral-code-actions .glyphicon.spin.fast {
+    .search-area .add-referral-code .glyphicon.spin.fast, .search-area .edit-referral-code .glyphicon.spin.fast, .search-area .referral-code-actions .glyphicon.spin.fast {
       animation-duration: 350ms; }
-  .service-home .search-area .add-referral-code .glyphicon.shake, .service-home .search-area .edit-referral-code .glyphicon.shake, .service-home .search-area .referral-code-actions .glyphicon.shake {
+  .search-area .add-referral-code .glyphicon.shake, .search-area .edit-referral-code .glyphicon.shake, .search-area .referral-code-actions .glyphicon.shake {
     animation-name: shake;
     animation-duration: 200ms;
     transform-origin: 50% 50%;
     animation-iteration-count: 2;
     animation-timing-function: linear; }
-  .service-home .search-area .view-result a {
+  .search-area .view-result a {
     color: white;
     word-wrap: break-word; }
-  .service-home .search-area .add-referral-code .btn-default span {
+  .search-area .add-referral-code .btn-default span {
     margin-right: .5em; }
-  .service-home .search-area .add-referral-code .add-code-btn .glyphicon {
+  .search-area .add-referral-code .add-code-btn .glyphicon {
     top: -3px; }
-  .service-home .search-area .add-referral-code .add-code-msg {
+  .search-area .add-referral-code .add-code-msg {
     display: inline-block;
     width: 14em;
     overflow: hidden;
     white-space: nowrap;
     transition: width 2s; }
-    .service-home .search-area .add-referral-code .add-code-msg.hide-me {
+    .search-area .add-referral-code .add-code-msg.hide-me {
       width: 0;
       overflow: hidden;
       margin-right: -9px !important;
       white-space: nowrap; }
-  .service-home .search-area .edit-referral-code .referral-code-views {
+  .search-area .edit-referral-code .referral-code-views {
     margin-top: .5em;
     font-size: 60%; }
-  .service-home .search-area .add-referral-code, .service-home .search-area .edit-referral-code {
+  .search-area .add-referral-code, .search-area .edit-referral-code {
     margin-top: 5em; }
-    .service-home .search-area .add-referral-code .add-code-btn, .service-home .search-area .edit-referral-code .add-code-btn {
+    .search-area .add-referral-code .add-code-btn, .search-area .edit-referral-code .add-code-btn {
       margin-top: 3px;
       height: 46px; }
-      .service-home .search-area .add-referral-code .add-code-btn.hide-me, .service-home .search-area .edit-referral-code .add-code-btn.hide-me {
+      .search-area .add-referral-code .add-code-btn.hide-me, .search-area .edit-referral-code .add-code-btn.hide-me {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left-color: lightgrey; }
-      .service-home .search-area .add-referral-code .add-code-btn .glyphicon, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon {
+      .search-area .add-referral-code .add-code-btn .glyphicon, .search-area .edit-referral-code .add-code-btn .glyphicon {
         transition: opacity .75s; }
-        .service-home .search-area .add-referral-code .add-code-btn .glyphicon.fade-in, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon.fade-in {
+        .search-area .add-referral-code .add-code-btn .glyphicon.fade-in, .search-area .edit-referral-code .add-code-btn .glyphicon.fade-in {
           opacity: 1; }
-        .service-home .search-area .add-referral-code .add-code-btn .glyphicon.fade-out, .service-home .search-area .edit-referral-code .add-code-btn .glyphicon.fade-out {
+        .search-area .add-referral-code .add-code-btn .glyphicon.fade-out, .search-area .edit-referral-code .add-code-btn .glyphicon.fade-out {
           opacity: 0; }
-    .service-home .search-area .add-referral-code .add-code-entry, .service-home .search-area .edit-referral-code .add-code-entry {
+    .search-area .add-referral-code .add-code-entry, .search-area .edit-referral-code .add-code-entry {
       display: inline-block;
       width: 18em;
       transition: width 2s, opacity 2s, padding 2s;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0; }
-      .service-home .search-area .add-referral-code .add-code-entry.hide-me, .service-home .search-area .edit-referral-code .add-code-entry.hide-me {
+      .search-area .add-referral-code .add-code-entry.hide-me, .search-area .edit-referral-code .add-code-entry.hide-me {
         opacity: 0;
         width: 0;
         padding: 0; }
     @media (max-width: 400px) {
-      .service-home .search-area .add-referral-code .add-code-entry:not(.hide-me), .service-home .search-area .edit-referral-code .add-code-entry:not(.hide-me) {
+      .search-area .add-referral-code .add-code-entry:not(.hide-me), .search-area .edit-referral-code .add-code-entry:not(.hide-me) {
         width: 12em; }
-      .service-home .search-area .add-referral-code .add-code-btn:not(.hide-me), .service-home .search-area .edit-referral-code .add-code-btn:not(.hide-me) {
+      .search-area .add-referral-code .add-code-btn:not(.hide-me), .search-area .edit-referral-code .add-code-btn:not(.hide-me) {
         font-size: 15px; } }
 
 @keyframes loading-spin {
