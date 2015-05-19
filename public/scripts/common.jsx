@@ -44,10 +44,15 @@ var LoginButton = React.createClass({
   render: function() {
     return (
       <div className="col-xs-12 col-sm-2 text-center">
-        <button type="submit" className="login-btn btn btn-default" onclick="javascript:void(0)">
+        <button className="login-btn btn btn-default" onclick="javascript:void(0)" data-toggle="collapse"
+                data-target="#authenticate-panel" aria-expanded="false" aria-controls="authenticate-panel">
           <span className="glyphicon glyphicon-lock"></span>
           Sign Up or Log In
         </button>
+
+        <div className="collapse" id="authenticate-panel">
+          <div className="well">Hey there, Sailor</div>
+        </div>
       </div>
     )
   }
