@@ -114,10 +114,24 @@ var ReferralCodeEntry = React.createClass({
 
 var ReportButton = React.createClass({
   report: function() {
-    this.props.onStartReportCode();
+    if ($(".report-code-text").hasClass("hidden")) {
+      this.props.onReportCode(this.showDefaultButtons);
+    } else {
+      this.props.onStartReportCode();
+      setTimeout(function() {
+        $(".report-code-text").addClass("hidden");
+        $(".report-code-ask").removeClass("hidden");
+      }, 300);
+    }
+  },
+  cancel: function() {
+    this.props.onCancelReportCode();
+    this.showDefaultButtons();
+  },
+  showDefaultButtons: function() {
     setTimeout(function() {
-      $(".report-code-text").addClass("hidden");
-      $(".report-code-ask").removeClass("hidden");
+      $(".report-code-text").removeClass("hidden");
+      $(".report-code-ask").addClass("hidden");
     }, 300);
   },
   render: function() {
@@ -129,7 +143,7 @@ var ReportButton = React.createClass({
           <span className="report-code-text">Report</span>
           <span className="report-code-ask hidden">Yes</span>
         </button>
-        <button className="btn btn-default btn-xs report-code-cancel report-code-ask hidden" onClick={this.report}>
+        <button className="btn btn-default btn-xs report-code-cancel report-code-ask hidden" onClick={this.cancel}>
           <span className="glyphicon glyphicon-ban-circle"></span>
           No
         </button>
@@ -139,6 +153,11 @@ var ReportButton = React.createClass({
 });
 
 var ReferralCodeActions = React.createClass({
+  getInitialState: function() {
+    return {
+      code: this.props.code
+    };
+  },
   componentDidMount: function() {
     var zclip = new ZeroClipboard($(".copy-code"));
     zclip.on('ready', function(event) {
@@ -152,14 +171,22 @@ var ReferralCodeActions = React.createClass({
       });
     });
   },
-  shuffle: function() {
-    $(".shuffle-code .glyphicon").addClass("spin fast infinite");
-    console.log(window.location.pathname + "/code" + window.location.search);
+  getNewCode: function(onComplete) {
+    console.log("GET", "/api" + window.location.pathname + "/code");
     var that = this;
     setTimeout(function() {
+      that.state.code = testData[0].codes[1];
+      $(".copy-code").attr("data-clipboard-text", that.state.code.code);
+      that.props.onNewCode(that.state.code);
+      onComplete();
+    });
+  },
+  shuffle: function() {
+    $(".shuffle-code .glyphicon").addClass("spin fast infinite");
+    var that = this;
+    this.getNewCode(function() {
       $(".shuffle-code .glyphicon").removeClass("infinite");
-      that.props.onNewCode(testData[0].codes[1]);
-    }, 400); // simulate ajax
+    });
   },
   hideButtons: function() {
     $(".referral-code-actions").addClass("fade-out");
@@ -168,10 +195,28 @@ var ReferralCodeActions = React.createClass({
       $(".referral-code-actions").removeClass("fade-out").addClass("fade-in");
     }, 500);
   },
+  showButtons: function() {
+    $(".referral-code-actions").addClass("fade-out");
+    setTimeout(function() {
+      $(".copy-code, .shuffle-code").removeClass("hidden");
+      $(".referral-code-actions").removeClass("fade-out").addClass("fade-in");
+    }, 500);
+  },
+  report: function(callback) {
+    $(".report-code .glyphicon").addClass("spin fast infinite");
+    console.log("PUT", "/api/code/" + this.state.code.id + "/report");
+
+    var that = this;
+    this.getNewCode(function() {
+      $(".report-code .glyphicon").removeClass("infinite");
+      callback();
+      that.showButtons();
+    });
+  },
   render: function() {
     return (
       <div className="referral-code-actions">
-        <button className="btn btn-default btn-xs copy-code" data-clipboard-text={this.props.code}>
+        <button className="btn btn-default btn-xs copy-code" data-clipboard-text={this.state.code.code}>
           <span className="glyphicon glyphicon-copy"></span>
           Clipboard
         </button>
@@ -179,7 +224,7 @@ var ReferralCodeActions = React.createClass({
           <span className="glyphicon glyphicon-random"></span>
           Shuffle
         </button>
-        <ReportButton onStartReportCode={this.hideButtons} />
+        <ReportButton onStartReportCode={this.hideButtons} onCancelReportCode={this.showButtons} onReportCode={this.report} />
       </div>
     )
   }
