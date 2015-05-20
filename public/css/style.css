@@ -9,6 +9,11 @@
 .btn-default:hover {
   opacity: 0.85; }
 
+a {
+  color: lavender; }
+  a:hover {
+    color: lavender; }
+
 input[type=text].disabled {
   color: grey;
   font-style: italic;
@@ -32,6 +37,8 @@ input[type=text].disabled {
   font-family: 'Monoton', cursive;
   font-size: 56px;
   transition: font-size 2s; }
+  .title.fast {
+    transition: font-size 1s; }
   .title a {
     color: white;
     text-decoration: none; }
@@ -43,6 +50,18 @@ input[type=text].disabled {
   .login-btn .glyphicon {
     font-size: 12px;
     margin-right: .5em; }
+
+#authenticate-panel {
+  background-color: #4EC987; }
+  #authenticate-panel .glyphicon-question-sign {
+    font-size: 18px;
+    vertical-align: top;
+    cursor: pointer; }
+  #authenticate-panel .login-faq-question, #authenticate-panel .login-faq-answer {
+    font-size: 16px;
+    text-align: left; }
+  #authenticate-panel .login-faq-answer {
+    margin-left: 1em; }
 
 @media (min-width: 380px) {
   .title {
@@ -155,7 +174,6 @@ body {
     animation-iteration-count: 2;
     animation-timing-function: linear; }
   .search-area .view-result a {
-    color: white;
     word-wrap: break-word; }
   .search-area .add-referral-code .btn-default span {
     margin-right: .5em; }

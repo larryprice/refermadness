@@ -1,3 +1,9 @@
+$green: #00B655;
+$light-green: #2ABB6D;
+$lightest-green: #4EC987;
+$dark-green: #008D42;
+$darkest-green: #006F34;
+
 .btn-default,
 .btn-default:hover,
 .btn-default:focus {
@@ -9,6 +15,14 @@
 
 .btn-default:hover {
   opacity: 0.85;
+}
+
+a {
+  color: lavender;
+
+  &:hover {
+    color: lavender;
+  }
 }
 
 input[type=text].disabled {
