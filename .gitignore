@@ -1,3 +1,4 @@
 .godeps
 gin-bin
 .sass-cache
+.module-cache
