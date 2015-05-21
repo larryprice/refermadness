@@ -61,17 +61,19 @@ var LoginButton = React.createClass({
 });
 
 var AuthenticatePanel = React.createClass({
+  toggleFAQ: function() {
+    $("#login-faq").collapse("toggle");
+  },
   authenticate: function() {
-    console.log("DEAL WITH THIS");
+    // this link sends the user away
+    console.log("https://accounts.google.com/o/oauth2/auth?scope=email%20profile&state=security_token%3D138r5719ru3e1%26url%3Dhttps://oa2cb.example.com/myHome&redirect_uri=https%3A%2F%2Foauth2-login-demo.appspot.com%2Fcode&,response_type=code&client_id=812741506391.apps.googleusercontent.com&approval_prompt=force")
   },
   render: function() {
     return (
       <div className="row collapse" id="authenticate-panel">
         <div className="col-xs-12 text-center">
-          <h2><strong>Let&apos;s get you authenticated.</strong><span className="glyphicon glyphicon-question-sign"></span></h2>
-          <div className="g-signin2" data-onsuccess={this.authenticate}></div>
-          <h5>By signing in using the link above, you agree to the <a href="/legal">Terms and Conditions</a>.</h5>
-          <div className="container">
+          <h2><strong>Let&apos;s get you authenticated.</strong><span className="glyphicon glyphicon-question-sign" onClick={this.toggleFAQ}></span></h2>
+          <div id="login-faq" className="container collapse">
             <div className="login-faq-question"><strong>Why should I?</strong></div>
             <div className="login-faq-answer">Authentication helps prevent malicious users from submitting bad or duplicate referral codes and prevents robots from taking over the site.</div>
             <div className="login-faq-question"><strong>Why Google?</strong></div>
@@ -79,6 +81,11 @@ var AuthenticatePanel = React.createClass({
             <div className="login-faq-question"><strong>Where&apos;s the legal information?</strong></div>
             <div className="login-faq-answer">You can view the privacy policy and terms of service on <a href="/legal">the legal page</a>.</div>
           </div>
+          <button className="btn btn-default btn-lg" onClick={this.authenticate}>
+            <span className="glyphicon google-plus"></span>
+            Sign in with Google
+          </button>
+          <h5>By signing in using the link above, you agree to the <a href="/legal">Terms and Conditions</a>.</h5>
         </div>
       </div>
     );

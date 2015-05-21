@@ -39,18 +39,40 @@
   background-color: $lightest-green;
 
   .glyphicon-question-sign {
-    font-size: 18px;
+    font-size: 14px;
     vertical-align: top;
     cursor: pointer;
   }
 
-  .login-faq-question, .login-faq-answer {
-    font-size: 16px;
-    text-align: left;
+  button {
+    font-size: 24px;
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+
+    .google-plus {
+      background-image: url("/img/google-plus.png");
+      background-repeat: no-repeat;
+
+      background-size: 24px 24px;;
+
+      width: 24px;
+      height: 24px;
+      top: .2em;
+      margin-right: .5em;
+    }
   }
 
-  .login-faq-answer {
-    margin-left: 1em;
+  #login-faq {
+    padding: 1em;
+
+    .login-faq-question, .login-faq-answer {
+      font-size: 16px;
+      text-align: left;
+    }
+
+    .login-faq-answer {
+      margin-left: 1em;
+    }
   }
 }
 

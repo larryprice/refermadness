@@ -54,14 +54,28 @@ input[type=text].disabled {
 #authenticate-panel {
   background-color: #4EC987; }
   #authenticate-panel .glyphicon-question-sign {
-    font-size: 18px;
+    font-size: 14px;
     vertical-align: top;
     cursor: pointer; }
-  #authenticate-panel .login-faq-question, #authenticate-panel .login-faq-answer {
-    font-size: 16px;
-    text-align: left; }
-  #authenticate-panel .login-faq-answer {
-    margin-left: 1em; }
+  #authenticate-panel button {
+    font-size: 24px;
+    margin-top: 1.5em;
+    margin-bottom: .5em; }
+    #authenticate-panel button .google-plus {
+      background-image: url("/img/google-plus.png");
+      background-repeat: no-repeat;
+      background-size: 24px 24px;
+      width: 24px;
+      height: 24px;
+      top: .2em;
+      margin-right: .5em; }
+  #authenticate-panel #login-faq {
+    padding: 1em; }
+    #authenticate-panel #login-faq .login-faq-question, #authenticate-panel #login-faq .login-faq-answer {
+      font-size: 16px;
+      text-align: left; }
+    #authenticate-panel #login-faq .login-faq-answer {
+      margin-left: 1em; }
 
 @media (min-width: 380px) {
   .title {
