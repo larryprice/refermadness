@@ -69,13 +69,11 @@ input[type=text].disabled {
       height: 24px;
       top: .2em;
       margin-right: .5em; }
-  #authenticate-panel #login-faq {
-    padding: 1em; }
-    #authenticate-panel #login-faq .login-faq-question, #authenticate-panel #login-faq .login-faq-answer {
-      font-size: 16px;
-      text-align: left; }
-    #authenticate-panel #login-faq .login-faq-answer {
-      margin-left: 1em; }
+  #authenticate-panel #login-faq .login-faq-question, #authenticate-panel #login-faq .login-faq-answer {
+    font-size: 16px;
+    text-align: left; }
+  #authenticate-panel #login-faq .login-faq-answer {
+    margin-left: 1em; }
 
 @media (min-width: 380px) {
   .title {
