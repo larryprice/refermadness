@@ -1,3 +1,4 @@
-stage:
-	gpm install
-	go build -o out/refermadness
+default:
+	go get
+	go get github.com/codegangsta/gin
+	gin

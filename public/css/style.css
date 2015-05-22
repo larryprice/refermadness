@@ -174,17 +174,22 @@ body {
   .search-area .add-referral-code .glyphicon.spin, .search-area .edit-referral-code .glyphicon.spin, .search-area .referral-code-actions .glyphicon.spin {
     animation-name: loading-spin;
     animation-duration: 1s;
-    animation-timing-function: linear; }
+    animation-timing-function: linear;
+    -webkit-animation-name: loading-spin;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear; }
     .search-area .add-referral-code .glyphicon.spin.infinite, .search-area .edit-referral-code .glyphicon.spin.infinite, .search-area .referral-code-actions .glyphicon.spin.infinite {
-      animation-iteration-count: infinite; }
+      animation-iteration-count: infinite;
+      -webkit-animation-iteration-count: infinite; }
     .search-area .add-referral-code .glyphicon.spin.fast, .search-area .edit-referral-code .glyphicon.spin.fast, .search-area .referral-code-actions .glyphicon.spin.fast {
-      animation-duration: 350ms; }
+      animation-duration: 350ms;
+      -webkit-animation-duration: 350ms; }
   .search-area .add-referral-code .glyphicon.shake, .search-area .edit-referral-code .glyphicon.shake, .search-area .referral-code-actions .glyphicon.shake {
     animation-name: shake;
     animation-duration: 200ms;
-    transform-origin: 50% 50%;
     animation-iteration-count: 2;
-    animation-timing-function: linear; }
+    animation-timing-function: linear;
+    transform-origin: 50% 50%; }
   .search-area .view-result a {
     word-wrap: break-word; }
   .search-area .add-referral-code .btn-default span {
@@ -248,6 +253,11 @@ body {
     transform: scale(0.7); }
   100% {
     transform: scale(1); } }
+@-webkit-keyframes loading-spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
 #no-family, #no-friends, #no-followers {
   width: 100%;
   height: 150px;

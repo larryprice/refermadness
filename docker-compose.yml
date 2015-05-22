@@ -1,0 +1,16 @@
+main:
+  image: golang:1.4
+  command: make
+  volumes:
+    - ./:/go/src/github.com/larryprice/refermadness
+  working_dir: /go/src/github.com/larryprice/refermadness
+  ports:
+    - "3000:3000"
+sass:
+  image: larryprice/sass
+  volumes: 
+    - ./public/css:/src
+jsx:
+  image: larryprice/jsx
+  volumes: 
+    - ./public/scripts:/src
