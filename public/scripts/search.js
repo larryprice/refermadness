@@ -34,15 +34,18 @@ var CreateResult = React.createClass({displayName: "CreateResult",
   render: function() {
     return (
       React.createElement("div", {className: "search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12", onClick: this.create}, 
-        React.createElement("h2", null, 
-          React.createElement("span", {className: "glyphicon glyphicon-plus"}), 
-          "Add New"
-        ), 
-        React.createElement("h4", null, 
-          "Can't find it?"
-        ), 
-        React.createElement("h5", null, 
-          "Define a new subscription service."
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-xs-offset-1 col-xs-3"}, 
+            React.createElement("span", {className: "glyphicon glyphicon-plus"})
+          ), 
+          React.createElement("div", {className: "col-xs-7"}, 
+            React.createElement("h2", null, 
+              "Add"
+            ), 
+            React.createElement("h2", null, 
+              "New"
+            )
+          )
         )
       )
     );

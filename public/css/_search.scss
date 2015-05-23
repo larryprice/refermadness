@@ -41,8 +41,12 @@
 }
 
 .create-search-result {
+  h2 {
+    font-weight: bold;
+  }
+
   .glyphicon {
-    margin-right: .5em;
-    top: 3px;
+    margin-top: 30px;
+    font-size: 60px;
   }
 }

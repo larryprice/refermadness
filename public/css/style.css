@@ -139,9 +139,11 @@ body {
     font-size: 0;
     opacity: 0; }
 
+.create-search-result h2 {
+  font-weight: bold; }
 .create-search-result .glyphicon {
-  margin-right: .5em;
-  top: 3px; }
+  margin-top: 30px;
+  font-size: 60px; }
 
 .search-area {
   margin-top: 0; }

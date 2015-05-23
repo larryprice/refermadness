@@ -34,16 +34,19 @@ var CreateResult = React.createClass({
   render: function() {
     return (
       <div className="search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.create}>
-        <h2>
-          <span className="glyphicon glyphicon-plus"></span>
-          Add New
-        </h2>
-        <h4>
-          Can&apos;t find it?
-        </h4>
-        <h5>
-          Define a new subscription service.
-        </h5>
+        <div className="row">
+          <div className="col-xs-offset-1 col-xs-3">
+            <span className="glyphicon glyphicon-plus"></span>
+          </div>
+          <div className="col-xs-7">
+            <h2>
+              Add
+            </h2>
+            <h2>
+              New
+            </h2>
+          </div>
+        </div>
       </div>
     );
   }
