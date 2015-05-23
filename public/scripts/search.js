@@ -27,9 +27,40 @@ var Result = React.createClass({displayName: "Result",
   }
 });
 
+var CreateResult = React.createClass({displayName: "CreateResult",
+  create: function() {
+    this.props.onSelected(this.props.data);
+  },
+  render: function() {
+    return (
+      React.createElement("div", {className: "search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12", onClick: this.create}, 
+        React.createElement("h2", null, 
+          React.createElement("span", {className: "glyphicon glyphicon-plus"}), 
+          "Add New"
+        ), 
+        React.createElement("h4", null, 
+          "Can't find it?"
+        ), 
+        React.createElement("h5", null, 
+          "Define a new subscription service."
+        )
+      )
+    );
+  }
+});
+
 var SearchResults = React.createClass({displayName: "SearchResults",
   selectResult: function(data) {
     this.props.onResultSelected(data)
+  },
+  componentDidMount: function() {
+    var standardHeight = Math.max.apply(null,
+      $(".search-result").map(function(idx, el) {
+        return $(el).height();
+      }).get());
+    $(".search-result").each(function() {
+      $(this).height(standardHeight);
+    });
   },
   render: function() {
     var that = this;
@@ -41,7 +72,8 @@ var SearchResults = React.createClass({displayName: "SearchResults",
 
     return (
       React.createElement("div", {className: "search-results row"}, 
-        results
+        results, 
+        React.createElement(CreateResult, null)
       )
     );
   }

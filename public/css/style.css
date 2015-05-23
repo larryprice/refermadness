@@ -139,6 +139,10 @@ body {
     font-size: 0;
     opacity: 0; }
 
+.create-search-result .glyphicon {
+  margin-right: .5em;
+  top: 3px; }
+
 .search-area {
   margin-top: 0; }
   .search-area .service-name {

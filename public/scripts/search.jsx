@@ -27,9 +27,40 @@ var Result = React.createClass({
   }
 });
 
+var CreateResult = React.createClass({
+  create: function() {
+    this.props.onSelected(this.props.data);
+  },
+  render: function() {
+    return (
+      <div className="search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.create}>
+        <h2>
+          <span className="glyphicon glyphicon-plus"></span>
+          Add New
+        </h2>
+        <h4>
+          Can&apos;t find it?
+        </h4>
+        <h5>
+          Define a new subscription service.
+        </h5>
+      </div>
+    );
+  }
+});
+
 var SearchResults = React.createClass({
   selectResult: function(data) {
     this.props.onResultSelected(data)
+  },
+  componentDidMount: function() {
+    var standardHeight = Math.max.apply(null,
+      $(".search-result").map(function(idx, el) {
+        return $(el).height();
+      }).get());
+    $(".search-result").each(function() {
+      $(this).height(standardHeight);
+    });
   },
   render: function() {
     var that = this;
@@ -42,6 +73,7 @@ var SearchResults = React.createClass({
     return (
       <div className="search-results row">
         {results}
+        <CreateResult />
       </div>
     );
   }
