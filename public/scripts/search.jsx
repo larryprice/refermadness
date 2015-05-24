@@ -29,11 +29,20 @@ var Result = React.createClass({
 
 var CreateResult = React.createClass({
   create: function() {
-    this.props.onSelected(this.props.data);
+    $(".search-box").addClass("fade-out");
+    var that = this;
+    $(".search-result").each(function(i, item) {
+      setTimeout(function() {
+        $(item).addClass("fade-out");
+        if ((i+1) === $(".search-result").length) {
+          that.props.onCreate();
+        }
+      }, (i+1)*250);
+    });
   },
   render: function() {
     return (
-      <div className="search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.create}>
+      <div className="search-result create-search-result col-md-3-point-5 col-sm-6 col-xs-12 hidden" onClick={this.create}>
         <div className="row">
           <div className="col-xs-offset-1 col-xs-3">
             <span className="glyphicon glyphicon-plus"></span>
@@ -56,14 +65,26 @@ var SearchResults = React.createClass({
   selectResult: function(data) {
     this.props.onResultSelected(data)
   },
+  standardizeResultHeights: function() {
+    var results =$(".search-result")
+    if (results.length > 1) {
+      var standardHeight = Math.max.apply(null,
+        results.map(function(idx, el) {
+          return $(el).height();
+        }).get());
+      results.each(function() {
+        $(this).height(standardHeight);
+      });
+    }
+  },
   componentDidMount: function() {
-    var standardHeight = Math.max.apply(null,
-      $(".search-result").map(function(idx, el) {
-        return $(el).height();
-      }).get());
-    $(".search-result").each(function() {
-      $(this).height(standardHeight);
-    });
+    this.standardizeResultHeights();
+  },
+  componentDidUpdate: function() {
+    this.standardizeResultHeights();
+  },
+  newService: function() {
+    this.props.onNewService();
   },
   render: function() {
     var that = this;
@@ -76,14 +97,23 @@ var SearchResults = React.createClass({
     return (
       <div className="search-results row">
         {results}
-        <CreateResult />
+        <CreateResult onCreate={this.newService} />
       </div>
     );
   }
 });
 
 var SearchBox = React.createClass({
+  getInitialState: function() {
+    return {
+      firstSearch: true
+    };
+  },
   onTextChange: function(e) {
+    if (this.state.firstSearch) {
+      this.state.firstSearch = false;
+      $(".create-search-result").removeClass("hidden");
+    }
     this.props.onSearchTextChange(React.findDOMNode(this.refs.text).value);
   },
   edit: function(e) {
@@ -122,6 +152,7 @@ var SearchPage = React.createClass({
     return {
       data: this.getFilteredData(query),
       selected: this.props.selected || -1,
+      creating: false,
       initialSearch: query
     };
   },
@@ -139,14 +170,8 @@ var SearchPage = React.createClass({
   },
   handleSearchTextChange: function(query) {
     var data = this.getFilteredData(query);
-    if (data.length > 0) {
-      if (this.props.onNonEmptySearch) {
-        this.props.onNonEmptySearch();
-      }
-    } else {
-      if (this.props.onEmptySearch) {
-        this.props.onEmptySearch();
-      }
+    if (this.props.onNonEmptySearch) {
+      this.props.onNonEmptySearch();
     }
     this.setState({data: data, selected: -1});
   },
@@ -156,19 +181,24 @@ var SearchPage = React.createClass({
     history.pushState(null, null, "/search?q=" + searchText);
     history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
   },
+  createService: function() {
+    this.setState({creating: true});
+    history.pushState(null, null, "/newservice/");
+  },
   render: function() {
     if (this.state.selected === -1) {
       return (
         <div className="search-area">
           <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
-          <SearchResults data={this.state.data} onResultSelected={this.resultSelected} />
+          <SearchResults data={this.state.data} onResultSelected={this.resultSelected} onNewService={this.createService} />
         </div>
       );
     } else {
       var searchText = this.state.initialSearch || this.getSearchParam() || this.state.selected.name
       return (
         <div className="search-area">
-          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch || this.state.selected.name} isReadonly={true}/>
+          <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" isReadonly={true}
+                     initialSearch={this.state.initialSearch || this.state.selected.name}/>
           <ServicePage data={this.state.selected} />
         </div>
       )

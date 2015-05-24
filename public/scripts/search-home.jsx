@@ -11,6 +11,9 @@ var SearchPanel = React.createClass({
 });
 
 var SearchHome = React.createClass({
+  componentDidMount: function() {
+    $(".create-search-result").removeClass("hidden");
+  },
   render: function() {
     $(window).off("popstate").on("popstate", function() {
       window.location = window.location.href;

@@ -128,9 +128,17 @@ body {
   margin-right: 0.5%;
   margin-left: 0.5%;
   margin-bottom: 1em;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  transition: opacity 1s; }
+  .search-result.fade-out {
+    opacity: 0; }
   .search-result:hover {
     cursor: pointer; }
+
+.search-box {
+  transition: opacity 1s; }
+  .search-box.fade-out {
+    opacity: 0; }
 
 .search-panel-message {
   transition: all 2s; }

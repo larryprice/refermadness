@@ -1,9 +1,4 @@
 var SearchPanel = React.createClass({
-  handleEmptySearch: function() {
-    if (this.props.onSearchInactivated) {
-      this.props.onSearchInactivated();
-    }
-  },
   handleSearchActivated: function() {
     if (this.props.onSearchActivated) {
       this.props.onSearchActivated();
@@ -19,7 +14,7 @@ var SearchPanel = React.createClass({
         <div className="container">
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
-          <SearchPage onEmptySearch={this.handleEmptySearch} onNonEmptySearch={this.handleSearchActivated} />
+          <SearchPage onNonEmptySearch={this.handleSearchActivated} />
         </div>
       </div>
     );
