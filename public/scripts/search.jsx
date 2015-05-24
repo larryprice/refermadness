@@ -183,7 +183,7 @@ var SearchPage = React.createClass({
   },
   createService: function() {
     this.setState({creating: true});
-    history.pushState(null, null, "/newservice/");
+    history.pushState(null, null, "/service/create");
   },
   render: function() {
     if (this.state.selected === -1) {
