@@ -54,9 +54,13 @@ var CreateServiceButton = React.createClass({
 
 var CreateService = React.createClass({
   componentDidMount: function() {
-    setTimeout(function() {
+    if (this.props.fadeIn) {
+      setTimeout(function() {
+        $(".create-service").addClass("fade-in");
+      });
+    } else {
       $(".create-service").addClass("fade-in");
-    });
+    }
   },
   render: function() {
     return (

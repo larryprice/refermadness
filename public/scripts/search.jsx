@@ -34,11 +34,11 @@ var CreateResult = React.createClass({
     $(".search-result").each(function(i, item) {
       setTimeout(function() {
         $(item).addClass("fade-out");
-        if ((i+1) === $(".search-result").length) {
-          that.props.onCreate();
-        }
       }, (i+1)*200);
     });
+    setTimeout(function() {
+      that.props.onCreate();
+    }, ($(".search-result").length+1)*200);
   },
   render: function() {
     return (
@@ -184,7 +184,7 @@ var SearchPage = React.createClass({
     if (this.state.creating) {
       return (
         <div className="search-area">
-          <CreateService fadeIn={true} />
+          <CreateService fadeIn={this.props.originalTarget !== "create-service"} />
         </div>
       );
     } else if (this.state.selected === -1) {

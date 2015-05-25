@@ -3,7 +3,7 @@ var ServicePanel = React.createClass({displayName: "ServicePanel",
     return (
       React.createElement("div", {className: "search-panel text-center"}, 
         React.createElement("div", {className: "container"}, 
-          React.createElement(SearchPage, {creating: true})
+          React.createElement(SearchPage, {creating: true, originalTarget: "create-service"})
         )
       )
     );
