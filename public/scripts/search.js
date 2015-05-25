@@ -37,7 +37,7 @@ var CreateResult = React.createClass({displayName: "CreateResult",
         if ((i+1) === $(".search-result").length) {
           that.props.onCreate();
         }
-      }, (i+1)*100);
+      }, (i+1)*200);
     });
   },
   render: function() {
@@ -78,10 +78,13 @@ var SearchResults = React.createClass({displayName: "SearchResults",
     }
   },
   componentDidMount: function() {
-    $(".create-search-result").removeClass("hidden");
+    if (window.location.pathname !== "/") {
+      $(".create-search-result").removeClass("hidden");
+    }
     this.standardizeResultHeights();
   },
   componentDidUpdate: function() {
+    $(".create-search-result").removeClass("hidden");
     this.standardizeResultHeights();
   },
   newService: function() {
@@ -174,9 +177,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
   },
   createService: function() {
-    console.log('createService')
-    console.log(this)
-    this.props.onAddService();
+    history.pushState(null, null, "/service/create");
   },
   render: function() {
     if (this.state.selected === -1) {

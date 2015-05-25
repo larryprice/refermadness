@@ -7,10 +7,6 @@ var SearchPanel = React.createClass({displayName: "SearchPanel",
       history.pushState(null, null, "/search");
     }
   },
-  switchToCreate: function() {
-    console.log("create from landing");
-    history.pushState(null, null, "/service/create");
-  },
   render: function() {
     return (
       React.createElement("div", {className: "search-panel text-center"}, 
@@ -18,7 +14,7 @@ var SearchPanel = React.createClass({displayName: "SearchPanel",
         React.createElement("div", {className: "container"}, 
           React.createElement("h1", {className: "search-panel-message"}, React.createElement("strong", null, "Looking for referral links?")), 
           React.createElement("h2", {className: "search-panel-message"}, React.createElement("strong", null, "Start searching below to find your product or service.")), 
-          React.createElement(SearchPage, {onNonEmptySearch: this.handleSearchActivated, onAddService: this.switchToCreate})
+          React.createElement(SearchPage, {onNonEmptySearch: this.handleSearchActivated})
         )
       )
     );
