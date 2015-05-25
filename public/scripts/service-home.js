@@ -1,6 +1,7 @@
 var ServicePanel = React.createClass({displayName: "ServicePanel",
   switchToCreate: function() {
-    console.log("create from service")
+    console.log("create from service");
+    history.pushState(null, null, "/service/create");
   },
   render: function() {
     return (

@@ -1,6 +1,7 @@
 var SearchPanel = React.createClass({displayName: "SearchPanel",
   switchToCreate: function() {
-    console.log("create from search")
+    console.log("create from search");
+    history.pushState(null, null, "/service/create");
   },
   render: function() {
     return (

@@ -8,7 +8,8 @@ var SearchPanel = React.createClass({displayName: "SearchPanel",
     }
   },
   switchToCreate: function() {
-    console.log("create from landing")
+    console.log("create from landing");
+    history.pushState(null, null, "/service/create");
   },
   render: function() {
     return (
