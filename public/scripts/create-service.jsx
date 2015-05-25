@@ -1,10 +1,22 @@
+var FormError = React.createClass({
+  render: function() {
+    return (
+      <div className="form-error">
+        <span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span className="sr-only">(error)</span>
+      </div>
+    );
+  }
+});
+
 var CreateServiceName = React.createClass({
   render: function() {
     return (
-      <div className="form-group">
+      <div className="form-group create-service-name">
         <label className="col-sm-3 col-xs-12 control-label" for="create-service-name">Name</label>
         <div className="col-sm-9 col-xs-12">
           <input type="text" className="form-control input-lg" id="create-service-name" placeholder="Name of the service..."/>
+          <FormError />
         </div>
       </div>
     );
@@ -14,10 +26,11 @@ var CreateServiceName = React.createClass({
 var CreateServiceURL = React.createClass({
   render: function() {
     return (
-      <div className="form-group">
+      <div className="form-group create-service-url">
         <label className="col-sm-3 col-xs-12 control-label" for="create-service-url">URL</label>
         <div className="col-sm-9 col-xs-12">
           <input type="text" className="form-control input-lg" id="create-service-url" placeholder="URL to the service..."/>
+          <FormError />
         </div>
       </div>
     );
@@ -27,10 +40,11 @@ var CreateServiceURL = React.createClass({
 var CreateServiceDescription = React.createClass({
   render: function() {
     return (
-      <div className="form-group">
+      <div className="form-group create-service-description">
         <label className="col-sm-3 col-xs-12 control-label" for="create-service-description">Description</label>
         <div className="col-sm-9 col-xs-12">
           <input type="text" className="form-control input-lg" id="create-service-description" placeholder="Describe the service in a few words..."/>
+          <FormError />
         </div>
       </div>
     );
@@ -40,6 +54,30 @@ var CreateServiceDescription = React.createClass({
 var CreateServiceButton = React.createClass({
   addService: function(e) {
     e.preventDefault();
+
+    $(".create-service-name, .create-service-description, .create-service-url").removeClass("has-error");
+    var validationError = false;
+    if ($("#create-service-name").val() === "") {
+      $(".create-service-name").addClass("has-error");
+      validationError = true;
+    }
+    if ($("#create-service-url").val() === "") {
+      $(".create-service-url").addClass("has-error");
+      validationError = true;
+    }
+    if ($("#create-service-description").val() === "") {
+      $(".create-service-description").addClass("has-error");
+      validationError = true;
+    }
+
+    $("#create-service-name, #create-service-description, #create-service-url").one("keyup", function() {
+      $(this).closest(".form-group").removeClass("has-error");
+    });
+
+    if (validationError) {
+      return;
+    }
+
     $(".form-group .glyphicon").addClass("spin infinite");
     var that = this;
     setTimeout(function() {

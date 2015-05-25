@@ -1,10 +1,22 @@
+var FormError = React.createClass({displayName: "FormError",
+  render: function() {
+    return (
+      React.createElement("div", {className: "form-error"}, 
+        React.createElement("span", {className: "glyphicon glyphicon-remove form-control-feedback", "aria-hidden": "true"}), 
+        React.createElement("span", {className: "sr-only"}, "(error)")
+      )
+    );
+  }
+});
+
 var CreateServiceName = React.createClass({displayName: "CreateServiceName",
   render: function() {
     return (
-      React.createElement("div", {className: "form-group"}, 
+      React.createElement("div", {className: "form-group create-service-name"}, 
         React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-name"}, "Name"), 
         React.createElement("div", {className: "col-sm-9 col-xs-12"}, 
-          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-name", placeholder: "Name of the service..."})
+          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-name", placeholder: "Name of the service..."}), 
+          React.createElement(FormError, null)
         )
       )
     );
@@ -14,10 +26,11 @@ var CreateServiceName = React.createClass({displayName: "CreateServiceName",
 var CreateServiceURL = React.createClass({displayName: "CreateServiceURL",
   render: function() {
     return (
-      React.createElement("div", {className: "form-group"}, 
+      React.createElement("div", {className: "form-group create-service-url"}, 
         React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-url"}, "URL"), 
         React.createElement("div", {className: "col-sm-9 col-xs-12"}, 
-          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-url", placeholder: "URL to the service..."})
+          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-url", placeholder: "URL to the service..."}), 
+          React.createElement(FormError, null)
         )
       )
     );
@@ -27,10 +40,11 @@ var CreateServiceURL = React.createClass({displayName: "CreateServiceURL",
 var CreateServiceDescription = React.createClass({displayName: "CreateServiceDescription",
   render: function() {
     return (
-      React.createElement("div", {className: "form-group"}, 
+      React.createElement("div", {className: "form-group create-service-description"}, 
         React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-description"}, "Description"), 
         React.createElement("div", {className: "col-sm-9 col-xs-12"}, 
-          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-description", placeholder: "Describe the service in a few words..."})
+          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-description", placeholder: "Describe the service in a few words..."}), 
+          React.createElement(FormError, null)
         )
       )
     );
@@ -40,6 +54,30 @@ var CreateServiceDescription = React.createClass({displayName: "CreateServiceDes
 var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
   addService: function(e) {
     e.preventDefault();
+
+    $(".create-service-name, .create-service-description, .create-service-url").removeClass("has-error");
+    var validationError = false;
+    if ($("#create-service-name").val() === "") {
+      $(".create-service-name").addClass("has-error");
+      validationError = true;
+    }
+    if ($("#create-service-url").val() === "") {
+      $(".create-service-url").addClass("has-error");
+      validationError = true;
+    }
+    if ($("#create-service-description").val() === "") {
+      $(".create-service-description").addClass("has-error");
+      validationError = true;
+    }
+
+    $("#create-service-name, #create-service-description, #create-service-url").one("keyup", function() {
+      $(this).closest(".form-group").removeClass("has-error");
+    });
+
+    if (validationError) {
+      return;
+    }
+
     $(".form-group .glyphicon").addClass("spin infinite");
     var that = this;
     setTimeout(function() {

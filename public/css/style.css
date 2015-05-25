@@ -346,6 +346,17 @@ body {
   opacity: 0; }
   .create-service .control-label {
     font-size: 24px; }
+  .create-service .has-error .control-label {
+    color: whitesmoke; }
+  .create-service .has-error .form-control {
+    background: #F5D5DE; }
+  .create-service .form-control-feedback {
+    color: white;
+    margin-right: 15px;
+    top: 6px;
+    font-size: 22px; }
+  .create-service .has-error .form-control-feedback {
+    color: #A94442; }
   .create-service .create-service-subtitle {
     font-size: 44px;
     font-weight: bold;
