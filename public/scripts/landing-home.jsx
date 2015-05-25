@@ -7,6 +7,9 @@ var SearchPanel = React.createClass({
       history.pushState(null, null, "/search");
     }
   },
+  switchToCreate: function() {
+    console.log("create from landing")
+  },
   render: function() {
     return (
       <div className="search-panel text-center">
@@ -14,7 +17,7 @@ var SearchPanel = React.createClass({
         <div className="container">
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
-          <SearchPage onNonEmptySearch={this.handleSearchActivated} />
+          <SearchPage onNonEmptySearch={this.handleSearchActivated} onAddService={this.switchToCreate} />
         </div>
       </div>
     );

@@ -1,9 +1,12 @@
 var SearchPanel = React.createClass({displayName: "SearchPanel",
+  switchToCreate: function() {
+    console.log("create from search")
+  },
   render: function() {
     return (
       React.createElement("div", {className: "search-panel text-center"}, 
         React.createElement("div", {className: "container"}, 
-          React.createElement(SearchPage, null)
+          React.createElement(SearchPage, {onAddService: this.switchToCreate})
         )
       )
     );

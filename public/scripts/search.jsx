@@ -37,7 +37,7 @@ var CreateResult = React.createClass({
         if ((i+1) === $(".search-result").length) {
           that.props.onCreate();
         }
-      }, (i+1)*250);
+      }, (i+1)*100);
     });
   },
   render: function() {
@@ -78,6 +78,7 @@ var SearchResults = React.createClass({
     }
   },
   componentDidMount: function() {
+    $(".create-search-result").removeClass("hidden");
     this.standardizeResultHeights();
   },
   componentDidUpdate: function() {
@@ -104,16 +105,7 @@ var SearchResults = React.createClass({
 });
 
 var SearchBox = React.createClass({
-  getInitialState: function() {
-    return {
-      firstSearch: true
-    };
-  },
   onTextChange: function(e) {
-    if (this.state.firstSearch) {
-      this.state.firstSearch = false;
-      $(".create-search-result").removeClass("hidden");
-    }
     this.props.onSearchTextChange(React.findDOMNode(this.refs.text).value);
   },
   edit: function(e) {
@@ -182,8 +174,9 @@ var SearchPage = React.createClass({
     history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
   },
   createService: function() {
-    this.setState({creating: true});
-    history.pushState(null, null, "/service/create");
+    console.log('createService')
+    console.log(this)
+    this.props.onAddService();
   },
   render: function() {
     if (this.state.selected === -1) {

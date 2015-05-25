@@ -25,7 +25,7 @@
   margin-bottom: 1em;
   word-wrap: break-word;
 
-  transition: opacity 1s;
+  transition: opacity .2s;
 
   &.fade-out {
     opacity: 0;

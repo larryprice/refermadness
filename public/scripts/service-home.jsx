@@ -1,9 +1,12 @@
 var ServicePanel = React.createClass({
+  switchToCreate: function() {
+    console.log("create from service")
+  },
   render: function() {
     return (
       <div className="search-panel text-center">
         <div className="container">
-          <SearchPage selected={this.props.service} />
+          <SearchPage selected={this.props.service} onAddService={this.switchToCreate} />
         </div>
       </div>
     );
