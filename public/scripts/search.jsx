@@ -116,6 +116,11 @@ var SearchBox = React.createClass({
     this.props.onSearchTextChange(currentSearch);
     history.pushState(null, null, "/search?q=" + currentSearch);
   },
+  componentDidMount: function() {
+    if (this.props.isReadonly !== true) {
+      $(".search-box input").select();
+    }
+  },
   render: function() {
     if (this.props.isReadonly !== true) {
       return (
