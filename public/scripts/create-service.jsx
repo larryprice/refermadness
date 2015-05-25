@@ -38,11 +38,19 @@ var CreateServiceDescription = React.createClass({
 });
 
 var CreateServiceButton = React.createClass({
+  addService: function(e) {
+    e.preventDefault();
+    $(".form-group .glyphicon").addClass("spin infinite");
+    setTimeout(function() {
+      console.log("POST /service/create");
+      that.onServiceCreated(2); // 2 == newserviceid
+    }, 300); // simulate ajax request
+  },
   render: function() {
     return (
       <div className="form-group">
         <div className="col-sm-offset-3 col-sm-9 col-xs-12">
-          <button type="submit" className="btn btn-default btn-lg">
+          <button type="submit" className="btn btn-default btn-lg" onClick={this.addService}>
             <span className="glyphicon glyphicon-plus"></span>
             Create Service
           </button>
@@ -62,6 +70,9 @@ var CreateService = React.createClass({
       $(".create-service").addClass("fade-in");
     }
   },
+  handleCreation: function() {
+
+  },
   render: function() {
     return (
       <div className="create-service">
@@ -79,7 +90,7 @@ var CreateService = React.createClass({
           <CreateServiceName />
           <CreateServiceURL />
           <CreateServiceDescription />
-          <CreateServiceButton />
+          <CreateServiceButton onServiceCreated={this.handleCreation} />
         </form>
       </div>
     );

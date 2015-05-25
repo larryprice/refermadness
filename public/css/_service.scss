@@ -58,34 +58,6 @@
   }
 
   .add-referral-code, .edit-referral-code, .referral-code-actions {
-    .glyphicon {
-      &.spin {
-        animation-name: loading-spin;
-        animation-duration: 1s;
-        animation-timing-function: linear;
-        -webkit-animation-name: loading-spin;
-        -webkit-animation-duration: 1s;
-        -webkit-animation-timing-function: linear;
-
-        &.infinite {
-          animation-iteration-count: infinite;
-          -webkit-animation-iteration-count: infinite;
-        }
-
-        &.fast {
-          animation-duration: 350ms;
-          -webkit-animation-duration: 350ms;
-        }
-      }
-
-      &.shake {
-        animation-name: shake;
-        animation-duration: 200ms;
-        animation-iteration-count: 2;
-        animation-timing-function: linear;
-        transform-origin: 50% 50%;
-      }
-    }
   }
 
   .view-result a {
@@ -176,26 +148,8 @@
   }
 }
 
-@keyframes loading-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to { 
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes shake {
   0% { transform: scale(1); }
   50% {transform: scale(0.7); }
   100% { transform: scale(1); }
-}
-
-@-webkit-keyframes loading-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to { 
-    -webkit-transform: rotate(360deg);
-  }
 }

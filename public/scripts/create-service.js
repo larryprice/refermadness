@@ -38,11 +38,19 @@ var CreateServiceDescription = React.createClass({displayName: "CreateServiceDes
 });
 
 var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
+  addService: function(e) {
+    e.preventDefault();
+    $(".form-group .glyphicon").addClass("spin infinite");
+    setTimeout(function() {
+      console.log("POST /service/create");
+      that.onServiceCreated(2); // 2 == newserviceid
+    }, 300); // simulate ajax request
+  },
   render: function() {
     return (
       React.createElement("div", {className: "form-group"}, 
         React.createElement("div", {className: "col-sm-offset-3 col-sm-9 col-xs-12"}, 
-          React.createElement("button", {type: "submit", className: "btn btn-default btn-lg"}, 
+          React.createElement("button", {type: "submit", className: "btn btn-default btn-lg", onClick: this.addService}, 
             React.createElement("span", {className: "glyphicon glyphicon-plus"}), 
             "Create Service"
           )
@@ -62,6 +70,9 @@ var CreateService = React.createClass({displayName: "CreateService",
       $(".create-service").addClass("fade-in");
     }
   },
+  handleCreation: function() {
+
+  },
   render: function() {
     return (
       React.createElement("div", {className: "create-service"}, 
@@ -79,7 +90,7 @@ var CreateService = React.createClass({displayName: "CreateService",
           React.createElement(CreateServiceName, null), 
           React.createElement(CreateServiceURL, null), 
           React.createElement(CreateServiceDescription, null), 
-          React.createElement(CreateServiceButton, null)
+          React.createElement(CreateServiceButton, {onServiceCreated: this.handleCreation})
         )
       )
     );
