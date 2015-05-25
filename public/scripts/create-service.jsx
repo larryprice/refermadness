@@ -41,9 +41,10 @@ var CreateServiceButton = React.createClass({
   addService: function(e) {
     e.preventDefault();
     $(".form-group .glyphicon").addClass("spin infinite");
+    var that = this;
     setTimeout(function() {
       console.log("POST /service/create");
-      that.onServiceCreated(2); // 2 == newserviceid
+      that.props.onServiceCreated(testData[2]); // ajax request returns newly created service
     }, 300); // simulate ajax request
   },
   render: function() {
@@ -70,8 +71,9 @@ var CreateService = React.createClass({
       $(".create-service").addClass("fade-in");
     }
   },
-  handleCreation: function() {
-
+  handleCreation: function(data) {
+    $(".create-service").removeClass("fade-in");
+    this.props.onCreated(data);
   },
   render: function() {
     return (

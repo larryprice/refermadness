@@ -180,11 +180,15 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     history.pushState(null, null, "/service/create");
     this.setState({creating: true});
   },
+  handleServiceCreated: function(service) {
+    history.pushState(null, null, "/service/" + service.id);
+    this.setState({creating: false, selected: service});
+  },
   render: function() {
     if (this.state.creating) {
       return (
         React.createElement("div", {className: "search-area"}, 
-          React.createElement(CreateService, {fadeIn: this.props.originalTarget !== "create-service"})
+          React.createElement(CreateService, {fadeIn: this.props.originalTarget !== "create-service", onCreated: this.handleServiceCreated})
         )
       );
     } else if (this.state.selected === -1) {
