@@ -1,0 +1,37 @@
+.create-service {
+  .control-label {
+    font-size: 24px;
+  }
+
+  .create-service-subtitle {
+    font-size: 44px;
+    font-weight: bold;
+    margin-bottom: .75em;
+    margin-top: .25em;
+  }
+
+  .create-service-title {
+    font-size: 28px;
+  }
+
+  transition: opacity 2s;
+  opacity: 0;
+
+  &.fade-in {
+    opacity: 1;
+  }
+
+  button {
+    float: left;
+    margin-top: .5em;
+
+    .glyphicon {
+      margin-right: .5em;
+      top: 2px;
+    }
+  }
+}
+
+.create-service-home .search-area {
+  margin-top: 0;
+}

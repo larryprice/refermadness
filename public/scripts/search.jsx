@@ -147,7 +147,7 @@ var SearchPage = React.createClass({
     return {
       data: this.getFilteredData(query),
       selected: this.props.selected || -1,
-      creating: false,
+      creating: this.props.creating,
       initialSearch: query
     };
   },
@@ -178,9 +178,16 @@ var SearchPage = React.createClass({
   },
   createService: function() {
     history.pushState(null, null, "/service/create");
+    this.setState({creating: true});
   },
   render: function() {
-    if (this.state.selected === -1) {
+    if (this.state.creating) {
+      return (
+        <div className="search-area">
+          <CreateService fadeIn={true} />
+        </div>
+      );
+    } else if (this.state.selected === -1) {
       return (
         <div className="search-area">
           <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
