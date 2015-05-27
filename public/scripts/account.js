@@ -76,6 +76,16 @@ var VerifyAccountDeletionApology = React.createClass({displayName: "VerifyAccoun
 });
 
 var VerifyAccountDeletionWarning = React.createClass({displayName: "VerifyAccountDeletionWarning",
+  validate: function() {
+    if ($(".delete-account-validation").val() === this.props.username) {
+      $(".warning-delete-message .btn-danger").prop("disabled", false).removeClass("disabled");
+    } else {
+      $(".warning-delete-message .btn-danger").prop("disabled", true).addClass("disabled");
+    }
+  },
+  componentDidMount: function() {
+    this.validate();
+  },
   render: function() {
     return (
       React.createElement("div", {className: "warning-delete-message collapse text-center"}, 
@@ -85,9 +95,19 @@ var VerifyAccountDeletionWarning = React.createClass({displayName: "VerifyAccoun
         React.createElement("h3", null, 
           "If you really want to leave, please ", React.createElement("strong", null, "enter your Google username in the textbox below"), "."
         ), 
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-sm-4 col-sm-offset-4 col-xs-12"}, 
+            React.createElement("form", {onsubmit: "return false;"}, 
+              React.createElement("div", {className: "form-group"}, 
+                React.createElement("input", {type: "text", className: "form-control input-lg delete-account-validation", 
+                       onChange: this.validate, placeholder: "Enter your Google identity..."})
+              )
+            )
+          )
+        ), 
         React.createElement("button", {className: "btn btn-danger btn-lg", onClick: this.props.onContinue}, 
           React.createElement("span", {className: "glyphicon glyphicon-fire"}), 
-          "Delete"
+          "Permanently Delete Account"
         ), 
         React.createElement(CancelAccountDeletion, {onClick: this.props.onCancel})
       )
@@ -113,6 +133,7 @@ var DeleteAccount = React.createClass({displayName: "DeleteAccount",
     $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
     setTimeout(function() {
       window.location.href = "/";
+      $(".warning-delete-message .btn-danger .glyphicon").removeClass("spin fast infinite");
       // alternatively, send the user to a survey page
     }, 300);
   },
@@ -131,7 +152,7 @@ var DeleteAccount = React.createClass({displayName: "DeleteAccount",
         ), 
         React.createElement(VerifyAccountDeletionDesparation, {onContinue: this.apologize, onCancel: this.rejectDelete}), 
         React.createElement(VerifyAccountDeletionApology, {onContinue: this.finalWarning, onCancel: this.rejectDelete}), 
-        React.createElement(VerifyAccountDeletionWarning, {onContinue: this.confirmDelete, onCancel: this.rejectDelete})
+        React.createElement(VerifyAccountDeletionWarning, {onContinue: this.confirmDelete, onCancel: this.rejectDelete, username: this.props.username})
       )
     );
   }
@@ -150,7 +171,7 @@ var LoginSettings = React.createClass({displayName: "LoginSettings",
           "You are currently logged in as ", React.createElement("strong", null, this.state.username)
         ), 
         React.createElement(SwitchAccounts, null), 
-        React.createElement(DeleteAccount, null)
+        React.createElement(DeleteAccount, {username: this.state.username})
       )
     );
   }

@@ -398,10 +398,18 @@ body {
   margin-bottom: 1em; }
   .account-home .login-settings .desperate-delete-message button, .account-home .login-settings .apologetic-delete-message button, .account-home .login-settings .warning-delete-message button {
     margin-top: 1em; }
+    .account-home .login-settings .desperate-delete-message button.disabled, .account-home .login-settings .apologetic-delete-message button.disabled, .account-home .login-settings .warning-delete-message button.disabled {
+      opacity: .9;
+      pointer-events: auto; }
   .account-home .login-settings .desperate-delete-message.collapsing, .account-home .login-settings .apologetic-delete-message.collapsing, .account-home .login-settings .warning-delete-message.collapsing {
     max-height: 230px; }
   .account-home .login-settings .desperate-delete-message .cancel-account-deletion, .account-home .login-settings .apologetic-delete-message .cancel-account-deletion, .account-home .login-settings .warning-delete-message .cancel-account-deletion {
     margin-left: 1em; }
+.account-home .login-settings .warning-delete-message form {
+  margin-bottom: 0; }
+.account-home .login-settings .warning-delete-message .form-group {
+  margin-top: .5em;
+  margin-bottom: .5em; }
 .account-home .user-referral-codes {
   border-top: .1em dotted whitesmoke; }
 

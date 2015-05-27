@@ -76,6 +76,16 @@ var VerifyAccountDeletionApology = React.createClass({
 });
 
 var VerifyAccountDeletionWarning = React.createClass({
+  validate: function() {
+    if ($(".delete-account-validation").val() === this.props.username) {
+      $(".warning-delete-message .btn-danger").prop("disabled", false).removeClass("disabled");
+    } else {
+      $(".warning-delete-message .btn-danger").prop("disabled", true).addClass("disabled");
+    }
+  },
+  componentDidMount: function() {
+    this.validate();
+  },
   render: function() {
     return (
       <div className="warning-delete-message collapse text-center">
@@ -85,9 +95,19 @@ var VerifyAccountDeletionWarning = React.createClass({
         <h3>
           If you really want to leave, please <strong>enter your Google username in the textbox below</strong>.
         </h3>
+        <div className="row">
+          <div className="col-sm-4 col-sm-offset-4 col-xs-12">
+            <form onsubmit="return false;">
+              <div className="form-group">
+                <input type="text" className="form-control input-lg delete-account-validation"
+                       onChange={this.validate} placeholder="Enter your Google identity..." />
+              </div>
+            </form>
+          </div>
+        </div>
         <button className="btn btn-danger btn-lg" onClick={this.props.onContinue}>
           <span className="glyphicon glyphicon-fire"></span>
-          Delete
+          Permanently Delete Account
         </button>
         <CancelAccountDeletion onClick={this.props.onCancel} />
       </div>
@@ -113,6 +133,7 @@ var DeleteAccount = React.createClass({
     $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
     setTimeout(function() {
       window.location.href = "/";
+      $(".warning-delete-message .btn-danger .glyphicon").removeClass("spin fast infinite");
       // alternatively, send the user to a survey page
     }, 300);
   },
@@ -131,7 +152,7 @@ var DeleteAccount = React.createClass({
         </div>
         <VerifyAccountDeletionDesparation onContinue={this.apologize} onCancel={this.rejectDelete} />
         <VerifyAccountDeletionApology onContinue={this.finalWarning} onCancel={this.rejectDelete} />
-        <VerifyAccountDeletionWarning onContinue={this.confirmDelete} onCancel={this.rejectDelete} />
+        <VerifyAccountDeletionWarning onContinue={this.confirmDelete} onCancel={this.rejectDelete} username={this.props.username} />
       </div>
     );
   }
@@ -150,7 +171,7 @@ var LoginSettings = React.createClass({
           You are currently logged in as <strong>{this.state.username}</strong>
         </h2>
         <SwitchAccounts />
-        <DeleteAccount />
+        <DeleteAccount username={this.state.username} />
       </div>
     );
   }

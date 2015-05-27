@@ -36,6 +36,11 @@
 
       button {
         margin-top: 1em;
+
+        &.disabled {
+          opacity: .9;
+          pointer-events: auto;
+        }
       }
 
       &.collapsing {
@@ -44,6 +49,17 @@
 
       .cancel-account-deletion {
         margin-left: 1em;
+      }
+    }
+
+    .warning-delete-message {
+      form {
+        margin-bottom: 0;
+      }
+
+      .form-group {
+        margin-top: .5em;
+        margin-bottom: .5em;
       }
     }
   }
