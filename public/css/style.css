@@ -376,4 +376,19 @@ body {
 .create-service-home .search-area {
   margin-top: 0; }
 
+.account-home .login-settings h2 {
+  margin-top: 1em; }
+.account-home .login-settings button {
+  white-space: normal; }
+  .account-home .login-settings button .glyphicon {
+    margin-right: .5em;
+    top: 3px; }
+  .account-home .login-settings button.switch-accounts {
+    margin-top: 2em; }
+  .account-home .login-settings button.delete-account {
+    margin-top: 2em;
+    margin-bottom: 3em; }
+.account-home .user-referral-codes {
+  border-top: .1em dotted whitesmoke; }
+
 /*# sourceMappingURL=style.css.map */

@@ -1,0 +1,29 @@
+.account-home {
+  .login-settings {
+    h2 {
+      margin-top: 1em;
+    }
+
+    button {
+      white-space: normal;
+
+      .glyphicon {
+        margin-right: .5em;
+        top: 3px;
+      }
+
+      &.switch-accounts {
+        margin-top: 2em;
+      }
+
+      &.delete-account {
+        margin-top: 2em;
+        margin-bottom: 3em;
+      }
+    }
+  }
+
+  .user-referral-codes {
+    border-top: .1em dotted whitesmoke;
+  }
+}
