@@ -19,6 +19,32 @@
       &.delete-account {
         margin-top: 2em;
         margin-bottom: 3em;
+
+        transition: opacity .5s, margin-top .3s .2s, height .5s .1s;
+        opacity: 1;
+
+        &.fade-out {
+          opacity: 0;
+          height: 0;
+          margin-top: -15px;
+        }
+      }
+    }
+
+    .desperate-delete-message, .apologetic-delete-message, .warning-delete-message {
+      margin-bottom: 1em;
+
+      button {
+        margin-top: 1em;
+      }
+
+      &.in {
+        height: 230px;
+      }
+      max-height: 250px;
+
+      .cancel-account-deletion {
+        margin-left: 1em;
       }
     }
   }
