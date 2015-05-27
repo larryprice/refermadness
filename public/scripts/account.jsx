@@ -15,9 +15,14 @@ var SwitchAccounts = React.createClass({
     return (
       <div className="row">
         <div className="col-xs-12 text-center">
+          <span className="hidden">Oh, you want to change which Google identity you use to authenticate?</span>
           <button className="btn btn-default btn-lg switch-accounts" onClick={this.switchAccounts}>
-          <span className="glyphicon glyphicon-transfer"></span>
-            Use Different Account
+            <span className="glyphicon glyphicon-transfer"></span>
+            Use Different Google Identity
+          </button>
+          <button className="btn btn-default hidden">
+            <span className="glyphicon glyphicon glyphicon-ban-circle"></span>
+            Nope
           </button>
         </div>
       </div>
@@ -105,6 +110,11 @@ var DeleteAccount = React.createClass({
   },
   confirmDelete: function() {
     console.log("send oauth delete request to google, delete account data in our database, clear session");
+    $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
+    setTimeout(function() {
+      window.location.href = "/";
+      // alternatively, send the user to a survey page
+    }, 300);
   },
   rejectDelete: function() {
     $(".desperate-delete-message, .apologetic-delete-message, .warning-delete-message").collapse("hide");

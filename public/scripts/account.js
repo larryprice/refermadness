@@ -15,9 +15,14 @@ var SwitchAccounts = React.createClass({displayName: "SwitchAccounts",
     return (
       React.createElement("div", {className: "row"}, 
         React.createElement("div", {className: "col-xs-12 text-center"}, 
+          React.createElement("span", {className: "hidden"}, "Oh, you want to change which Google identity you use to authenticate?"), 
           React.createElement("button", {className: "btn btn-default btn-lg switch-accounts", onClick: this.switchAccounts}, 
-          React.createElement("span", {className: "glyphicon glyphicon-transfer"}), 
-            "Use Different Account"
+            React.createElement("span", {className: "glyphicon glyphicon-transfer"}), 
+            "Use Different Google Identity"
+          ), 
+          React.createElement("button", {className: "btn btn-default hidden"}, 
+            React.createElement("span", {className: "glyphicon glyphicon glyphicon-ban-circle"}), 
+            "Nope"
           )
         )
       )
@@ -105,6 +110,11 @@ var DeleteAccount = React.createClass({displayName: "DeleteAccount",
   },
   confirmDelete: function() {
     console.log("send oauth delete request to google, delete account data in our database, clear session");
+    $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
+    setTimeout(function() {
+      window.location.href = "/";
+      // alternatively, send the user to a survey page
+    }, 300);
   },
   rejectDelete: function() {
     $(".desperate-delete-message, .apologetic-delete-message, .warning-delete-message").collapse("hide");
