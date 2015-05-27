@@ -38,10 +38,9 @@
         margin-top: 1em;
       }
 
-      &.in {
-        height: 230px;
+      &.collapsing {
+        max-height: 230px;
       }
-      max-height: 250px;
 
       .cancel-account-deletion {
         margin-left: 1em;

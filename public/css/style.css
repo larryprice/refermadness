@@ -395,12 +395,11 @@ body {
       height: 0;
       margin-top: -15px; }
 .account-home .login-settings .desperate-delete-message, .account-home .login-settings .apologetic-delete-message, .account-home .login-settings .warning-delete-message {
-  margin-bottom: 1em;
-  max-height: 250px; }
+  margin-bottom: 1em; }
   .account-home .login-settings .desperate-delete-message button, .account-home .login-settings .apologetic-delete-message button, .account-home .login-settings .warning-delete-message button {
     margin-top: 1em; }
-  .account-home .login-settings .desperate-delete-message.in, .account-home .login-settings .apologetic-delete-message.in, .account-home .login-settings .warning-delete-message.in {
-    height: 230px; }
+  .account-home .login-settings .desperate-delete-message.collapsing, .account-home .login-settings .apologetic-delete-message.collapsing, .account-home .login-settings .warning-delete-message.collapsing {
+    max-height: 230px; }
   .account-home .login-settings .desperate-delete-message .cancel-account-deletion, .account-home .login-settings .apologetic-delete-message .cancel-account-deletion, .account-home .login-settings .warning-delete-message .cancel-account-deletion {
     margin-left: 1em; }
 .account-home .user-referral-codes {
