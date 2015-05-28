@@ -26,7 +26,14 @@ var SwitchAccounts = React.createClass({displayName: "SwitchAccounts",
     });
   },
   redirect: function() {
-    console.log("redirect");
+    console.log("send to Google for selecting identity");
+  },
+  cancel: function() {
+    $(".switch-account-information").addClass("fade-out");
+    var that = this;
+    setTimeout(function() {
+      that.setState({waitForConfirmation: false})
+    }, 300);
   },
   render: function () {
     if (!this.state.waitForConfirmation) {
@@ -47,9 +54,9 @@ var SwitchAccounts = React.createClass({displayName: "SwitchAccounts",
             React.createElement("span", {className: "switch-account-confirmation"}, "Change which Google identity you use to authenticate?"), 
             React.createElement("button", {className: "btn btn-default btn-lg btn-google switch-accounts", onClick: this.redirect}, 
               React.createElement("span", {className: "glyphicon google-plus"}), 
-              "Redirect to Google"
+              "Yup, take me to Google"
             ), 
-            React.createElement("button", {className: "btn btn-default btn-lg switch-accounts-cancel"}, 
+            React.createElement("button", {className: "btn btn-default btn-lg switch-accounts-cancel", onClick: this.cancel}, 
               React.createElement("span", {className: "glyphicon glyphicon glyphicon-ban-circle"}), 
               "Nevermind"
             )
