@@ -7,6 +7,7 @@ import (
 	"github.com/unrolled/render"
 	"html/template"
 	"net/http"
+	"net/url"
 	"os"
 )
 
@@ -61,8 +62,18 @@ func main() {
 			fmt.Println("Error in OAuth", r.FormValue("error"))
 			// redirect to wherever we came from with error message
 		}
+		redirectURI := r.Host
+		if r.URL.Scheme == "" {
+			redirectURI = "http://" + redirectURI + "/oauth2callback"
+		} else {
+			redirectURI = "https://" + redirectURI + "/oauth2callback"
+		}
 		// send token request
-		fmt.Println(r.FormValue("code"))
+		resp, err := http.PostForm("https://www.googleapis.com/oauth2/v3/token",
+			url.Values{"code": {r.FormValue("code")}, "grant_type": {"authorization_code"}, "redirect_uri": {redirectURI},
+			"client_id": {os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")}, "client_secret": {os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")}})
+		fmt.Println(resp, err)
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 	})
 
 	r := render.New()
