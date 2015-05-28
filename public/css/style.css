@@ -6,6 +6,11 @@
   border-color: whitesmoke;
   white-space: normal; }
 
+.btn-google,
+.btn-google:hover,
+.btn-google:focus {
+  background-color: #2196f3; }
+
 .btn-default:hover {
   opacity: 0.85; }
 
@@ -383,8 +388,6 @@ body {
   .account-home .login-settings button .glyphicon {
     margin-right: .5em;
     top: 3px; }
-  .account-home .login-settings button.switch-accounts {
-    margin-top: 2em; }
   .account-home .login-settings button.delete-account {
     margin-top: 2em;
     margin-bottom: 3em;
@@ -394,6 +397,25 @@ body {
       opacity: 0;
       height: 0;
       margin-top: -15px; }
+.account-home .login-settings .switch-accounts-cancel {
+  margin-left: .5em; }
+.account-home .login-settings .switch-account-information {
+  margin-top: 2em;
+  transition: opacity .5s;
+  opacity: 1; }
+  .account-home .login-settings .switch-account-information.fade-out {
+    opacity: 0; }
+  .account-home .login-settings .switch-account-information .switch-account-confirmation {
+    font-size: 24px;
+    margin-right: 1em; }
+  .account-home .login-settings .switch-account-information .google-plus {
+    background-image: url("/img/google-plus.png");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    width: 18px;
+    height: 18px;
+    top: .2em;
+    margin-right: .5em; }
 .account-home .login-settings .desperate-delete-message, .account-home .login-settings .apologetic-delete-message, .account-home .login-settings .warning-delete-message {
   margin-bottom: 1em; }
   .account-home .login-settings .desperate-delete-message button, .account-home .login-settings .apologetic-delete-message button, .account-home .login-settings .warning-delete-message button {

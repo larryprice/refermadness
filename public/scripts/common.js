@@ -81,7 +81,7 @@ var AuthenticatePanel = React.createClass({displayName: "AuthenticatePanel",
             React.createElement("div", {className: "login-faq-question"}, React.createElement("strong", null, "Where's the legal information?")), 
             React.createElement("div", {className: "login-faq-answer"}, "You can view the privacy policy and terms of service on ", React.createElement("a", {href: "/legal"}, "the legal page"), ".")
           ), 
-          React.createElement("button", {className: "btn btn-default btn-lg", onClick: this.authenticate}, 
+          React.createElement("button", {className: "btn btn-default btn-lg btn-google", onClick: this.authenticate}, 
             React.createElement("span", {className: "glyphicon google-plus"}), 
             "Sign in with Google"
           ), 

@@ -81,7 +81,7 @@ var AuthenticatePanel = React.createClass({
             <div className="login-faq-question"><strong>Where&apos;s the legal information?</strong></div>
             <div className="login-faq-answer">You can view the privacy policy and terms of service on <a href="/legal">the legal page</a>.</div>
           </div>
-          <button className="btn btn-default btn-lg" onClick={this.authenticate}>
+          <button className="btn btn-default btn-lg btn-google" onClick={this.authenticate}>
             <span className="glyphicon google-plus"></span>
             Sign in with Google
           </button>

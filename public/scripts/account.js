@@ -8,25 +8,55 @@ var UserReferralCodes = React.createClass({displayName: "UserReferralCodes",
 });
 
 var SwitchAccounts = React.createClass({displayName: "SwitchAccounts",
+  getInitialState: function() {
+    return {
+      waitForConfirmation: false
+    }
+  },
   switchAccounts: function() {
-    console.log("Warning about redirect with confirmation");
+    $(".switch-account-information").addClass("fade-out");
+    var that = this;
+    setTimeout(function() {
+      that.setState({waitForConfirmation: true})
+    }, 300);
+  },
+  componentDidUpdate: function() {
+    setTimeout(function() {
+      $(".switch-account-information").removeClass("fade-out");
+    });
+  },
+  redirect: function() {
+    console.log("redirect");
   },
   render: function () {
-    return (
-      React.createElement("div", {className: "row"}, 
-        React.createElement("div", {className: "col-xs-12 text-center"}, 
-          React.createElement("span", {className: "hidden"}, "Oh, you want to change which Google identity you use to authenticate?"), 
-          React.createElement("button", {className: "btn btn-default btn-lg switch-accounts", onClick: this.switchAccounts}, 
-            React.createElement("span", {className: "glyphicon glyphicon-transfer"}), 
-            "Use Different Google Identity"
-          ), 
-          React.createElement("button", {className: "btn btn-default hidden"}, 
-            React.createElement("span", {className: "glyphicon glyphicon glyphicon-ban-circle"}), 
-            "Nope"
+    if (!this.state.waitForConfirmation) {
+      return (
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-xs-12 text-center switch-account-information"}, 
+            React.createElement("button", {className: "btn btn-default btn-lg switch-accounts", onClick: this.switchAccounts}, 
+              React.createElement("span", {className: "glyphicon glyphicon-transfer"}), 
+              "Use Different Google Identity"
+            )
           )
         )
-      )
-    );
+      );
+    } else {
+      return (
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-xs-12 text-center switch-account-information"}, 
+            React.createElement("span", {className: "switch-account-confirmation"}, "Change which Google identity you use to authenticate?"), 
+            React.createElement("button", {className: "btn btn-default btn-lg btn-google switch-accounts", onClick: this.redirect}, 
+              React.createElement("span", {className: "glyphicon google-plus"}), 
+              "Redirect to Google"
+            ), 
+            React.createElement("button", {className: "btn btn-default btn-lg switch-accounts-cancel"}, 
+              React.createElement("span", {className: "glyphicon glyphicon glyphicon-ban-circle"}), 
+              "Nevermind"
+            )
+          )
+        )
+      );
+    }
   }
 });
 
@@ -131,9 +161,11 @@ var DeleteAccount = React.createClass({displayName: "DeleteAccount",
   confirmDelete: function() {
     console.log("send oauth delete request to google, delete account data in our database, clear session");
     $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
+    var that = this;
     setTimeout(function() {
       window.location.href = "/";
       $(".warning-delete-message .btn-danger .glyphicon").removeClass("spin fast infinite");
+      that.rejectDelete();
       // alternatively, send the user to a survey page
     }, 300);
   },

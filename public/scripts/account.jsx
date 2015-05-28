@@ -8,25 +8,55 @@ var UserReferralCodes = React.createClass({
 });
 
 var SwitchAccounts = React.createClass({
+  getInitialState: function() {
+    return {
+      waitForConfirmation: false
+    }
+  },
   switchAccounts: function() {
-    console.log("Warning about redirect with confirmation");
+    $(".switch-account-information").addClass("fade-out");
+    var that = this;
+    setTimeout(function() {
+      that.setState({waitForConfirmation: true})
+    }, 300);
+  },
+  componentDidUpdate: function() {
+    setTimeout(function() {
+      $(".switch-account-information").removeClass("fade-out");
+    });
+  },
+  redirect: function() {
+    console.log("redirect");
   },
   render: function () {
-    return (
-      <div className="row">
-        <div className="col-xs-12 text-center">
-          <span className="hidden">Oh, you want to change which Google identity you use to authenticate?</span>
-          <button className="btn btn-default btn-lg switch-accounts" onClick={this.switchAccounts}>
-            <span className="glyphicon glyphicon-transfer"></span>
-            Use Different Google Identity
-          </button>
-          <button className="btn btn-default hidden">
-            <span className="glyphicon glyphicon glyphicon-ban-circle"></span>
-            Nope
-          </button>
+    if (!this.state.waitForConfirmation) {
+      return (
+        <div className="row">
+          <div className="col-xs-12 text-center switch-account-information">
+            <button className="btn btn-default btn-lg switch-accounts" onClick={this.switchAccounts}>
+              <span className="glyphicon glyphicon-transfer"></span>
+              Use Different Google Identity
+            </button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="row">
+          <div className="col-xs-12 text-center switch-account-information">
+            <span className="switch-account-confirmation">Change which Google identity you use to authenticate?</span>
+            <button className="btn btn-default btn-lg btn-google switch-accounts" onClick={this.redirect}>
+              <span className="glyphicon google-plus"></span>
+              Redirect to Google
+            </button>
+            <button className="btn btn-default btn-lg switch-accounts-cancel">
+              <span className="glyphicon glyphicon glyphicon-ban-circle"></span>
+              Nevermind
+            </button>
+          </div>
+        </div>
+      );
+    }
   }
 });
 
@@ -131,9 +161,11 @@ var DeleteAccount = React.createClass({
   confirmDelete: function() {
     console.log("send oauth delete request to google, delete account data in our database, clear session");
     $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
+    var that = this;
     setTimeout(function() {
       window.location.href = "/";
       $(".warning-delete-message .btn-danger .glyphicon").removeClass("spin fast infinite");
+      that.rejectDelete();
       // alternatively, send the user to a survey page
     }, 300);
   },

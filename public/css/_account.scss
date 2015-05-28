@@ -12,10 +12,6 @@
         top: 3px;
       }
 
-      &.switch-accounts {
-        margin-top: 2em;
-      }
-
       &.delete-account {
         margin-top: 2em;
         margin-bottom: 3em;
@@ -28,6 +24,38 @@
           height: 0;
           margin-top: -15px;
         }
+      }
+    }
+
+    .switch-accounts-cancel {
+      margin-left: .5em;
+    }
+
+    .switch-account-information {
+      margin-top: 2em;
+
+      transition: opacity .5s;
+      opacity: 1;
+
+      &.fade-out {
+        opacity: 0;
+      }
+
+      .switch-account-confirmation {
+        font-size: 24px;
+        margin-right: 1em;
+      }
+
+      .google-plus {
+        background-image: url("/img/google-plus.png");
+        background-repeat: no-repeat;
+
+        background-size: 18px 18px;
+
+        width: 18px;
+        height: 18px;
+        top: .2em;
+        margin-right: .5em;
       }
     }
 
