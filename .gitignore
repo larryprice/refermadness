@@ -2,3 +2,4 @@
 gin-bin
 .sass-cache
 .module-cache
+.env

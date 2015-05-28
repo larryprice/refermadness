@@ -1,6 +1,7 @@
 main:
   image: golang:1.4
   command: make
+  env_file: .env
   volumes:
     - ./:/go/src/github.com/larryprice/refermadness
   working_dir: /go/src/github.com/larryprice/refermadness

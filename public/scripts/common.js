@@ -66,7 +66,7 @@ var AuthenticatePanel = React.createClass({displayName: "AuthenticatePanel",
   },
   authenticate: function() {
     // this link sends the user away
-    console.log("https://accounts.google.com/o/oauth2/auth?scope=email%20profile&state=security_token%3D138r5719ru3e1%26url%3Dhttps://oa2cb.example.com/myHome&redirect_uri=https%3A%2F%2Foauth2-login-demo.appspot.com%2Fcode&,response_type=code&client_id=812741506391.apps.googleusercontent.com&approval_prompt=force")
+    window.location.href = "/login";
   },
   render: function() {
     return (

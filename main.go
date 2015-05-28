@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
@@ -42,6 +43,26 @@ func main() {
 	router.HandleFunc("/service/{id}", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, nil)
+	})
+	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		redirectURI := r.Host
+		if r.URL.Scheme == "" {
+			redirectURI = "http%3A%2F%2F" + redirectURI + "%2foauth2callback"
+		} else {
+			redirectURI = "https%3A%2F%2F" + redirectURI + "%2foauth2callback"
+		}
+		http.Redirect(w, r,
+			"https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri="+
+				redirectURI+"&response_type=code&client_id="+os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
+			http.StatusTemporaryRedirect)
+	})
+	router.HandleFunc("/oauth2callback", func(w http.ResponseWriter, r *http.Request) {
+		if r.FormValue("error") != "" {
+			fmt.Println("Error in OAuth", r.FormValue("error"))
+			// redirect to wherever we came from with error message
+		}
+		// send token request
+		fmt.Println(r.FormValue("code"))
 	})
 
 	r := render.New()
