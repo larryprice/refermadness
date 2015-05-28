@@ -60,6 +60,9 @@ input[type=text].disabled {
     -webkit-transform: rotate(0deg); }
   to {
     -webkit-transform: rotate(360deg); } }
+#terms p {
+  font-size: 14px; }
+
 #content {
   font-size: 28px;
   font-family: 'Muli', sans-serif;
