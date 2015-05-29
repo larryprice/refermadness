@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/larryprice/refermadness/utils"
 	"github.com/larryprice/refermadness/web"
-  "github.com/larryprice/refermadness/utils"
 	"github.com/stretchr/graceful"
 	"os"
 )
@@ -14,9 +14,9 @@ func main() {
 		dbURL = os.Getenv("DB_PORT_27017_TCP_ADDR")
 	}
 
-  dbAccessor := utils.NewDatabaseAccessor(dbURL, os.Getenv("DATABASE_NAME"), 0)
+	dbAccessor := utils.NewDatabaseAccessor(dbURL, os.Getenv("DATABASE_NAME"), 0)
 	s := web.NewServer(*dbAccessor, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
-    os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("SESSION_SECRET"), isDevelopment)
+		os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("SESSION_SECRET"), isDevelopment)
 
 	port := os.Getenv("PORT")
 	if port == "" {

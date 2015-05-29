@@ -2,12 +2,12 @@ package web
 
 import (
 	"github.com/codegangsta/negroni"
+	"github.com/goincremental/negroni-sessions"
+	"github.com/goincremental/negroni-sessions/cookiestore"
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/controllers"
-  "github.com/goincremental/negroni-sessions"
-  "github.com/goincremental/negroni-sessions/cookiestore"
-  "github.com/larryprice/refermadness/utils"
-  "github.com/larryprice/refermadness/web/middleware"
+	"github.com/larryprice/refermadness/utils"
+	"github.com/larryprice/refermadness/web/middleware"
 	"html/template"
 	"net/http"
 )
@@ -18,7 +18,7 @@ type Server struct {
 
 func NewServer(dba utils.DatabaseAccessor, clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
-  session := utils.NewSessionManager()
+	session := utils.NewSessionManager()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -48,8 +48,8 @@ func NewServer(dba utils.DatabaseAccessor, clientID, clientSecret, sessionSecret
 	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba)
 	authenticationController.Register(router)
 
-  s.Use(middleware.NewDatabase(dba).Middleware())
-  s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
+	s.Use(middleware.NewDatabase(dba).Middleware())
+	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.UseHandler(router)
 
 	return &s

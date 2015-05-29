@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/codegangsta/negroni"
-	"net/http"
 	"github.com/larryprice/refermadness/utils"
+	"net/http"
 )
 
 type Database struct {

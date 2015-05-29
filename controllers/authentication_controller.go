@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"github.com/larryprice/refermadness/models"
+	"github.com/larryprice/refermadness/utils"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"github.com/larryprice/refermadness/utils"
-	"github.com/larryprice/refermadness/models"
 )
 
 type AuthenticationController interface {
@@ -21,8 +21,8 @@ type AuthenticationControllerImpl struct {
 	clientSecret string
 	scheme       string
 
-	session      utils.SessionManager
-	database     utils.DatabaseAccessor
+	session  utils.SessionManager
+	database utils.DatabaseAccessor
 }
 
 func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool,
@@ -36,7 +36,7 @@ func NewAuthenticationController(clientID, clientSecret string, isDevelopment bo
 		clientSecret: clientSecret,
 		scheme:       scheme,
 		session:      session,
-		database: database,
+		database:     database,
 	}
 }
 
@@ -86,14 +86,12 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 	accessToken := result["access_token"].(string)
 	db := ac.database.Get(r)
 	if user.FindByEmail(email, db); user.ID.Valid() {
-		fmt.Println("existing")
 		user.Update(email, accessToken, db)
 	} else {
-		fmt.Println("new")
-	  user = models.NewUser(email, accessToken)
-	  user.Save(db)
+		user = models.NewUser(email, accessToken)
+		user.Save(db)
 	}
-	fmt.Println(user)
+	ac.session.Set(r, "UserID", user.ID.String())
 
 	http.Redirect(w, r, redirectTo, http.StatusFound)
 }
