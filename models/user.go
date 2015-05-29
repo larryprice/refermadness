@@ -46,6 +46,10 @@ func (u *User) FindByEmail(email string, db *mgo.Database) error {
 	return u.coll(db).Find(bson.M{"email": email}).One(u)
 }
 
+func (u *User) FindByID(id bson.ObjectId, db *mgo.Database) error {
+	return u.coll(db).FindId(id).One(u)
+}
+
 func (*User) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("user")
 }

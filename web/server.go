@@ -16,14 +16,19 @@ type Server struct {
 	*negroni.Negroni
 }
 
-func NewServer(dba utils.DatabaseAccessor, clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
+type Page struct {
+	LoggedIn bool
+}
+
+func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
+	             clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
 	session := utils.NewSessionManager()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/index.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: true})
 	})
 	router.HandleFunc("/legal", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
@@ -48,8 +53,9 @@ func NewServer(dba utils.DatabaseAccessor, clientID, clientSecret, sessionSecret
 	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba)
 	authenticationController.Register(router)
 
-	s.Use(middleware.NewDatabase(dba).Middleware())
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
+	s.Use(middleware.NewDatabase(dba).Middleware())
+	s.Use(middleware.NewAuthenticator(dba, session, cua).Middleware())
 	s.UseHandler(router)
 
 	return &s

@@ -15,7 +15,8 @@ func main() {
 	}
 
 	dbAccessor := utils.NewDatabaseAccessor(dbURL, os.Getenv("DATABASE_NAME"), 0)
-	s := web.NewServer(*dbAccessor, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
+	cuAccessor := utils.NewCurrentUserAccessor(1)
+	s := web.NewServer(*dbAccessor, *cuAccessor, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
 		os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("SESSION_SECRET"), isDevelopment)
 
 	port := os.Getenv("PORT")

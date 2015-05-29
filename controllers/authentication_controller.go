@@ -91,7 +91,7 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 		user = models.NewUser(email, accessToken)
 		user.Save(db)
 	}
-	ac.session.Set(r, "UserID", user.ID.String())
+	ac.session.Set(r, "UserID", user.ID.Hex())
 
 	http.Redirect(w, r, redirectTo, http.StatusFound)
 }
