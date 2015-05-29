@@ -28,27 +28,27 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/index.html")
-		t.Execute(w, Page{LoggedIn: true})
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/legal", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/account", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/service/create", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/create-service.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/service/{id}", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
-		t.Execute(w, nil)
+		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba)
 	authenticationController.Register(router)
