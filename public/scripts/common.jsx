@@ -65,8 +65,7 @@ var AuthenticatePanel = React.createClass({
     $("#login-faq").collapse("toggle");
   },
   authenticate: function() {
-    // this link sends the user away
-    window.location.href = "/login";
+    window.location.href = "/login?returnURL=" + encodeURIComponent(window.location.pathname + window.location.search);
   },
   render: function() {
     return (

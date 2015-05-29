@@ -14,7 +14,8 @@ func main() {
 	}
 
 	db := web.NewDatabase(dbURL, os.Getenv("DATABASE_NAME"), 0)
-	s := web.NewServer(*db, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"), os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), isDevelopment)
+	s := web.NewServer(*db, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"), os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"),
+    os.Getenv("SESSION_SECRET"), isDevelopment)
 
 	port := os.Getenv("PORT")
 	if port == "" {

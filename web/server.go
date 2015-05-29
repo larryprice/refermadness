@@ -4,6 +4,9 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/controllers"
+  "github.com/goincremental/negroni-sessions"
+  "github.com/goincremental/negroni-sessions/cookiestore"
+  "github.com/larryprice/refermadness/utils"
 	"html/template"
 	"net/http"
 )
@@ -12,8 +15,9 @@ type Server struct {
 	*negroni.Negroni
 }
 
-func NewServer(database Database, clientID, clientSecret string, isDevelopment bool) *Server {
+func NewServer(database Database, clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
+  session := utils.NewSessionManager()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -40,11 +44,12 @@ func NewServer(database Database, clientID, clientSecret string, isDevelopment b
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, nil)
 	})
-	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment)
+	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session)
 	authenticationController.Register(router)
 
+  s.Use(database.Middleware())
+  s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.UseHandler(router)
-	s.Use(database.Middleware())
 
 	return &s
 }

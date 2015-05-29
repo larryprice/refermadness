@@ -6,9 +6,9 @@ import (
 )
 
 type SessionManager interface {
-	GetAccessToken(*http.Request) string
-	SetAccessToken(*http.Request, string)
-	DeleteAccessToken(*http.Request)
+	Get(*http.Request, string) string
+	Set(*http.Request, string, string)
+	Delete(*http.Request, string)
 }
 
 type SessionManagerImpl struct {
