@@ -7,6 +7,7 @@ import (
   "github.com/goincremental/negroni-sessions"
   "github.com/goincremental/negroni-sessions/cookiestore"
   "github.com/larryprice/refermadness/utils"
+  "github.com/larryprice/refermadness/web/middleware"
 	"html/template"
 	"net/http"
 )
@@ -15,7 +16,7 @@ type Server struct {
 	*negroni.Negroni
 }
 
-func NewServer(database Database, clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
+func NewServer(dba utils.DatabaseAccessor, clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
   session := utils.NewSessionManager()
 
@@ -44,10 +45,10 @@ func NewServer(database Database, clientID, clientSecret, sessionSecret string, 
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, nil)
 	})
-	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session)
+	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba)
 	authenticationController.Register(router)
 
-  s.Use(database.Middleware())
+  s.Use(middleware.NewDatabase(dba).Middleware())
   s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.UseHandler(router)
 

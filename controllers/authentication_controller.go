@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"github.com/larryprice/refermadness/utils"
+	"github.com/larryprice/refermadness/models"
 )
 
 type AuthenticationController interface {
@@ -21,9 +22,11 @@ type AuthenticationControllerImpl struct {
 	scheme       string
 
 	session      utils.SessionManager
+	database     utils.DatabaseAccessor
 }
 
-func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager) *AuthenticationControllerImpl {
+func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool,
+	session utils.SessionManager, database utils.DatabaseAccessor) *AuthenticationControllerImpl {
 	scheme := "http"
 	if !isDevelopment {
 		scheme += "s"
@@ -33,6 +36,7 @@ func NewAuthenticationController(clientID, clientSecret string, isDevelopment bo
 		clientSecret: clientSecret,
 		scheme:       scheme,
 		session:      session,
+		database: database,
 	}
 }
 
@@ -74,7 +78,22 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 	token, _ := jwt.Parse(result["id_token"].(string), func(token *jwt.Token) (interface{}, error) {
 		return result["access_token"], nil
 	})
+
 	fmt.Println(token.Claims["email"], err, resp.StatusCode)
+
+	user := new(models.User)
+	email := token.Claims["email"].(string)
+	accessToken := result["access_token"].(string)
+	db := ac.database.Get(r)
+	if user.FindByEmail(email, db); user.ID.Valid() {
+		fmt.Println("existing")
+		user.Update(email, accessToken, db)
+	} else {
+		fmt.Println("new")
+	  user = models.NewUser(email, accessToken)
+	  user.Save(db)
+	}
+	fmt.Println(user)
 
 	http.Redirect(w, r, redirectTo, http.StatusFound)
 }
