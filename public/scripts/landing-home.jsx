@@ -9,9 +9,9 @@ var SearchPanel = React.createClass({
   },
   render: function() {
     return (
-      <div className="search-panel text-center">
+      <div className="search-panel">
         <Header />
-        <div className="container">
+        <div className="container text-center">
           <h1 className="search-panel-message"><strong>Looking for referral links?</strong></h1>
           <h2 className="search-panel-message"><strong>Start searching below to find your product or service.</strong></h2>
           <SearchPage onNonEmptySearch={this.handleSearchActivated} />

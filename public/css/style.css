@@ -83,11 +83,14 @@ input[type=text].disabled {
   .title.shrink {
     font-size: 48px; }
 
-.login-btn {
+.login-btn, .account-btn, .logout-btn {
   margin-top: 1em; }
-  .login-btn .glyphicon {
+  .login-btn .glyphicon, .account-btn .glyphicon, .logout-btn .glyphicon {
     font-size: 12px;
     margin-right: .5em; }
+
+.account-btn {
+  margin-right: .5em; }
 
 #authenticate-panel {
   background-color: #4EC987; }

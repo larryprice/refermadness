@@ -9,9 +9,9 @@ var SearchPanel = React.createClass({displayName: "SearchPanel",
   },
   render: function() {
     return (
-      React.createElement("div", {className: "search-panel text-center"}, 
+      React.createElement("div", {className: "search-panel"}, 
         React.createElement(Header, null), 
-        React.createElement("div", {className: "container"}, 
+        React.createElement("div", {className: "container text-center"}, 
           React.createElement("h1", {className: "search-panel-message"}, React.createElement("strong", null, "Looking for referral links?")), 
           React.createElement("h2", {className: "search-panel-message"}, React.createElement("strong", null, "Start searching below to find your product or service.")), 
           React.createElement(SearchPage, {onNonEmptySearch: this.handleSearchActivated})

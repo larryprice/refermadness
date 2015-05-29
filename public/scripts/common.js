@@ -50,13 +50,35 @@ var LoginButton = React.createClass({displayName: "LoginButton",
   render: function() {
     return (
       React.createElement("div", {className: "col-xs-12 col-sm-2 text-center"}, 
-        React.createElement("button", {className: "login-btn btn btn-default", onclick: "javascript:void(0)", "data-toggle": "collapse", 
-                onClick: this.togglePanel, "aria-expanded": "false", "aria-controls": "authenticate-panel"}, 
+        React.createElement("button", {className: "login-btn btn btn-default", "data-toggle": "collapse", onClick: this.togglePanel, 
+                "aria-expanded": "false", "aria-controls": "authenticate-panel"}, 
           React.createElement("span", {className: "glyphicon glyphicon-lock"}), 
           "Sign Up or Log In"
         )
       )
     )
+  }
+});
+
+var AccountButton = React.createClass({displayName: "AccountButton",
+  render: function() {
+    return (
+      React.createElement("a", {className: "btn btn-default account-btn", href: "/account"}, 
+        React.createElement("span", {className: "glyphicon glyphicon-user"}), 
+        "Account"
+      )
+    );
+  }
+});
+
+var LogoutButton = React.createClass({displayName: "LogoutButton",
+  render: function() {
+    return (
+      React.createElement("button", {className: "btn btn-default logout-btn"}, 
+        React.createElement("span", {className: "glyphicon glyphicon-off"}), 
+        "Log out"
+      )
+    );
   }
 });
 
@@ -92,17 +114,38 @@ var AuthenticatePanel = React.createClass({displayName: "AuthenticatePanel",
 });
 
 var Header = React.createClass({displayName: "Header",
+  getInitialState: function() {
+    return {
+      loggedIn: $("body").attr("data-logged-in") === "true"
+    }
+  },
   render: function() {
-    return (
-      React.createElement("div", {className: "header"}, 
-        React.createElement("div", {className: "container-fluid"}, 
-          React.createElement("div", {className: "row"}, 
-            React.createElement(TitleArea, {smallTitle: this.props.smallTitle}), 
-            React.createElement(LoginButton, null)
-          ), 
-          React.createElement(AuthenticatePanel, null)
+    if (this.state.loggedIn) {
+      return (
+        React.createElement("div", {className: "header"}, 
+          React.createElement("div", {className: "container-fluid"}, 
+            React.createElement("div", {className: "row"}, 
+              React.createElement(TitleArea, {smallTitle: this.props.smallTitle}), 
+              React.createElement("div", {className: "text-center"}, 
+                React.createElement(AccountButton, null), 
+                React.createElement(LogoutButton, null)
+              )
+            )
+          )
+        )
       )
-    )
-    )
+    } else {
+      return (
+        React.createElement("div", {className: "header"}, 
+          React.createElement("div", {className: "container-fluid"}, 
+            React.createElement("div", {className: "row"}, 
+              React.createElement(TitleArea, {smallTitle: this.props.smallTitle}), 
+              React.createElement(LoginButton, null)
+            ), 
+            React.createElement(AuthenticatePanel, null)
+          )
+        )
+      )
+    }
   }
 });

@@ -26,13 +26,17 @@
   }
 }
 
-.login-btn {
+.login-btn, .account-btn, .logout-btn {
   margin-top: 1em;
 
   .glyphicon {
     font-size: 12px;
     margin-right: .5em;
   }
+}
+
+.account-btn {
+  margin-right: .5em;
 }
 
 #authenticate-panel {

@@ -50,13 +50,35 @@ var LoginButton = React.createClass({
   render: function() {
     return (
       <div className="col-xs-12 col-sm-2 text-center">
-        <button className="login-btn btn btn-default" onclick="javascript:void(0)" data-toggle="collapse"
-                onClick={this.togglePanel} aria-expanded="false" aria-controls="authenticate-panel">
+        <button className="login-btn btn btn-default" data-toggle="collapse" onClick={this.togglePanel}
+                aria-expanded="false" aria-controls="authenticate-panel">
           <span className="glyphicon glyphicon-lock"></span>
           Sign Up or Log In
         </button>
       </div>
     )
+  }
+});
+
+var AccountButton = React.createClass({
+  render: function() {
+    return (
+      <a className="btn btn-default account-btn" href="/account">
+        <span className="glyphicon glyphicon-user"></span>
+        Account
+      </a>
+    );
+  }
+});
+
+var LogoutButton = React.createClass({
+  render: function() {
+    return (
+      <button className="btn btn-default logout-btn">
+        <span className="glyphicon glyphicon-off"></span>
+        Log out
+      </button>
+    );
   }
 });
 
@@ -92,17 +114,38 @@ var AuthenticatePanel = React.createClass({
 });
 
 var Header = React.createClass({
+  getInitialState: function() {
+    return {
+      loggedIn: $("body").attr("data-logged-in") === "true"
+    }
+  },
   render: function() {
-    return (
-      <div className="header">
-        <div className="container-fluid">
-          <div className="row">
-            <TitleArea smallTitle={this.props.smallTitle} />
-            <LoginButton />
+    if (this.state.loggedIn) {
+      return (
+        <div className="header">
+          <div className="container-fluid">
+            <div className="row">
+              <TitleArea smallTitle={this.props.smallTitle} />
+              <div className="text-center">
+                <AccountButton />
+                <LogoutButton />
+              </div>
+            </div>
           </div>
-          <AuthenticatePanel />
-      </div>
-    </div>
-    )
+        </div>
+      )
+    } else {
+      return (
+        <div className="header">
+          <div className="container-fluid">
+            <div className="row">
+              <TitleArea smallTitle={this.props.smallTitle} />
+              <LoginButton />
+            </div>
+            <AuthenticatePanel />
+          </div>
+        </div>
+      )
+    }
   }
 });
