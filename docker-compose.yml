@@ -7,6 +7,8 @@ main:
   working_dir: /go/src/github.com/larryprice/refermadness
   ports:
     - "3000:3000"
+  links:
+    - db
 sass:
   image: larryprice/sass
   volumes: 
@@ -15,3 +17,12 @@ jsx:
   image: larryprice/jsx
   volumes: 
     - ./public/scripts:/src
+db:
+  image: mongo:3.0
+  command: mongod --smallfiles --quiet --logpath=/dev/null
+  volumes_from:
+    - dbvolume
+dbvolume:
+  image: busybox:ubuntu-14.04
+  volumes:
+    - /data/db
