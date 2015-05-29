@@ -4,7 +4,6 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/controllers"
-	"github.com/unrolled/render"
 	"html/template"
 	"net/http"
 	"os"
@@ -21,12 +20,12 @@ func main() {
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
 		t.Execute(w, nil)
 	})
-	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
-		t.Execute(w, nil)
-	})
 	router.HandleFunc("/account", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
+		t.Execute(w, nil)
+	})
+	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
+		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
 		t.Execute(w, nil)
 	})
 	router.HandleFunc("/service/create", func(w http.ResponseWriter, r *http.Request) {
@@ -37,16 +36,9 @@ func main() {
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, nil)
 	})
-	controllers.Create(router)
-
-	r := render.New()
-
-	api := router.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/services/{id}", func(resp http.ResponseWriter, req *http.Request) {
-		r.JSON(resp, http.StatusOK, map[string]string{
-			"hello": "json",
-		})
-	}).Methods("GET")
+	authenticationController := controllers.NewAuthenticationController(os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
+		os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("ENVIRONMENT") == "development")
+	authenticationController.Register(router)
 
 	n.UseHandler(router)
 
