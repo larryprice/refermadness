@@ -72,15 +72,12 @@ var AccountButton = React.createClass({
 });
 
 var LogoutButton = React.createClass({
-  logout: function() {
-    window.location.href = "/logout";
-  },
   render: function() {
     return (
-      <button className="btn btn-default logout-btn" onClick={this.logout}>
+      <a className="btn btn-default logout-btn" href="/logout">
         <span className="glyphicon glyphicon-off"></span>
         Log out
-      </button>
+      </a>
     );
   }
 });

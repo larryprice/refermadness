@@ -72,12 +72,9 @@ var AccountButton = React.createClass({displayName: "AccountButton",
 });
 
 var LogoutButton = React.createClass({displayName: "LogoutButton",
-  logout: function() {
-    window.location.href = "/logout";
-  },
   render: function() {
     return (
-      React.createElement("button", {className: "btn btn-default logout-btn", onClick: this.logout}, 
+      React.createElement("a", {className: "btn btn-default logout-btn", href: "/logout"}, 
         React.createElement("span", {className: "glyphicon glyphicon-off"}), 
         "Log out"
       )
