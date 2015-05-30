@@ -35,8 +35,12 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
 	router.HandleFunc("/account", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
+		if cua.Get(r) != nil {
+			t, _ := template.ParseFiles("views/layout.html", "views/account.html")
+			t.Execute(w, Page{LoggedIn: true})
+		} else {
+			http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
+		}
 	})
 	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/search.html")

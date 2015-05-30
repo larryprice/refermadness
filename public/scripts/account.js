@@ -26,7 +26,7 @@ var SwitchAccounts = React.createClass({displayName: "SwitchAccounts",
     });
   },
   redirect: function() {
-    console.log("send to Google for selecting identity");
+    window.location.href = "/account/switch";
   },
   cancel: function() {
     $(".switch-account-information").addClass("fade-out");
