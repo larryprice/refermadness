@@ -42,6 +42,7 @@ func NewAuthenticationController(clientID, clientSecret string, isDevelopment bo
 
 func (ac *AuthenticationControllerImpl) Register(router *mux.Router) {
 	router.HandleFunc("/login", ac.login)
+	router.HandleFunc("/logout", ac.logout)
 	router.HandleFunc("/oauth2callback", ac.oauth2)
 }
 
@@ -94,4 +95,9 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 	ac.session.Set(r, "UserID", user.ID.Hex())
 
 	http.Redirect(w, r, redirectTo, http.StatusFound)
+}
+
+func (ac *AuthenticationControllerImpl) logout(w http.ResponseWriter, r *http.Request) {
+	ac.session.Delete(r, "UserID")
+	http.Redirect(w, r, "/", http.StatusFound)
 }
