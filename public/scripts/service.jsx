@@ -50,6 +50,12 @@ var EditButton = React.createClass({
 
 var AddButton = React.createClass({
   showSearchBox: function() {
+    if ($("body").attr("data-logged-in") !== "true") {
+      $("#authenticate-panel").collapse("show");
+      $("#authenticate-panel")[0].scrollIntoView();
+      return;
+    }
+
     if ($(".add-code-entry").val() !== "") {
       $(".add-code-entry").addClass("disabled");
       $(".add-code-entry").prop("disabled", true);
