@@ -55,6 +55,12 @@ var CreateServiceButton = React.createClass({
   addService: function(e) {
     e.preventDefault();
 
+    if ($("body").attr("data-logged-in") !== "true") {
+      $("#authenticate-panel").collapse("show");
+      $("#authenticate-panel")[0].scrollIntoView();
+      return;
+    }
+
     $(".create-service-name, .create-service-description, .create-service-url").removeClass("has-error");
     var validationError = false;
     if ($("#create-service-name").val() === "") {
