@@ -13,11 +13,11 @@ import (
 	"net/url"
 )
 
-type AuthenticationController interface {
+type AccountController interface {
 	Register(*mux.Router)
 }
 
-type AuthenticationControllerImpl struct {
+type AccountControllerImpl struct {
 	clientID     string
 	clientSecret string
 	scheme       string
@@ -27,13 +27,13 @@ type AuthenticationControllerImpl struct {
 	currentUser utils.CurrentUserAccessor
 }
 
-func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
-	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor) *AuthenticationControllerImpl {
+func NewAccountController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
+	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor) *AccountControllerImpl {
 	scheme := "http"
 	if !isDevelopment {
 		scheme += "s"
 	}
-	return &AuthenticationControllerImpl{
+	return &AccountControllerImpl{
 		clientID:     clientID,
 		clientSecret: clientSecret,
 		scheme:       scheme,
@@ -43,7 +43,7 @@ func NewAuthenticationController(clientID, clientSecret string, isDevelopment bo
 	}
 }
 
-func (ac *AuthenticationControllerImpl) Register(router *mux.Router) {
+func (ac *AccountControllerImpl) Register(router *mux.Router) {
 	// auth
 	router.HandleFunc("/login", ac.login)
 	router.HandleFunc("/logout", ac.logout)
@@ -55,7 +55,7 @@ func (ac *AuthenticationControllerImpl) Register(router *mux.Router) {
 	router.HandleFunc("/account/delete", ac.deleteAccount)
 }
 
-func (ac *AuthenticationControllerImpl) login(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) login(w http.ResponseWriter, r *http.Request) {
 	if returnURL := r.FormValue("returnURL"); returnURL != "" {
 		ac.session.Set(r, "RedirectAfterLogin", returnURL)
 	}
@@ -65,7 +65,7 @@ func (ac *AuthenticationControllerImpl) login(w http.ResponseWriter, r *http.Req
 		http.StatusTemporaryRedirect)
 }
 
-func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) oauth2(w http.ResponseWriter, r *http.Request) {
 	redirectTo := "/"
 	if returnURL := ac.session.Get(r, "RedirectAfterLogin"); returnURL != "" {
 		ac.session.Delete(r, "RedirectAfterLogin")
@@ -105,7 +105,7 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 	http.Redirect(w, r, redirectTo, http.StatusFound)
 }
 
-func (ac *AuthenticationControllerImpl) findOrCreateUser(email, accessToken string, r *http.Request) {
+func (ac *AccountControllerImpl) findOrCreateUser(email, accessToken string, r *http.Request) {
 	user := new(models.User)
 	db := ac.database.Get(r)
 	if user.FindByEmail(email, db); user.ID.Valid() {
@@ -117,7 +117,7 @@ func (ac *AuthenticationControllerImpl) findOrCreateUser(email, accessToken stri
 	ac.session.Set(r, "UserID", user.ID.Hex())
 }
 
-func (ac *AuthenticationControllerImpl) switchUserAccount(email, accessToken string, r *http.Request) {
+func (ac *AccountControllerImpl) switchUserAccount(email, accessToken string, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
 		user.Update(email, accessToken, ac.database.Get(r))
 		return
@@ -128,12 +128,12 @@ func (ac *AuthenticationControllerImpl) switchUserAccount(email, accessToken str
 	ac.session.Delete(r, "UserID")
 }
 
-func (ac *AuthenticationControllerImpl) logout(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) logout(w http.ResponseWriter, r *http.Request) {
 	ac.session.Delete(r, "UserID")
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-func (ac *AuthenticationControllerImpl) switchAccounts(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) switchAccounts(w http.ResponseWriter, r *http.Request) {
 	ac.session.Set(r, "RedirectAfterLogin", "/account")
 
 	http.Redirect(w, r, "https://accounts.google.com/o/oauth2/auth?scope=email&state=updating&redirect_uri="+
@@ -141,7 +141,7 @@ func (ac *AuthenticationControllerImpl) switchAccounts(w http.ResponseWriter, r 
 		http.StatusTemporaryRedirect)
 }
 
-func (ac *AuthenticationControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
 		user.Delete(ac.database.Get(r))
 	}
@@ -154,7 +154,7 @@ type AccountPage struct {
 	User     *models.User
 }
 
-func (ac *AuthenticationControllerImpl) account(w http.ResponseWriter, r *http.Request) {
+func (ac *AccountControllerImpl) account(w http.ResponseWriter, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
 		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
 		t.Execute(w, AccountPage{LoggedIn: true, User: user})

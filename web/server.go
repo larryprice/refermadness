@@ -46,8 +46,8 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
-	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba, cua)
-	authenticationController.Register(router)
+	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua)
+	accountController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.Use(middleware.NewDatabase(dba).Middleware())
