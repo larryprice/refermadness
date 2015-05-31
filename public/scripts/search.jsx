@@ -182,6 +182,8 @@ var SearchPage = React.createClass({
     history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
   },
   createService: function() {
+    var searchText = $(React.findDOMNode(this.refs.searchbox)).find("input").val()
+    history.pushState(null, null, "/search?q=" + searchText);
     history.pushState(null, null, "/service/create");
     this.setState({creating: true});
   },
