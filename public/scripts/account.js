@@ -213,7 +213,7 @@ var AccountPage = React.createClass({displayName: "AccountPage",
     return (
       React.createElement("div", {className: "account-home"}, 
         React.createElement(Header, {smallTitle: true}), 
-        React.createElement(LoginSettings, {username: $("#content").attr("data-username")}), 
+        React.createElement(LoginSettings, {username: $("body").attr("data-username")}), 
         React.createElement(UserReferralCodes, null)
       )
     );

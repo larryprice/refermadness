@@ -21,10 +21,11 @@ type AccountControllerImpl struct {
 	session     utils.SessionManager
 	database    utils.DatabaseAccessor
 	currentUser utils.CurrentUserAccessor
+	basePage utils.BasePageCreator
 }
 
 func NewAccountController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
-	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor) *AccountControllerImpl {
+	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator) *AccountControllerImpl {
 	scheme := "http"
 	if !isDevelopment {
 		scheme += "s"
@@ -36,6 +37,7 @@ func NewAccountController(clientID, clientSecret string, isDevelopment bool, ses
 		session:      session,
 		database:     database,
 		currentUser:  currentUser,
+		basePage: basePage,
 	}
 }
 
@@ -148,7 +150,7 @@ func (ac *AccountControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Re
 func (ac *AccountControllerImpl) account(w http.ResponseWriter, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
 		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
-		t.Execute(w, AccountPage{Page{LoggedIn: true}, user})
+		t.Execute(w, ac.basePage.Get(r))
 	} else {
 		http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
 	}

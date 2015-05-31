@@ -20,27 +20,29 @@ type Page struct {
 	LoggedIn bool
 }
 
-func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
-	clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
+func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, clientID, clientSecret,
+	   sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
 	session := utils.NewSessionManager()
+	basePage := utils.NewBasePageCreator(cua)
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/index.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
+		t.Execute(w, basePage.Get(r))
 	})
 	router.HandleFunc("/legal", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
+		t.Execute(w, basePage.Get(r))
 	})
 	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
+		t.Execute(w, basePage.Get(r))
 	})
-	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua)
+
+	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage)
 	accountController.Register(router)
-	serviceController := controllers.NewServiceController(cua)
+	serviceController := controllers.NewServiceController(cua, basePage)
 	serviceController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
