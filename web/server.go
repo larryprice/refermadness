@@ -38,16 +38,10 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
 		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
-	router.HandleFunc("/service/create", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFiles("views/layout.html", "views/create-service.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
-	})
-	router.HandleFunc("/service/{id}", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
-		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
-	})
 	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua)
 	accountController.Register(router)
+	serviceController := controllers.NewServiceController(cua)
+	serviceController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.Use(middleware.NewDatabase(dba).Middleware())

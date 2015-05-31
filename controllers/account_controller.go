@@ -13,10 +13,6 @@ import (
 	"net/url"
 )
 
-type AccountController interface {
-	Register(*mux.Router)
-}
-
 type AccountControllerImpl struct {
 	clientID     string
 	clientSecret string
@@ -149,15 +145,10 @@ func (ac *AccountControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Re
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-type AccountPage struct {
-	LoggedIn bool
-	User     *models.User
-}
-
 func (ac *AccountControllerImpl) account(w http.ResponseWriter, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
 		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
-		t.Execute(w, AccountPage{LoggedIn: true, User: user})
+		t.Execute(w, AccountPage{Page{LoggedIn: true}, user})
 	} else {
 		http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
 	}
