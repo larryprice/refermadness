@@ -213,7 +213,7 @@ var AccountPage = React.createClass({
     return (
       <div className="account-home">
         <Header smallTitle={true} />
-        <LoginSettings username={"larry.price.dev"} />
+        <LoginSettings username={$("#content").attr("data-username")} />
         <UserReferralCodes/>
       </div>
     );
