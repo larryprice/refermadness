@@ -166,15 +166,7 @@ var DeleteAccount = React.createClass({
     $(".warning-delete-message").collapse("show");
   },
   confirmDelete: function() {
-    console.log("send oauth delete request to google, delete account data in our database, clear session");
-    $(".warning-delete-message .btn-danger .glyphicon").addClass("spin fast infinite");
-    var that = this;
-    setTimeout(function() {
-      window.location.href = "/";
-      $(".warning-delete-message .btn-danger .glyphicon").removeClass("spin fast infinite");
-      that.rejectDelete();
-      // alternatively, send the user to a survey page
-    }, 300);
+    window.location.href = "/account/delete";
   },
   rejectDelete: function() {
     $(".desperate-delete-message, .apologetic-delete-message, .warning-delete-message").collapse("hide");

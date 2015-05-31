@@ -21,7 +21,7 @@ type Page struct {
 }
 
 func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
-	             clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
+	clientID, clientSecret, sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
 	session := utils.NewSessionManager()
 
@@ -33,14 +33,6 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 	router.HandleFunc("/legal", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
 		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
-	})
-	router.HandleFunc("/account", func(w http.ResponseWriter, r *http.Request) {
-		if cua.Get(r) != nil {
-			t, _ := template.ParseFiles("views/layout.html", "views/account.html")
-			t.Execute(w, Page{LoggedIn: true})
-		} else {
-			http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
-		}
 	})
 	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
@@ -54,7 +46,7 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor,
 		t, _ := template.ParseFiles("views/layout.html", "views/service.html")
 		t.Execute(w, Page{LoggedIn: cua.Get(r) != nil})
 	})
-	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba)
+	authenticationController := controllers.NewAuthenticationController(clientID, clientSecret, isDevelopment, session, dba, cua)
 	authenticationController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))

@@ -7,10 +7,10 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/models"
 	"github.com/larryprice/refermadness/utils"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type AuthenticationController interface {
@@ -22,12 +22,13 @@ type AuthenticationControllerImpl struct {
 	clientSecret string
 	scheme       string
 
-	session  utils.SessionManager
-	database utils.DatabaseAccessor
+	session     utils.SessionManager
+	database    utils.DatabaseAccessor
+	currentUser utils.CurrentUserAccessor
 }
 
-func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool,
-	session utils.SessionManager, database utils.DatabaseAccessor) *AuthenticationControllerImpl {
+func NewAuthenticationController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
+	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor) *AuthenticationControllerImpl {
 	scheme := "http"
 	if !isDevelopment {
 		scheme += "s"
@@ -38,14 +39,20 @@ func NewAuthenticationController(clientID, clientSecret string, isDevelopment bo
 		scheme:       scheme,
 		session:      session,
 		database:     database,
+		currentUser:  currentUser,
 	}
 }
 
 func (ac *AuthenticationControllerImpl) Register(router *mux.Router) {
+	// auth
 	router.HandleFunc("/login", ac.login)
 	router.HandleFunc("/logout", ac.logout)
 	router.HandleFunc("/oauth2callback", ac.oauth2)
+
+	// account
+	router.HandleFunc("/account", ac.account)
 	router.HandleFunc("/account/switch", ac.switchAccounts)
+	router.HandleFunc("/account/delete", ac.deleteAccount)
 }
 
 func (ac *AuthenticationControllerImpl) login(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +97,7 @@ func (ac *AuthenticationControllerImpl) oauth2(w http.ResponseWriter, r *http.Re
 	})
 
 	if r.FormValue("state") != "updating" {
-		ac.findOrCreateUser(token.Claims["email"].(string), result["access_token"].(string), r)	
+		ac.findOrCreateUser(token.Claims["email"].(string), result["access_token"].(string), r)
 	} else {
 		ac.switchUserAccount(token.Claims["email"].(string), result["access_token"].(string), r)
 	}
@@ -111,10 +118,8 @@ func (ac *AuthenticationControllerImpl) findOrCreateUser(email, accessToken stri
 }
 
 func (ac *AuthenticationControllerImpl) switchUserAccount(email, accessToken string, r *http.Request) {
-	user := new(models.User)
-	db := ac.database.Get(r)
-	if user.FindByID(bson.ObjectIdHex(ac.session.Get(r, "UserID")), db); user.ID.Valid() {
-		user.Update(email, accessToken, db)
+	if user := ac.currentUser.Get(r); user != nil {
+		user.Update(email, accessToken, ac.database.Get(r))
 		return
 	}
 
@@ -134,4 +139,26 @@ func (ac *AuthenticationControllerImpl) switchAccounts(w http.ResponseWriter, r 
 	http.Redirect(w, r, "https://accounts.google.com/o/oauth2/auth?scope=email&state=updating&redirect_uri="+
 		ac.scheme+"%3A%2F%2F"+r.Host+"%2foauth2callback"+"&response_type=code&client_id="+ac.clientID,
 		http.StatusTemporaryRedirect)
+}
+
+func (ac *AuthenticationControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Request) {
+	if user := ac.currentUser.Get(r); user != nil {
+		user.Delete(ac.database.Get(r))
+	}
+	ac.session.Delete(r, "UserID")
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+type AccountPage struct {
+	LoggedIn bool
+	User     *models.User
+}
+
+func (ac *AuthenticationControllerImpl) account(w http.ResponseWriter, r *http.Request) {
+	if user := ac.currentUser.Get(r); user != nil {
+		t, _ := template.ParseFiles("views/layout.html", "views/account.html")
+		t.Execute(w, AccountPage{LoggedIn: true, User: user})
+	} else {
+		http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
+	}
 }
