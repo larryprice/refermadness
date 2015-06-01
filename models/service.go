@@ -1,7 +1,7 @@
 package models
 
 import (
-  // "gopkg.in/mgo.v2"
+  "gopkg.in/mgo.v2"
   "gopkg.in/mgo.v2/bson"
   "time"
 )
@@ -31,6 +31,15 @@ func NewService(name, description, url string) *Service {
   }
 }
 
-func (s* Service) Save() {
+func (s *Service) Save(db *mgo.Database) error {
+  _, err := s.coll(db).UpsertId(s.ID, s)
+  return err
+}
 
+func (s *Service) FindByID(id bson.ObjectId, db *mgo.Database) error {
+  return s.coll(db).FindId(id).One(s)
+}
+
+func (*Service) coll(db *mgo.Database) *mgo.Collection {
+  return db.C("service")
 }

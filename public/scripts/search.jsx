@@ -1,5 +1,5 @@
 var testData = [
-  {name: "Test #1", url: "https://test1.com", id: "1", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {name: "Test #1", url: "https://test1.com", id: "556c6221f06a07031a000001", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
   {name: "Test #2", url: "https://example.test2.com", id: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
   {name: "Test #3", url: "https://3test.org", id: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
   {name: "Test #4", url: "https://signup.4test.net/", id: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
@@ -176,10 +176,40 @@ var SearchPage = React.createClass({
     this.setState({data: data, selected: -1});
   },
   resultSelected: function(data) {
-    this.setState({selected: data});
-    var searchText = $(React.findDOMNode(this.refs.searchbox)).find("input").val()
-    history.pushState(null, null, "/search?q=" + searchText);
-    history.pushState(null, null, "/service/" + data.id + "?q=" + searchText);
+    var animationFinished = false, endAnimation = $(".search-result").length-1;
+    $(".search-result").each(function(i, item) {
+      setTimeout(function() {
+        $(item).addClass("fade-out");
+        if (i === endAnimation) {
+          animationFinished = true;
+        }
+      }, (i+1)*200);
+    });
+
+    var that = this;
+    $.ajax({
+      url: "/service/" + data.id,
+      contentType: "application/json",
+      success: function(service) {
+        console.log(service);
+        var proceedToServicePage = function() {
+          setTimeout(function() {
+            if (animationFinished) {
+              var searchText = $(".search-box input").val()
+              history.pushState(null, null, "/search?q=" + searchText);
+              history.pushState(null, null, "/service/" + service.ID + "?q=" + searchText);
+              that.setState({selected: service});
+            } else {
+              proceedToServicePage();
+            }
+          }, 100);
+        };
+        proceedToServicePage();
+      },
+      error: function() {
+        console.log("der was error");
+      }
+    });
   },
   createService: function() {
     var searchText = $(React.findDOMNode(this.refs.searchbox)).find("input").val()

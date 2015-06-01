@@ -10,6 +10,7 @@ import (
 	"github.com/larryprice/refermadness/web/middleware"
 	"html/template"
 	"net/http"
+  "gopkg.in/unrolled/render.v1"
 )
 
 type Server struct {
@@ -21,6 +22,7 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	s := Server{negroni.Classic()}
 	session := utils.NewSessionManager()
 	basePage := utils.NewBasePageCreator(cua)
+	renderer := render.New()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -38,9 +40,9 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 
 	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage)
 	accountController.Register(router)
-	createServiceController := controllers.NewCreateServiceController(cua, basePage)
+	createServiceController := controllers.NewCreateServiceController(cua, basePage, renderer, dba)
 	createServiceController.Register(router)
-	serviceController := controllers.NewServiceController(cua, basePage)
+	serviceController := controllers.NewServiceController(cua, basePage, renderer, dba)
 	serviceController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))

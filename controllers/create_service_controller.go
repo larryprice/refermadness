@@ -15,13 +15,16 @@ type CreateServiceControllerImpl struct {
   currentUser utils.CurrentUserAccessor
   basePage utils.BasePageCreator
   renderer *render.Render
+  database utils.DatabaseAccessor
 }
 
-func NewCreateServiceController(currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator) *CreateServiceControllerImpl {
+func NewCreateServiceController(currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator,
+    renderer *render.Render, database utils.DatabaseAccessor) *CreateServiceControllerImpl {
   return &CreateServiceControllerImpl{
     currentUser: currentUser,
     basePage: basePage,
-    renderer: render.New(),
+    renderer: renderer,
+    database: database,
   }
 }
 
@@ -53,6 +56,6 @@ func (sc *CreateServiceControllerImpl) create(w http.ResponseWriter, r *http.Req
   }
 
   service := models.NewService(serviceData["name"], serviceData["description"], serviceData["url"])
-  service.Save()
+  service.Save(sc.database.Get(r))
   sc.renderer.JSON(w, http.StatusCreated, service)
 }
