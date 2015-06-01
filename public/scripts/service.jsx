@@ -222,7 +222,7 @@ var ReferralCodeActions = React.createClass({
   render: function() {
     return (
       <div className="referral-code-actions">
-        <button className="btn btn-default btn-xs copy-code" data-clipboard-text={this.state.code.code}>
+        <button className="btn btn-default btn-xs copy-code" data-clipboard-text={this.state.code}>
           <span className="glyphicon glyphicon-copy"></span>
           Clipboard
         </button>
@@ -236,18 +236,44 @@ var ReferralCodeActions = React.createClass({
   }
 });
 
-var ServicePage = React.createClass({
+var ReferralCode = React.createClass({
   getInitialState: function() {
     return {
-      code: this.props.data.codes[0]
-    };
+      code: this.props.code
+    }
   },
   setCode: function(code) {
     this.state.code = code;
     $(".referral-code").addClass("fade-out");
     setTimeout(function() {
-      $(".referral-code").text(code.code).removeClass("fade-out").addClass("fade-in");
+      $(".referral-code").text(code).removeClass("fade-out").addClass("fade-in");
     }, 300);
+  },
+  render: function() {
+    return (
+      <div className="row random-referral-code">
+        <div className="col-xs-12">
+          <h3>
+            Use this referral code:
+          </h3>
+          <h1 className="referral-code">
+            {this.state.code}
+          </h1>
+          <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
+        </div>
+      </div>
+    );
+  }
+});
+
+var ServicePage = React.createClass({
+  getInitialState: function() {
+    return {
+      code: this.props.data.Code,
+      name: this.props.data.Name,
+      url: this.props.data.URL,
+      description: this.props.data.Description
+    };
   },
   render: function() {
     return (
@@ -255,27 +281,17 @@ var ServicePage = React.createClass({
         <div className="view-result row">
           <div className="col-xs-12">
             <h1 className="text-center service-name">
-              {this.props.data.name}
+              {this.state.name}
             </h1>
             <h2 className="text-center">
-              <a href={this.props.data.url} target="blank">{this.props.data.url}</a>
+              <a href={this.state.url} target="blank">{this.state.url}</a>
             </h2>
             <h4 className="text-center">
-              A brief description of the service.
+              {this.state.description}
             </h4>
           </div>
         </div>
-        <div className="row random-referral-code">
-          <div className="col-xs-12">
-            <h3>
-              Use this referral code:
-            </h3>
-            <h1 className="referral-code">
-              {this.state.code.code}
-            </h1>
-            <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
-          </div>
-        </div>
+        <ReferralCode code={this.state.code} />
         <ReferralCodeEntry />
       </div>
     );

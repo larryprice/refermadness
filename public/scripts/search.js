@@ -183,7 +183,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
         if (i === endAnimation) {
           animationFinished = true;
         }
-      }, (i+1)*200);
+      }, i*200);
     });
 
     var that = this;
@@ -236,11 +236,11 @@ var SearchPage = React.createClass({displayName: "SearchPage",
         )
       );
     } else {
-      var searchText = this.state.initialSearch || this.getSearchParam() || this.state.selected.name
+      var searchText = this.state.initialSearch || this.getSearchParam() || this.state.selected.Name
       return (
         React.createElement("div", {className: "search-area"}, 
           React.createElement(SearchBox, {onSearchTextChange: this.handleSearchTextChange, ref: "searchbox", isReadonly: true, 
-                     initialSearch: this.state.initialSearch || this.state.selected.name}), 
+                     initialSearch: this.state.initialSearch || this.state.selected.Name}), 
           React.createElement(ServicePage, {data: this.state.selected})
         )
       )

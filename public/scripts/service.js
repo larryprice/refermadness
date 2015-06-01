@@ -222,7 +222,7 @@ var ReferralCodeActions = React.createClass({displayName: "ReferralCodeActions",
   render: function() {
     return (
       React.createElement("div", {className: "referral-code-actions"}, 
-        React.createElement("button", {className: "btn btn-default btn-xs copy-code", "data-clipboard-text": this.state.code.code}, 
+        React.createElement("button", {className: "btn btn-default btn-xs copy-code", "data-clipboard-text": this.state.code}, 
           React.createElement("span", {className: "glyphicon glyphicon-copy"}), 
           "Clipboard"
         ), 
@@ -236,18 +236,44 @@ var ReferralCodeActions = React.createClass({displayName: "ReferralCodeActions",
   }
 });
 
-var ServicePage = React.createClass({displayName: "ServicePage",
+var ReferralCode = React.createClass({displayName: "ReferralCode",
   getInitialState: function() {
     return {
-      code: this.props.data.codes[0]
-    };
+      code: this.props.code
+    }
   },
   setCode: function(code) {
     this.state.code = code;
     $(".referral-code").addClass("fade-out");
     setTimeout(function() {
-      $(".referral-code").text(code.code).removeClass("fade-out").addClass("fade-in");
+      $(".referral-code").text(code).removeClass("fade-out").addClass("fade-in");
     }, 300);
+  },
+  render: function() {
+    return (
+      React.createElement("div", {className: "row random-referral-code"}, 
+        React.createElement("div", {className: "col-xs-12"}, 
+          React.createElement("h3", null, 
+            "Use this referral code:"
+          ), 
+          React.createElement("h1", {className: "referral-code"}, 
+            this.state.code
+          ), 
+          React.createElement(ReferralCodeActions, {code: this.state.code, onNewCode: this.setCode})
+        )
+      )
+    );
+  }
+});
+
+var ServicePage = React.createClass({displayName: "ServicePage",
+  getInitialState: function() {
+    return {
+      code: this.props.data.Code,
+      name: this.props.data.Name,
+      url: this.props.data.URL,
+      description: this.props.data.Description
+    };
   },
   render: function() {
     return (
@@ -255,27 +281,17 @@ var ServicePage = React.createClass({displayName: "ServicePage",
         React.createElement("div", {className: "view-result row"}, 
           React.createElement("div", {className: "col-xs-12"}, 
             React.createElement("h1", {className: "text-center service-name"}, 
-              this.props.data.name
+              this.state.name
             ), 
             React.createElement("h2", {className: "text-center"}, 
-              React.createElement("a", {href: this.props.data.url, target: "blank"}, this.props.data.url)
+              React.createElement("a", {href: this.state.url, target: "blank"}, this.state.url)
             ), 
             React.createElement("h4", {className: "text-center"}, 
-              "A brief description of the service."
+              this.state.description
             )
           )
         ), 
-        React.createElement("div", {className: "row random-referral-code"}, 
-          React.createElement("div", {className: "col-xs-12"}, 
-            React.createElement("h3", null, 
-              "Use this referral code:"
-            ), 
-            React.createElement("h1", {className: "referral-code"}, 
-              this.state.code.code
-            ), 
-            React.createElement(ReferralCodeActions, {code: this.state.code, onNewCode: this.setCode})
-          )
-        ), 
+        React.createElement(ReferralCode, {code: this.state.code}), 
         React.createElement(ReferralCodeEntry, null)
       )
     );

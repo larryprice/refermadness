@@ -16,16 +16,10 @@ var ServiceHome = React.createClass({displayName: "ServiceHome",
       window.location = window.location.href;
     });
 
-    // strip the service name from the URL
-    var serviceId = window.location.pathname.replace("/service/", "");
-    var service = testData.filter(function(data) {
-      return data.id === serviceId;
-    })[0];
-
     return (
       React.createElement("div", {className: "service-home"}, 
         React.createElement(Header, {smallTitle: true}), 
-        React.createElement(ServicePanel, {service: service})
+        React.createElement(ServicePanel, {service: JSON.parse($("#content").attr("data-service"))})
       )
     );
   }
