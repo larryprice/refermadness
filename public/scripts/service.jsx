@@ -8,22 +8,40 @@ var EditButton = React.createClass({
       }, 500);
     }
   },
+  finishEdit: function() {
+    $(".add-code-btn .glyphicon").addClass("fade-out");
+    setTimeout(function() {
+      $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out infinite").addClass("glyphicon-pencil fade-in");
+    }, 500);
+  },
   clickButton: function() {
     if ($(".add-code-entry").hasClass("disabled")) {
       this.startEdit();
     } else {
-      if ($(".add-code-entry").val() !== this.props.code.code) {
-        console.log("submit new code");
-        this.props.saved($(".add-code-entry").val());
-      }
       $(".add-code-entry").addClass("disabled");
       $(".add-code-btn .glyphicon").addClass("spin infinite");
-      setTimeout(function() {
-        $(".add-code-btn .glyphicon").addClass("fade-out");
-        setTimeout(function() {
-          $(".add-code-btn .glyphicon").removeClass("glyphicon-save fade-out infinite").addClass("glyphicon-pencil fade-in");
-        }, 500);
-      }, 300); // simulate ajax
+
+      if ($(".add-code-entry").val() === this.props.code.Code) {
+        this.finishEdit();
+        return;
+      }
+
+      var that = this;
+      $.ajax({
+        url: "/codes",
+        method: "POST",
+        data: JSON.stringify({
+          code: $(".add-code-entry").val(),
+          serviceId: that.props.serviceId
+        }),
+        success: function(code) {
+          that.props.saved(that.props.code)
+          that.finishEdit();
+        },
+        error: function(xhr) {
+          console.log("handle error", xhr);
+        }
+      });
     }
   },
   render: function() {
@@ -112,7 +130,6 @@ var ReferralCodeEntry = React.createClass({
     this.setState({code: code});
   },
   getInitialState: function() {
-    console.log(this.props.code)
     return {
       code: this.props.code
     };
@@ -120,7 +137,7 @@ var ReferralCodeEntry = React.createClass({
   render: function() {
     if (this.state.code !== "") {
       return (
-        <EditButton code={this.state.code} saved={this.onSave} />
+        <EditButton code={this.state.code} saved={this.onSave} serviceId={this.props.serviceId} />
       );
     } else {
       return (
