@@ -21,7 +21,7 @@ type AccountControllerImpl struct {
 	session     utils.SessionManager
 	database    utils.DatabaseAccessor
 	currentUser utils.CurrentUserAccessor
-	basePage utils.BasePageCreator
+	basePage    utils.BasePageCreator
 }
 
 func NewAccountController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
@@ -37,7 +37,7 @@ func NewAccountController(clientID, clientSecret string, isDevelopment bool, ses
 		session:      session,
 		database:     database,
 		currentUser:  currentUser,
-		basePage: basePage,
+		basePage:     basePage,
 	}
 }
 

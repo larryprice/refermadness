@@ -8,9 +8,9 @@ import (
 	"github.com/larryprice/refermadness/controllers"
 	"github.com/larryprice/refermadness/utils"
 	"github.com/larryprice/refermadness/web/middleware"
+	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"net/http"
-  "gopkg.in/unrolled/render.v1"
 )
 
 type Server struct {
@@ -18,7 +18,7 @@ type Server struct {
 }
 
 func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, clientID, clientSecret,
-	   sessionSecret string, isDevelopment bool) *Server {
+	sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
 	session := utils.NewSessionManager()
 	basePage := utils.NewBasePageCreator(cua)

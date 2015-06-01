@@ -268,7 +268,7 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
       return (
         React.createElement("div", {className: "row random-referral-code"}, 
           React.createElement("h3", null, "Looks like no one has added any codes for this service."), 
-          React.createElement("h3", null, "Be the first by using the form below.")
+          React.createElement("h3", null, "Be the first by clicking the button below.")
         )
       )
     }
