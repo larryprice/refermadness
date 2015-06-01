@@ -1,26 +1,31 @@
 var testData = [
-  {name: "Test #1", url: "https://test1.com", id: "556c6221f06a07031a000001", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {name: "Test #2", url: "https://example.test2.com", id: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {name: "Test #3", url: "https://3test.org", id: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {name: "Test #4", url: "https://signup.4test.net/", id: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]}
+  {Name: "Test #1", URL: "https://test1.com", ID: "556c6221f06a07031a000001", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {Name: "Test #2", URL: "https://example.test2.com", ID: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {Name: "Test #3", URL: "https://3test.org", ID: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {Name: "Test #4", URL: "https://signup.4test.net/", ID: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
+  {Name: "Test #5", URL: "http://testtesttesttesttest.me", ID: "5", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]}
 ];
 
 var Result = React.createClass({displayName: "Result",
+  getInitialState: function() {
+    return {
+      code: this.props.data,
+    };
+  },
   viewFull: function() {
-    this.props.onSelected(this.props.data);
+    this.props.onSelected(this.state.code);
   },
   render: function() {
     return (
       React.createElement("div", {className: "search-result col-md-3-point-5 col-sm-6 col-xs-12", onClick: this.viewFull}, 
         React.createElement("h2", null, 
-          this.props.data.name
+          this.state.code.Name
         ), 
         React.createElement("h4", null, 
-          this.props.data.url
+          this.state.code.URL
         ), 
         React.createElement("h5", null, 
-          "Some short description here?"
+          this.state.code.Description
         )
       )
     );
@@ -125,15 +130,15 @@ var SearchBox = React.createClass({displayName: "SearchBox",
     if (this.props.isReadonly !== true) {
       return (
         React.createElement("div", {className: "search-box"}, 
-          React.createElement("input", {type: "text", onChange: this.onTextChange, className: "form-control input-lg", ref: "text", 
-                 placeholder: "Give me a service name or URL!", value: this.props.initialSearch})
+          React.createElement("input", {type: "text", onChange: $.debounce(300, this.onTextChange), className: "form-control input-lg", ref: "text", 
+                 placeholder: "Give me a service name or URL!", defaultValue: this.props.initialSearch})
         )
       );
     } else {
       return (
           React.createElement("div", {className: "search-box"}, 
-            React.createElement("input", {type: "text", onChange: this.onTextChange, onClick: this.edit, className: "form-control input-lg disabled", ref: "text", 
-                   placeholder: "Give me a service name or URL!", value: this.props.initialSearch})
+            React.createElement("input", {type: "text", onChange: $.debounce(300, this.onTextChange), onClick: this.edit, className: "form-control input-lg disabled", ref: "text", 
+                   placeholder: "Give me a service name or URL!", defaultValue: this.props.initialSearch})
           )
         );
     }
@@ -165,7 +170,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       return [];
     }
     return testData.filter(function(val) {
-      return val.name.indexOf(query) > -1 || val.url.indexOf(query) > -1;
+      return val.Name.indexOf(query) > -1 || val.URL.indexOf(query) > -1;
     });
   },
   handleSearchTextChange: function(query) {
