@@ -16,10 +16,6 @@ type Server struct {
 	*negroni.Negroni
 }
 
-type Page struct {
-	LoggedIn bool
-}
-
 func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, clientID, clientSecret,
 	   sessionSecret string, isDevelopment bool) *Server {
 	s := Server{negroni.Classic()}
@@ -42,6 +38,8 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 
 	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage)
 	accountController.Register(router)
+	createServiceController := controllers.NewCreateServiceController(cua, basePage)
+	createServiceController.Register(router)
 	serviceController := controllers.NewServiceController(cua, basePage)
 	serviceController.Register(router)
 

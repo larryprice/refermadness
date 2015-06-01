@@ -85,11 +85,27 @@ var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
     }
 
     $(".form-group .glyphicon").addClass("spin infinite");
-    var that = this;
-    setTimeout(function() {
-      console.log("POST /service/create");
-      that.props.onServiceCreated(testData[2]); // ajax request returns newly created service
-    }, 300); // simulate ajax request
+    $.ajax({
+      url: "/service/create",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({
+        name: $("#create-service-name").val(),
+        description: $("#create-service-description").val(),
+        url: $("#create-service-url").val()
+      }),
+      dataType: "json",
+      success: function(service) {
+        console.log(service)
+        // that.props.onServiceCreated(service);
+      },
+      error: function(xhr) {
+        console.log(xhr);
+      },
+      complete: function() {
+        $(".form-group .glyphicon").removeClass("spin infinite");
+      }
+    });
   },
   render: function() {
     return (

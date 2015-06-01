@@ -20,12 +20,10 @@ func NewServiceController(currentUser utils.CurrentUserAccessor, basePage utils.
 }
 
 func (sc *ServiceControllerImpl) Register(router *mux.Router) {
-  router.HandleFunc("/service/create", func(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("views/layout.html", "views/create-service.html")
-    t.Execute(w, sc.basePage.Get(r))
-  })
-  router.HandleFunc("/service/{id}", func(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("views/layout.html", "views/service.html")
-    t.Execute(w, sc.basePage.Get(r))
-  })
+  router.HandleFunc("/service/{id}", sc.view)
+}
+
+func (sc *ServiceControllerImpl) view(w http.ResponseWriter, r *http.Request) {
+  t, _ := template.ParseFiles("views/layout.html", "views/service.html")
+  t.Execute(w, sc.basePage.Get(r))
 }
