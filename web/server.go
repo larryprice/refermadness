@@ -44,6 +44,8 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	createServiceController.Register(router)
 	serviceController := controllers.NewServiceController(cua, basePage, renderer, dba)
 	serviceController.Register(router)
+	codeController := controllers.NewReferralCodeController(cua, renderer, dba)
+	codeController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.Use(middleware.NewDatabase(dba).Middleware())

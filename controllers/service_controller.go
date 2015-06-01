@@ -33,7 +33,7 @@ func (sc *ServiceControllerImpl) Register(router *mux.Router) {
 	router.HandleFunc("/service/{id}", sc.single)
 }
 
-type result struct {
+type serviceResult struct {
 	*models.Service
 	Code string
 }
@@ -62,13 +62,15 @@ func (sc *ServiceControllerImpl) single(w http.ResponseWriter, r *http.Request) 
 	t.Execute(w, servicePage{sc.basePage.Get(r), string(resultString)})
 }
 
-func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (result, error) {
+func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (serviceResult, error) {
 	if !bson.IsObjectIdHex(mux.Vars(r)["id"]) {
-		return result{}, errors.New("Not a valid ID.")
+		return serviceResult{}, errors.New("Not a valid ID.")
 	}
 	service := new(models.Service)
-	if service.FindByID(bson.ObjectIdHex(mux.Vars(r)["id"]), sc.database.Get(r)); !service.ID.Valid() {
-		return result{}, errors.New("No such service.")
+  db := sc.database.Get(r)
+	if service.FindByID(bson.ObjectIdHex(mux.Vars(r)["id"]), db); !service.ID.Valid() {
+		return serviceResult{}, errors.New("No such service.")
 	}
-	return result{service, ""}, nil
+  service.WasSelected(db);
+	return serviceResult{service, ""}, nil
 }

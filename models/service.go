@@ -40,6 +40,12 @@ func (s *Service) FindByID(id bson.ObjectId, db *mgo.Database) error {
 	return s.coll(db).FindId(id).One(s)
 }
 
+func (s *Service) WasSelected(db *mgo.Database) error {
+  s.SelectedCount++
+  s.LastSelected = time.Now()
+  return s.Save(db)
+}
+
 func (*Service) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("service")
 }

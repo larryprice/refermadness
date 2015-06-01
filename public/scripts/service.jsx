@@ -12,7 +12,7 @@ var EditButton = React.createClass({
     if ($(".add-code-entry").hasClass("disabled")) {
       this.startEdit();
     } else {
-      if ($(".add-code-entry").val() !== this.props.value) {
+      if ($(".add-code-entry").val() !== this.props.code.code) {
         console.log("submit new code");
         this.props.saved($(".add-code-entry").val());
       }
@@ -32,7 +32,7 @@ var EditButton = React.createClass({
         <div className="row">
           <div className="col-xs-12">
             <input type="text" className="add-code-entry form-control input-lg disabled"
-                   placeholder="Enter your code..." defaultValue={this.props.value} onClick={this.startEdit} />
+                   placeholder="Enter your code..." defaultValue={this.props.code.Code} onClick={this.startEdit} />
             <button className="btn btn-lg btn-default add-code-btn hide-me" onClick={this.clickButton}>
               <span className="glyphicon glyphicon-pencil" />
             </button>
@@ -40,7 +40,7 @@ var EditButton = React.createClass({
         </div>
         <div className="row">
           <div className="col-xs-12 referral-code-views">
-            <em>0 views since 14 May 2015</em>
+            <em>{this.props.code.Views} views since {new Date(this.props.code.DateUpdated).toDateString()}</em>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ var EditButton = React.createClass({
 });
 
 var AddButton = React.createClass({
-  showSearchBox: function() {
+  showEditBox: function() {
     if ($("body").attr("data-logged-in") !== "true") {
       $("#authenticate-panel").collapse("show");
       $("#authenticate-panel")[0].scrollIntoView();
@@ -60,18 +60,29 @@ var AddButton = React.createClass({
       $(".add-code-entry").addClass("disabled");
       $(".add-code-entry").prop("disabled", true);
       $(".add-code-btn .glyphicon-plus").addClass("spin");
-      console.log("submit to server");
+
       var that = this;
-      setTimeout(function() {
-        $(".add-code-btn .glyphicon").addClass("fade-out");
-        setTimeout(function() {
-          $(".add-code-btn .glyphicon")
-            .removeClass("fade-out spin glyphicon-plus")
-            .addClass("glyphicon-pencil fade-in");
-          $(".add-code-entry").prop("disabled", false);
-          that.props.saved($(".add-code-entry").val());
-        }, 500);
-      }, 300);
+      $.ajax({
+        url: "/codes",
+        method: "POST",
+        data: JSON.stringify({
+          code: $(".add-code-entry").val(),
+          serviceId: that.props.serviceId
+        }),
+        success: function(code) {
+          $(".add-code-btn .glyphicon").addClass("fade-out");
+          setTimeout(function() {
+            $(".add-code-btn .glyphicon")
+              .removeClass("fade-out spin glyphicon-plus")
+              .addClass("glyphicon-pencil fade-in");
+            $(".add-code-entry").prop("disabled", false);
+            that.props.saved(code);
+          }, 500);
+        },
+        error: function(xhr) {
+          console.log("handle error", xhr);
+        }
+      });
     } else {
       $(".add-code-msg").toggleClass("hide-me");
       $(".add-code-entry").toggleClass("hide-me");
@@ -84,7 +95,7 @@ var AddButton = React.createClass({
       <div className="row add-referral-code">
         <div className="col-xs-12">
           <input type="text" className="add-code-entry hide-me form-control input-lg" placeholder="Enter your code..." />
-          <button className="btn btn-lg btn-default add-code-btn" onClick={this.showSearchBox}>
+          <button className="btn btn-lg btn-default add-code-btn" onClick={this.showEditBox}>
             <span className="glyphicon glyphicon-plus" />
             <div className="add-code-msg">
               Have your own code? Add it!
@@ -97,22 +108,22 @@ var AddButton = React.createClass({
 });
 
 var ReferralCodeEntry = React.createClass({
-  onSave: function(value) {
-    this.setState({value: value});
+  onSave: function(code) {
+    this.setState({code: code});
   },
   getInitialState: function() {
     return {
-      value: ""
+      code: ""
     };
   },
   render: function() {
-    if (this.state.value !== "") {
+    if (this.state.code !== "") {
       return (
-        <EditButton value={this.state.value} saved={this.onSave} />
+        <EditButton code={this.state.code} saved={this.onSave} />
       );
     } else {
       return (
-        <AddButton saved={this.onSave} />
+        <AddButton saved={this.onSave} serviceId={this.props.serviceId} />
       );
     }
   }
@@ -260,7 +271,7 @@ var ReferralCode = React.createClass({
             <h1 className="referral-code">
               {this.state.code}
             </h1>
-            <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
+            <ReferralCodeActions code={this.state.code.code} onNewCode={this.setCode} />
           </div>
         </div>
       );
@@ -281,7 +292,8 @@ var ServicePage = React.createClass({
       code: this.props.data.Code,
       name: this.props.data.Name,
       url: this.props.data.URL,
-      description: this.props.data.Description
+      description: this.props.data.Description,
+      id: this.props.data.ID
     };
   },
   render: function() {
@@ -301,7 +313,7 @@ var ServicePage = React.createClass({
           </div>
         </div>
         <ReferralCode code={this.state.code} />
-        <ReferralCodeEntry />
+        <ReferralCodeEntry serviceId={this.state.id} />
       </div>
     );
   }
