@@ -35,7 +35,7 @@ var EditButton = React.createClass({displayName: "EditButton",
           serviceId: that.props.serviceId
         }),
         success: function(code) {
-          that.props.saved(that.props.code)
+          that.props.saved(code)
           that.finishEdit();
         },
         error: function(xhr) {
@@ -127,6 +127,7 @@ var AddButton = React.createClass({displayName: "AddButton",
 
 var ReferralCodeEntry = React.createClass({displayName: "ReferralCodeEntry",
   onSave: function(code) {
+    this.props.onUpdate(code);
     this.setState({code: code});
   },
   getInitialState: function() {
@@ -135,7 +136,7 @@ var ReferralCodeEntry = React.createClass({displayName: "ReferralCodeEntry",
     };
   },
   render: function() {
-    if (this.state.code !== "") {
+    if (this.state.code) {
       return (
         React.createElement(EditButton, {code: this.state.code, saved: this.onSave, serviceId: this.props.serviceId})
       );
@@ -269,7 +270,7 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
   getInitialState: function() {
     return {
       code: this.props.code
-    }
+    };
   },
   setCode: function(code) {
     this.state.code = code;
@@ -279,7 +280,7 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
     }, 300);
   },
   render: function() {
-    if (this.code) {
+    if (this.state.code) {
       return (
         React.createElement("div", {className: "row random-referral-code"}, 
           React.createElement("div", {className: "col-xs-12"}, 
@@ -287,19 +288,28 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
               "Use this referral code:"
             ), 
             React.createElement("h1", {className: "referral-code"}, 
-              this.state.code
+              this.state.code.Code
             ), 
-            React.createElement(ReferralCodeActions, {code: this.state.code.code, onNewCode: this.setCode})
+            React.createElement(ReferralCodeActions, {code: this.state.code, onNewCode: this.setCode})
           )
         )
       );
     } else {
-      return (
-        React.createElement("div", {className: "row random-referral-code"}, 
-          React.createElement("h3", null, "Looks like no one has added any codes for this service."), 
-          React.createElement("h3", null, "Be the first by clicking the button below.")
+      if (this.props.userHasCode) {
+        return (
+          React.createElement("div", {className: "row random-referral-code"}, 
+            React.createElement("h3", null, "Looks like no one has added any codes for this service (except you)."), 
+            React.createElement("h3", null, "Tell your firends, coworkers, or random strangers to add their codes!")
+          )
         )
-      )
+      } else {
+        return (
+          React.createElement("div", {className: "row random-referral-code"}, 
+            React.createElement("h3", null, "Looks like no one has added any codes for this service."), 
+            React.createElement("h3", null, "Be the first by clicking the button below.")
+          )
+        )
+      }
     }
   }
 });
@@ -314,6 +324,11 @@ var ServicePage = React.createClass({displayName: "ServicePage",
       id: this.props.data.ID,
       userCode: this.props.data.UserCode
     };
+  },
+  onCodeUpdated: function(code) {
+    if (!this.state.code) {
+      this.setState({userCode: code});
+    }
   },
   render: function() {
     return (
@@ -331,8 +346,8 @@ var ServicePage = React.createClass({displayName: "ServicePage",
             )
           )
         ), 
-        React.createElement(ReferralCode, {code: this.state.code}), 
-        React.createElement(ReferralCodeEntry, {code: this.state.userCode, serviceId: this.state.id})
+        React.createElement(ReferralCode, {code: this.state.code, userHasCode: this.state.userCode !== undefined}), 
+        React.createElement(ReferralCodeEntry, {code: this.state.userCode, serviceId: this.state.id, onUpdate: this.onCodeUpdated})
       )
     );
   }

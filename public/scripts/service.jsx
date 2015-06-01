@@ -35,7 +35,7 @@ var EditButton = React.createClass({
           serviceId: that.props.serviceId
         }),
         success: function(code) {
-          that.props.saved(that.props.code)
+          that.props.saved(code)
           that.finishEdit();
         },
         error: function(xhr) {
@@ -127,6 +127,7 @@ var AddButton = React.createClass({
 
 var ReferralCodeEntry = React.createClass({
   onSave: function(code) {
+    this.props.onUpdate(code);
     this.setState({code: code});
   },
   getInitialState: function() {
@@ -135,7 +136,7 @@ var ReferralCodeEntry = React.createClass({
     };
   },
   render: function() {
-    if (this.state.code !== "") {
+    if (this.state.code) {
       return (
         <EditButton code={this.state.code} saved={this.onSave} serviceId={this.props.serviceId} />
       );
@@ -269,7 +270,7 @@ var ReferralCode = React.createClass({
   getInitialState: function() {
     return {
       code: this.props.code
-    }
+    };
   },
   setCode: function(code) {
     this.state.code = code;
@@ -279,7 +280,7 @@ var ReferralCode = React.createClass({
     }, 300);
   },
   render: function() {
-    if (this.code) {
+    if (this.state.code) {
       return (
         <div className="row random-referral-code">
           <div className="col-xs-12">
@@ -287,19 +288,28 @@ var ReferralCode = React.createClass({
               Use this referral code:
             </h3>
             <h1 className="referral-code">
-              {this.state.code}
+              {this.state.code.Code}
             </h1>
-            <ReferralCodeActions code={this.state.code.code} onNewCode={this.setCode} />
+            <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
           </div>
         </div>
       );
     } else {
-      return (
-        <div className="row random-referral-code">
-          <h3>Looks like no one has added any codes for this service.</h3>
-          <h3>Be the first by clicking the button below.</h3>
-        </div>
-      )
+      if (this.props.userHasCode) {
+        return (
+          <div className="row random-referral-code">
+            <h3>Looks like no one has added any codes for this service (except you).</h3>
+            <h3>Tell your firends, coworkers, or random strangers to add their codes!</h3>
+          </div>
+        )
+      } else {
+        return (
+          <div className="row random-referral-code">
+            <h3>Looks like no one has added any codes for this service.</h3>
+            <h3>Be the first by clicking the button below.</h3>
+          </div>
+        )
+      }
     }
   }
 });
@@ -314,6 +324,11 @@ var ServicePage = React.createClass({
       id: this.props.data.ID,
       userCode: this.props.data.UserCode
     };
+  },
+  onCodeUpdated: function(code) {
+    if (!this.state.code) {
+      this.setState({userCode: code});
+    }
   },
   render: function() {
     return (
@@ -331,8 +346,8 @@ var ServicePage = React.createClass({
             </h4>
           </div>
         </div>
-        <ReferralCode code={this.state.code} />
-        <ReferralCodeEntry code={this.state.userCode} serviceId={this.state.id} />
+        <ReferralCode code={this.state.code}  userHasCode={this.state.userCode !== undefined} />
+        <ReferralCodeEntry code={this.state.userCode} serviceId={this.state.id} onUpdate={this.onCodeUpdated} />
       </div>
     );
   }
