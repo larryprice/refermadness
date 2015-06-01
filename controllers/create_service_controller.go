@@ -7,19 +7,20 @@ import (
   "net/http"
   "encoding/json"
   "io/ioutil"
-
-  "fmt"
+  "gopkg.in/unrolled/render.v1"
 )
 
 type CreateServiceControllerImpl struct {
   currentUser utils.CurrentUserAccessor
   basePage utils.BasePageCreator
+  renderer *render.Render
 }
 
 func NewCreateServiceController(currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator) *CreateServiceControllerImpl {
   return &CreateServiceControllerImpl{
     currentUser: currentUser,
     basePage: basePage,
+    renderer: render.New(),
   }
 }
 
@@ -37,14 +38,19 @@ func (sc *CreateServiceControllerImpl) create(w http.ResponseWriter, r *http.Req
   var serviceData map[string]string
   body, _ := ioutil.ReadAll(r.Body)
   if err := json.Unmarshal(body, &serviceData); err != nil {
-    fmt.Println("There was an error parsing json!", err)
+    sc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
+      "error": err.Error(),
+    })
     return
   }
 
   if serviceData["name"] == "" || serviceData["description"] == "" || serviceData["url"] == "" {
-    fmt.Println("bad data sent to create")
+    sc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
+      "error": "All fields must be filled out.",
+    })
     return
   }
 
-  fmt.Println(serviceData)
+  // service := models.NewService(name, description, url)
+  sc.renderer.JSON(w, http.StatusCreated, nil)
 }
