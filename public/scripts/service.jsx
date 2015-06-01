@@ -112,8 +112,9 @@ var ReferralCodeEntry = React.createClass({
     this.setState({code: code});
   },
   getInitialState: function() {
+    console.log(this.props.code)
     return {
-      code: ""
+      code: this.props.code
     };
   },
   render: function() {
@@ -293,7 +294,8 @@ var ServicePage = React.createClass({
       name: this.props.data.Name,
       url: this.props.data.URL,
       description: this.props.data.Description,
-      id: this.props.data.ID
+      id: this.props.data.ID,
+      userCode: this.props.data.UserCode
     };
   },
   render: function() {
@@ -313,7 +315,7 @@ var ServicePage = React.createClass({
           </div>
         </div>
         <ReferralCode code={this.state.code} />
-        <ReferralCodeEntry serviceId={this.state.id} />
+        <ReferralCodeEntry code={this.state.userCode} serviceId={this.state.id} />
       </div>
     );
   }

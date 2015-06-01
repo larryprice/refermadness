@@ -17,9 +17,10 @@ type Service struct {
 	CreatedDate   time.Time `bson:"created_date"`
 	LastSelected  time.Time `bson:"last_selected"`
 	SelectedCount uint      `bson:"selected_count"`
+	CreatedBy     bson.ObjectId `bson:"created_by"`
 }
 
-func NewService(name, description, url string) *Service {
+func NewService(name, description, url string, creatorID bson.ObjectId) *Service {
 	return &Service{
 		ID:            bson.NewObjectId(),
 		Name:          name,
@@ -28,6 +29,7 @@ func NewService(name, description, url string) *Service {
 		CreatedDate:   time.Now(),
 		LastSelected:  time.Now(),
 		SelectedCount: 1,
+		CreatedBy:     creatorID,
 	}
 }
 

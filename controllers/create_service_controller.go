@@ -55,7 +55,7 @@ func (sc *CreateServiceControllerImpl) create(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	service := models.NewService(serviceData["name"], serviceData["description"], serviceData["url"])
+	service := models.NewService(serviceData["name"], serviceData["description"], serviceData["url"], sc.currentUser.Get(r).ID)
 	service.Save(sc.database.Get(r))
 	sc.renderer.JSON(w, http.StatusCreated, service)
 }

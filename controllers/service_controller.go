@@ -35,7 +35,8 @@ func (sc *ServiceControllerImpl) Register(router *mux.Router) {
 
 type serviceResult struct {
 	*models.Service
-	Code string
+	RandomCode string
+	UserCode *models.ReferralCode
 }
 
 type servicePage struct {
@@ -72,5 +73,9 @@ func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (se
 		return serviceResult{}, errors.New("No such service.")
 	}
   service.WasSelected(db);
-	return serviceResult{service, ""}, nil
+
+  userRefCode := new(models.ReferralCode)
+  userRefCode.FindByUserAndService(sc.currentUser.Get(r).ID, service.ID, db)
+
+	return serviceResult{service, "", userRefCode}, nil
 }
