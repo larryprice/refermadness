@@ -85,6 +85,7 @@ var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
     }
 
     $(".form-group .glyphicon").addClass("spin infinite");
+    var that = this;
     $.ajax({
       url: "/service/create",
       method: "POST",
@@ -96,8 +97,7 @@ var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
       }),
       dataType: "json",
       success: function(service) {
-        console.log(service)
-        // that.props.onServiceCreated(service);
+        that.props.onServiceCreated(service);
       },
       error: function(xhr) {
         console.log(xhr);

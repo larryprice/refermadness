@@ -2,6 +2,7 @@ package controllers
 
 import (
   "github.com/gorilla/mux"
+  "github.com/larryprice/refermadness/models"
   "github.com/larryprice/refermadness/utils"
   "html/template"
   "net/http"
@@ -51,6 +52,7 @@ func (sc *CreateServiceControllerImpl) create(w http.ResponseWriter, r *http.Req
     return
   }
 
-  // service := models.NewService(name, description, url)
-  sc.renderer.JSON(w, http.StatusCreated, nil)
+  service := models.NewService(serviceData["name"], serviceData["description"], serviceData["url"])
+  service.Save()
+  sc.renderer.JSON(w, http.StatusCreated, service)
 }
