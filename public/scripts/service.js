@@ -250,19 +250,28 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
     }, 300);
   },
   render: function() {
-    return (
-      React.createElement("div", {className: "row random-referral-code"}, 
-        React.createElement("div", {className: "col-xs-12"}, 
-          React.createElement("h3", null, 
-            "Use this referral code:"
-          ), 
-          React.createElement("h1", {className: "referral-code"}, 
-            this.state.code
-          ), 
-          React.createElement(ReferralCodeActions, {code: this.state.code, onNewCode: this.setCode})
+    if (this.code) {
+      return (
+        React.createElement("div", {className: "row random-referral-code"}, 
+          React.createElement("div", {className: "col-xs-12"}, 
+            React.createElement("h3", null, 
+              "Use this referral code:"
+            ), 
+            React.createElement("h1", {className: "referral-code"}, 
+              this.state.code
+            ), 
+            React.createElement(ReferralCodeActions, {code: this.state.code, onNewCode: this.setCode})
+          )
+        )
+      );
+    } else {
+      return (
+        React.createElement("div", {className: "row random-referral-code"}, 
+          React.createElement("h3", null, "Looks like no one has added any codes for this service."), 
+          React.createElement("h3", null, "Be the first by using the form below.")
         )
       )
-    );
+    }
   }
 });
 

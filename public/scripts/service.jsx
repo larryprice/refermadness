@@ -250,19 +250,28 @@ var ReferralCode = React.createClass({
     }, 300);
   },
   render: function() {
-    return (
-      <div className="row random-referral-code">
-        <div className="col-xs-12">
-          <h3>
-            Use this referral code:
-          </h3>
-          <h1 className="referral-code">
-            {this.state.code}
-          </h1>
-          <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
+    if (this.code) {
+      return (
+        <div className="row random-referral-code">
+          <div className="col-xs-12">
+            <h3>
+              Use this referral code:
+            </h3>
+            <h1 className="referral-code">
+              {this.state.code}
+            </h1>
+            <ReferralCodeActions code={this.state.code} onNewCode={this.setCode} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="row random-referral-code">
+          <h3>Looks like no one has added any codes for this service.</h3>
+          <h3>Be the first by using the form below.</h3>
+        </div>
+      )
+    }
   }
 });
 
