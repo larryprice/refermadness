@@ -33,10 +33,6 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
 		t.Execute(w, basePage.Get(r))
 	})
-	router.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFiles("views/layout.html", "views/search.html")
-		t.Execute(w, basePage.Get(r))
-	})
 
 	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage)
 	accountController.Register(router)
@@ -46,6 +42,8 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	serviceController.Register(router)
 	codeController := controllers.NewReferralCodeController(cua, renderer, dba)
 	codeController.Register(router)
+	searchController := controllers.NewSearchController(cua, basePage, renderer, dba)
+	searchController.Register(router)
 
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.Use(middleware.NewDatabase(dba).Middleware())

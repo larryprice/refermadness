@@ -71,10 +71,11 @@ var SearchResults = React.createClass({displayName: "SearchResults",
     this.props.onResultSelected(data)
   },
   standardizeResultHeights: function() {
-    var results =$(".search-result")
+    var results = $(".search-result");
     if (results.length > 1) {
       var standardHeight = Math.max.apply(null,
         results.map(function(idx, el) {
+          console.log($(el).height());
           return $(el).height();
         }).get());
       results.each(function() {
@@ -149,13 +150,22 @@ var SearchPage = React.createClass({displayName: "SearchPage",
   getSearchParam: function() {
     var search = window.location.search;
     if (search.startsWith("?q=")) {
-      return search.substring(search.indexOf("=")+1);
+      return decodeURIComponent(search.substring(search.indexOf("=")+1));
     }
   },
   getInitialState: function() {
     var query = this.getSearchParam();
+    var data = []
+    if ($("#content").attr("data-search-results")) {
+      data = JSON.parse($("#content").attr("data-search-results"));
+      if (!$.isArray(data)) {
+        data = [];
+      }
+    } else {
+      this.getFilteredData(query);
+    }
     return {
-      data: this.getFilteredData(query),
+      data: data,
       selected: this.props.selected || -1,
       creating: this.props.creating,
       initialSearch: query
@@ -163,22 +173,34 @@ var SearchPage = React.createClass({displayName: "SearchPage",
   },
   getFilteredData: function(query) {
     query = $.trim(query);
-    if (this.isMounted()) {
-      this.setState({initialSearch: query});
-    }
     if (query === "") {
       return [];
     }
+
+    var that = this;
+    $.ajax({
+      url: "/search?q=" + encodeURIComponent(query),
+      method: "POST",
+      contentType: "application/json",
+      success: function(data) {
+        console.log("got results", data);
+        that.setState({data: [testData[1], testData[2]]});
+      },
+      error: function(xhr) {
+        console.log("got search error", xhr)
+      }
+    });
+
     return testData.filter(function(val) {
       return val.Name.indexOf(query) > -1 || val.URL.indexOf(query) > -1;
     });
   },
   handleSearchTextChange: function(query) {
-    var data = this.getFilteredData(query);
+    this.getFilteredData(query);
     if (this.props.onNonEmptySearch) {
       this.props.onNonEmptySearch();
     }
-    this.setState({data: data, selected: -1});
+    this.setState({data: data, initialSearch: query, selected: -1});
   },
   resultSelected: function(data) {
     var animationFinished = false, endAnimation = $(".search-result").length-1;
@@ -196,11 +218,10 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       url: "/service/" + data.id,
       contentType: "application/json",
       success: function(service) {
-        console.log(service);
         var proceedToServicePage = function() {
           setTimeout(function() {
             if (animationFinished) {
-              var searchText = $(".search-box input").val()
+              var searchText = encodeURIComponent($(".search-box input").val())
               history.pushState(null, null, "/search?q=" + searchText);
               history.pushState(null, null, "/service/" + service.ID + "?q=" + searchText);
               that.setState({selected: service});
@@ -217,7 +238,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     });
   },
   createService: function() {
-    var searchText = $(React.findDOMNode(this.refs.searchbox)).find("input").val()
+    var searchText = encodeURIComponent($(React.findDOMNode(this.refs.searchbox)).find("input").val());
     history.pushState(null, null, "/search?q=" + searchText);
     history.pushState(null, null, "/service/create");
     this.setState({creating: true});

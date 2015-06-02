@@ -10,6 +10,7 @@ import (
 	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
 type ServiceControllerImpl struct {
@@ -47,7 +48,7 @@ type servicePage struct {
 func (sc *ServiceControllerImpl) single(w http.ResponseWriter, r *http.Request) {
 	data, err := sc.get(w, r)
 
-	if len(r.Header["Content-Type"]) == 1 && r.Header["Content-Type"][0] == "application/json" {
+	if len(r.Header["Content-Type"]) == 1 && strings.Contains(r.Header["Content-Type"][0], "application/json") {
 		if err != nil {
 			sc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
 				"error": err.Error(),

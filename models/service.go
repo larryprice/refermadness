@@ -51,3 +51,9 @@ func (s *Service) WasSelected(db *mgo.Database) error {
 func (*Service) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("service")
 }
+
+type Services []Service
+
+func (s *Services) FindRelevant(db *mgo.Database) error {
+	return nil
+}
