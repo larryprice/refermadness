@@ -75,7 +75,6 @@ var SearchResults = React.createClass({displayName: "SearchResults",
     if (results.length > 1) {
       var standardHeight = Math.max.apply(null,
         results.map(function(idx, el) {
-          console.log($(el).height());
           return $(el).height();
         }).get());
       results.each(function() {
@@ -183,8 +182,8 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       method: "POST",
       contentType: "application/json",
       success: function(data) {
-        console.log("got results", data);
-        that.setState({data: [testData[1], testData[2]]});
+        history.pushState(null, null, "/search?q=" + encodeURIComponent($(".search-box input").val()));
+        that.setState({data: data});
       },
       error: function(xhr) {
         console.log("got search error", xhr)
@@ -200,7 +199,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     if (this.props.onNonEmptySearch) {
       this.props.onNonEmptySearch();
     }
-    this.setState({data: data, initialSearch: query, selected: -1});
+    this.setState({initialSearch: query, selected: -1});
   },
   resultSelected: function(data) {
     var animationFinished = false, endAnimation = $(".search-result").length-1;
@@ -215,15 +214,13 @@ var SearchPage = React.createClass({displayName: "SearchPage",
 
     var that = this;
     $.ajax({
-      url: "/service/" + data.id,
+      url: "/service/" + data.ID,
       contentType: "application/json",
       success: function(service) {
         var proceedToServicePage = function() {
           setTimeout(function() {
             if (animationFinished) {
-              var searchText = encodeURIComponent($(".search-box input").val())
-              history.pushState(null, null, "/search?q=" + searchText);
-              history.pushState(null, null, "/service/" + service.ID + "?q=" + searchText);
+              history.pushState(null, null, "/service/" + service.ID + "?q=" + encodeURIComponent($(".search-box input").val()));
               that.setState({selected: service});
             } else {
               proceedToServicePage();

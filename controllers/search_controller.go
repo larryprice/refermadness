@@ -50,7 +50,7 @@ func (sc *SearchControllerImpl) search(w http.ResponseWriter, r *http.Request) {
       })
       return
     }
-    sc.renderer.JSON(w, http.StatusCreated, data)
+    sc.renderer.JSON(w, http.StatusOK, data)
     return
   }
 
@@ -61,11 +61,12 @@ func (sc *SearchControllerImpl) search(w http.ResponseWriter, r *http.Request) {
 
 func (sc *SearchControllerImpl) get(w http.ResponseWriter, r *http.Request) (*models.Services, error) {
   services := new(models.Services)
-  if r.FormValue("q") == "" {
+  query := r.FormValue("q")
+  if query == "" {
     return services, nil
   }
-  db := sc.database.Get(r)
-  if err := services.FindRelevant(db); err != nil {
+
+  if err := services.FindRelevant(query, sc.database.Get(r)); err != nil {
     return nil, errors.New("Database error: " + err.Error())
   }
 

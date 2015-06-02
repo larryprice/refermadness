@@ -136,7 +136,8 @@ var ReferralCodeEntry = React.createClass({displayName: "ReferralCodeEntry",
     };
   },
   render: function() {
-    if (this.state.code) {
+    console.log(this.state.code)
+    if (this.state.code.ID !== "") {
       return (
         React.createElement(EditButton, {code: this.state.code, saved: this.onSave, serviceId: this.props.serviceId})
       );
@@ -346,7 +347,7 @@ var ServicePage = React.createClass({displayName: "ServicePage",
             )
           )
         ), 
-        React.createElement(ReferralCode, {code: this.state.code, userHasCode: this.state.userCode !== undefined}), 
+        React.createElement(ReferralCode, {code: this.state.code, userHasCode: this.state.userCode.ID !== ""}), 
         React.createElement(ReferralCodeEntry, {code: this.state.userCode, serviceId: this.state.id, onUpdate: this.onCodeUpdated})
       )
     );

@@ -136,7 +136,8 @@ var ReferralCodeEntry = React.createClass({
     };
   },
   render: function() {
-    if (this.state.code) {
+    console.log(this.state.code)
+    if (this.state.code.ID !== "") {
       return (
         <EditButton code={this.state.code} saved={this.onSave} serviceId={this.props.serviceId} />
       );
@@ -346,7 +347,7 @@ var ServicePage = React.createClass({
             </h4>
           </div>
         </div>
-        <ReferralCode code={this.state.code}  userHasCode={this.state.userCode !== undefined} />
+        <ReferralCode code={this.state.code}  userHasCode={this.state.userCode.ID !== ""} />
         <ReferralCodeEntry code={this.state.userCode} serviceId={this.state.id} onUpdate={this.onCodeUpdated} />
       </div>
     );

@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"time"
+	"strings"
 )
 
 type Service struct {
@@ -12,6 +13,7 @@ type Service struct {
 	Name        string        `bson:"email"`
 	Description string        `bson:"description"`
 	URL         string        `bson:"url"`
+	Search      string        `bson:"search"`
 
 	// analytics information
 	CreatedDate   time.Time `bson:"created_date"`
@@ -30,6 +32,7 @@ func NewService(name, description, url string, creatorID bson.ObjectId) *Service
 		LastSelected:  time.Now(),
 		SelectedCount: 1,
 		CreatedBy:     creatorID,
+		Search:        strings.ToLower(name) + ";" + strings.ToLower(description) + ";" + strings.ToLower(url),
 	}
 }
 
@@ -54,6 +57,11 @@ func (*Service) coll(db *mgo.Database) *mgo.Collection {
 
 type Services []Service
 
-func (s *Services) FindRelevant(db *mgo.Database) error {
+func (s *Services) FindRelevant(query string, db *mgo.Database) error {
+	s.coll(db).Find(bson.M{"$text": bson.M{"$search": query}}).All(s)
 	return nil
+}
+
+func (*Services) coll(db *mgo.Database) *mgo.Collection {
+	return db.C("service")
 }
