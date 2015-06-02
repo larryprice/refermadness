@@ -11,7 +11,7 @@ import (
   "net/http"
   "strings"
 
-  // "fmt"
+  "strconv"
 )
 
 type SearchControllerImpl struct {
@@ -59,16 +59,38 @@ func (sc *SearchControllerImpl) search(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, searchPage{sc.basePage.Get(r), string(resultString)})
 }
 
-func (sc *SearchControllerImpl) get(w http.ResponseWriter, r *http.Request) (*models.Services, error) {
+type searchResult struct {
+  *models.Services
+  Total int
+}
+
+func (sc *SearchControllerImpl) get(w http.ResponseWriter, r *http.Request) (searchResult, error) {
   services := new(models.Services)
   query := r.FormValue("q")
   if query == "" {
-    return services, nil
+    return searchResult{services, 0}, nil
   }
 
-  if err := services.FindRelevant(query, sc.database.Get(r)); err != nil {
-    return nil, errors.New("Database error: " + err.Error())
+  var limit int
+  var err error
+
+  if limit, err = strconv.Atoi(r.FormValue("limit")); err != nil {
+    limit = 11
   }
 
-  return services, nil
+  if limit > 50 {
+    limit = 50
+  }
+
+  var skip int
+  if skip, err = strconv.Atoi(r.FormValue("skip")); err != nil {
+    skip = 0
+  }
+
+  var total int
+  if total, err = services.FindRelevant(query, limit, skip, sc.database.Get(r)); err != nil {
+    return searchResult{}, errors.New("Database error: " + err.Error())
+  }
+
+  return searchResult{services, total}, nil
 }

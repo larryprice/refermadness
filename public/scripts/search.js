@@ -21,11 +21,11 @@ var Result = React.createClass({displayName: "Result",
         React.createElement("h2", null, 
           this.state.code.Name
         ), 
-        React.createElement("h4", null, 
-          this.state.code.URL
-        ), 
         React.createElement("h5", null, 
           this.state.code.Description
+        ), 
+        React.createElement("h4", null, 
+          this.state.code.URL
         )
       )
     );
@@ -145,23 +145,50 @@ var SearchBox = React.createClass({displayName: "SearchBox",
   }
 });
 
+var MoreResults = React.createClass({displayName: "MoreResults",
+  render: function() {
+    if (!this.props.isVisible) {
+      return null;
+    }
+
+    return (
+      React.createElement("div", {className: "more-results row"}, 
+        React.createElement("div", {className: "col-xs-12"}, 
+          React.createElement("button", {className: "btn btn-link btn-lg text-center", onClick: this.props.onMore}, 
+            React.createElement("span", {className: "glyphicon glyphicon-chevron-down"}), 
+            "Load More"
+          )
+        )
+      )
+    );
+  }
+});
+
 var SearchPage = React.createClass({displayName: "SearchPage",
   getSearchParam: function() {
-    var search = window.location.search;
-    if (search.startsWith("?q=")) {
-      return decodeURIComponent(search.substring(search.indexOf("=")+1));
-    }
+    var search = window.location.search.substring(1).split("&");
+    var searchMap = {};
+    search.forEach(function(item) {
+      var splitVals = item.split("=");
+      if (splitVals.length != 2) {
+        return;
+      }
+      searchMap[splitVals[0]] = splitVals[1];
+    });
+
+    return decodeURIComponent(searchMap["q"]);
   },
   getInitialState: function() {
     var query = this.getSearchParam();
     var data = [];
     if ($("#content").attr("data-search-results")) {
-      data = JSON.parse($("#content").attr("data-search-results")) || [];
+      data = JSON.parse($("#content").attr("data-search-results"));
     } else {
       this.getFilteredData(query);
     }
     return {
-      data: data,
+      services: data.Services || [],
+      total: data.Total,
       selected: this.props.selected || -1,
       creating: this.props.creating,
       initialSearch: query
@@ -172,15 +199,30 @@ var SearchPage = React.createClass({displayName: "SearchPage",
 
     var that = this;
     $.ajax({
-      url: "/search?q=" + query,
+      url: "/search?q=" + query + "&skip=0&limit=11",
       method: "POST",
       contentType: "application/json",
       success: function(data) {
         history.pushState(null, null, "/search?q=" + query);
-        that.setState({data: data || []});
+        that.setState({services: data.Services || [], total: data.Total});
       },
       error: function(xhr) {
-        console.log("got search error", xhr)
+        console.log("got search error", xhr);
+      }
+    });
+  },
+  getMoreResults: function() {
+    var that = this;
+    $.ajax({
+      url: "/search?q=" + that.state.initialSearch + "&skip=" + that.state.services.length + "&limit=11",
+      method: "POST",
+      contentType: "application/json",
+      success: function(data) {
+        history.pushState(null, null, "/search?q=" + query);
+        that.setState({services: that.state.services.concat(data.Services || []), total: data.Total});
+      },
+      error: function(xhr) {
+        console.log("got search error", xhr);
       }
     });
   },
@@ -245,7 +287,8 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       return (
         React.createElement("div", {className: "search-area"}, 
           React.createElement(SearchBox, {onSearchTextChange: this.handleSearchTextChange, ref: "searchbox", initialSearch: this.state.initialSearch}), 
-          React.createElement(SearchResults, {data: this.state.data, onResultSelected: this.resultSelected, onNewService: this.createService})
+          React.createElement(SearchResults, {data: this.state.services, onResultSelected: this.resultSelected, onNewService: this.createService}), 
+          React.createElement(MoreResults, {isVisible: this.state.total > this.state.services.length, onMore: this.getMoreResults})
         )
       );
     } else {

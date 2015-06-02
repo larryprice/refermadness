@@ -23,7 +23,7 @@ $darkest-green: #006F34;
   opacity: 0.85;
 }
 
-a {
+a, .btn-link {
   color: lavender;
 
   &:hover {
@@ -49,7 +49,12 @@ input[type=text].disabled {
   }
 }
 
-.glyphicon {
+button .glyphicon {
+  margin-right: .5em;
+  top: 3px;
+}
+
+.glyphicon {  
   &.spin {
     animation-name: loading-spin;
     animation-duration: 1s;

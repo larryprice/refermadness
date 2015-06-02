@@ -21,12 +21,12 @@ var Result = React.createClass({
         <h2>
           {this.state.code.Name}
         </h2>
-        <h4>
-          {this.state.code.URL}
-        </h4>
         <h5>
           {this.state.code.Description}
         </h5>
+        <h4>
+          {this.state.code.URL}
+        </h4>
       </div>
     );
   }
@@ -145,23 +145,50 @@ var SearchBox = React.createClass({
   }
 });
 
+var MoreResults = React.createClass({
+  render: function() {
+    if (!this.props.isVisible) {
+      return null;
+    }
+
+    return (
+      <div className="more-results row">
+        <div className="col-xs-12">
+          <button className="btn btn-link btn-lg text-center" onClick={this.props.onMore}>
+            <span className="glyphicon glyphicon-chevron-down"></span>
+            Load More
+          </button>
+        </div>
+      </div>
+    );
+  }
+});
+
 var SearchPage = React.createClass({
   getSearchParam: function() {
-    var search = window.location.search;
-    if (search.startsWith("?q=")) {
-      return decodeURIComponent(search.substring(search.indexOf("=")+1));
-    }
+    var search = window.location.search.substring(1).split("&");
+    var searchMap = {};
+    search.forEach(function(item) {
+      var splitVals = item.split("=");
+      if (splitVals.length != 2) {
+        return;
+      }
+      searchMap[splitVals[0]] = splitVals[1];
+    });
+
+    return decodeURIComponent(searchMap["q"]);
   },
   getInitialState: function() {
     var query = this.getSearchParam();
     var data = [];
     if ($("#content").attr("data-search-results")) {
-      data = JSON.parse($("#content").attr("data-search-results")) || [];
+      data = JSON.parse($("#content").attr("data-search-results"));
     } else {
       this.getFilteredData(query);
     }
     return {
-      data: data,
+      services: data.Services || [],
+      total: data.Total,
       selected: this.props.selected || -1,
       creating: this.props.creating,
       initialSearch: query
@@ -172,15 +199,30 @@ var SearchPage = React.createClass({
 
     var that = this;
     $.ajax({
-      url: "/search?q=" + query,
+      url: "/search?q=" + query + "&skip=0&limit=11",
       method: "POST",
       contentType: "application/json",
       success: function(data) {
         history.pushState(null, null, "/search?q=" + query);
-        that.setState({data: data || []});
+        that.setState({services: data.Services || [], total: data.Total});
       },
       error: function(xhr) {
-        console.log("got search error", xhr)
+        console.log("got search error", xhr);
+      }
+    });
+  },
+  getMoreResults: function() {
+    var that = this;
+    $.ajax({
+      url: "/search?q=" + that.state.initialSearch + "&skip=" + that.state.services.length + "&limit=11",
+      method: "POST",
+      contentType: "application/json",
+      success: function(data) {
+        history.pushState(null, null, "/search?q=" + query);
+        that.setState({services: that.state.services.concat(data.Services || []), total: data.Total});
+      },
+      error: function(xhr) {
+        console.log("got search error", xhr);
       }
     });
   },
@@ -245,7 +287,8 @@ var SearchPage = React.createClass({
       return (
         <div className="search-area">
           <SearchBox onSearchTextChange={this.handleSearchTextChange} ref="searchbox" initialSearch={this.state.initialSearch}/>
-          <SearchResults data={this.state.data} onResultSelected={this.resultSelected} onNewService={this.createService} />
+          <SearchResults data={this.state.services} onResultSelected={this.resultSelected} onNewService={this.createService} />
+          <MoreResults isVisible={this.state.total > this.state.services.length} onMore={this.getMoreResults} />
         </div>
       );
     } else {

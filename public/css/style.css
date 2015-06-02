@@ -14,9 +14,9 @@
 .btn-default:hover {
   opacity: 0.85; }
 
-a {
+a, .btn-link {
   color: lavender; }
-  a:hover {
+  a:hover, .btn-link:hover {
     color: lavender; }
 
 input[type=text].disabled {
@@ -30,6 +30,10 @@ input[type=text].disabled {
 @media (min-width: 992px) {
   .col-md-3-point-5 {
     width: 24%; } }
+button .glyphicon {
+  margin-right: .5em;
+  top: 3px; }
+
 .glyphicon.spin {
   animation-name: loading-spin;
   animation-duration: 1s;
