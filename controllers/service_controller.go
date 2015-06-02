@@ -31,7 +31,33 @@ func NewServiceController(currentUser utils.CurrentUserAccessor, basePage utils.
 }
 
 func (sc *ServiceControllerImpl) Register(router *mux.Router) {
+	router.HandleFunc("/service/popular", sc.popular)
+	router.HandleFunc("/service/recent", sc.recent)
 	router.HandleFunc("/service/{id}", sc.single)
+}
+
+func (sc *ServiceControllerImpl) popular(w http.ResponseWriter, r *http.Request) {
+	services := new(models.Services)
+	if err := services.FindMostPopular(3, sc.database.Get(r)); err != nil {
+		sc.renderer.JSON(w, http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	sc.renderer.JSON(w, http.StatusOK, services)
+}
+
+func (sc *ServiceControllerImpl) recent(w http.ResponseWriter, r *http.Request) {
+	services := new(models.Services)
+	if err := services.FindMostRecent(3, sc.database.Get(r)); err != nil {
+		sc.renderer.JSON(w, http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	sc.renderer.JSON(w, http.StatusOK, services)
 }
 
 type serviceResult struct {

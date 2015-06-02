@@ -63,6 +63,14 @@ func (s *Services) FindRelevant(query string, limit, skip int, db *mgo.Database)
 	return total, q.Skip(skip).Limit(limit).All(s)
 }
 
+func (s *Services) FindMostPopular(limit int, db *mgo.Database) error {
+	return s.coll(db).Find(nil).Sort("-selected_count").Limit(limit).All(s)
+}
+
+func (s *Services) FindMostRecent(limit int, db *mgo.Database) error {
+	return s.coll(db).Find(nil).Sort("-last_selected").Limit(limit).All(s)
+}
+
 func (*Services) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("service")
 }

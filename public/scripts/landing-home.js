@@ -110,18 +110,45 @@ var HookPanel = React.createClass({displayName: "HookPanel",
 
 var PopularPanel = React.createClass({displayName: "PopularPanel",
   selectResult: function(data) {
-    window.location.href = "/service/" + data.id;
+    window.location.href = "/service/" + data.ID;
+  },
+  standardizeResultHeights: function() {
+    var results = $(".popular-panel .search-result");
+    var standardHeight = Math.max.apply(null,
+      results.map(function(idx, el) {
+        return $(el).height();
+      }).get());
+    results.each(function() {
+      $(this).height(standardHeight);
+    });
+  },
+  componentDidMount: function() {
+    this.standardizeResultHeights();
+  },
+  componentDidUpdate: function() {
+    this.standardizeResultHeights();
+  },
+  fetchData: function() {
+    var that = this;
+    $.ajax({
+      url: "/service/popular",
+      contentType: "application/json",
+      success: function(data) {
+        that.setState({services: data});
+      }
+    });
+  },
+  getInitialState: function() {
+    this.fetchData();
+    return {
+      services: []
+    };
   },
   render: function() {
-    var testData = [
-      {name: "Test #3", url: "https://3test.org", id: "3"},
-      {name: "Test #4", url: "https://signup.4test.net/", id: "4"},
-      {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5"}
-    ];
     var that = this;
-    var results = testData.map(function (result) {
+    var results = this.state.services.map(function (result) {
       return (
-        React.createElement(Result, {key: result.id, data: result, onSelected: that.selectResult})
+        React.createElement(Result, {key: result.ID, data: result, onSelected: that.selectResult})
       );
     });
 
@@ -145,16 +172,43 @@ var RecentPanel = React.createClass({displayName: "RecentPanel",
   selectResult: function(data) {
     window.location.href = "/service/" + data.id;
   },
-  render: function() {
-    var testData = [
-      {name: "Test #3", url: "https://3test.org", id: "3"},
-      {name: "Test #4", url: "https://signup.4test.net/", id: "4"},
-      {name: "Test #5", url: "http://testtesttesttesttest.me", id: "5"}
-    ];
+  standardizeResultHeights: function() {
+    var results = $(".recent-panel .search-result");
+    var standardHeight = Math.max.apply(null,
+      results.map(function(idx, el) {
+        return $(el).height();
+      }).get());
+    results.each(function() {
+      $(this).height(standardHeight);
+    });
+  },
+  componentDidMount: function() {
+    this.standardizeResultHeights();
+  },
+  componentDidUpdate: function() {
+    this.standardizeResultHeights();
+  },
+  fetchData: function() {
     var that = this;
-    var results = testData.map(function (result) {
+    $.ajax({
+      url: "/service/recent",
+      contentType: "application/json",
+      success: function(data) {
+        that.setState({services: data});
+      }
+    });
+  },
+  getInitialState: function() {
+    this.fetchData();
+    return {
+      services: []
+    };
+  },
+  render: function() {
+    var that = this;
+    var results = this.state.services.map(function (result) {
       return (
-        React.createElement(Result, {key: result.id, data: result, onSelected: that.selectResult})
+        React.createElement(Result, {key: result.ID, data: result, onSelected: that.selectResult})
       );
     });
 
