@@ -102,7 +102,10 @@ func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (se
 	service.WasSelected(db)
 
 	userRefCode := new(models.ReferralCode)
-	userRefCode.FindByUserAndService(sc.currentUser.Get(r).ID, service.ID, db)
+
+	if user := sc.currentUser.Get(r); user != nil {
+		userRefCode.FindByUserAndService(sc.currentUser.Get(r).ID, service.ID, db)
+	}
 
 	return serviceResult{service, "", userRefCode}, nil
 }
