@@ -58,7 +58,7 @@ func (*Service) coll(db *mgo.Database) *mgo.Collection {
 type Services []Service
 
 func (s *Services) FindRelevant(query string, db *mgo.Database) error {
-	return s.coll(db).Find(bson.M{"search": &bson.RegEx{Pattern: strings.ToLower(query)}}).All(s)
+	return s.coll(db).Find(bson.M{"search": &bson.RegEx{Pattern: strings.ToLower(query)}}).Limit(11).All(s)
 }
 
 func (*Services) coll(db *mgo.Database) *mgo.Collection {

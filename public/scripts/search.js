@@ -119,7 +119,7 @@ var SearchBox = React.createClass({displayName: "SearchBox",
   edit: function(e) {
     var currentSearch = React.findDOMNode(this.refs.text).value;
     this.props.onSearchTextChange(currentSearch);
-    history.pushState(null, null, "/search?q=" + currentSearch);
+    history.pushState(null, null, "/search?q=" + encodeURIComponent(currentSearch));
   },
   componentDidMount: function() {
     if (this.props.isReadonly !== true) {
@@ -168,27 +168,20 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     };
   },
   getFilteredData: function(query) {
-    query = $.trim(query);
-    if (query === "") {
-      return [];
-    }
+    query = encodeURIComponent($.trim(query));
 
     var that = this;
     $.ajax({
-      url: "/search?q=" + encodeURIComponent(query),
+      url: "/search?q=" + query,
       method: "POST",
       contentType: "application/json",
       success: function(data) {
-        history.pushState(null, null, "/search?q=" + encodeURIComponent($(".search-box input").val()));
+        history.pushState(null, null, "/search?q=" + query);
         that.setState({data: data || []});
       },
       error: function(xhr) {
         console.log("got search error", xhr)
       }
-    });
-
-    return testData.filter(function(val) {
-      return val.Name.indexOf(query) > -1 || val.URL.indexOf(query) > -1;
     });
   },
   handleSearchTextChange: function(query) {
