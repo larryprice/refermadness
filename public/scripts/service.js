@@ -58,7 +58,7 @@ var EditButton = React.createClass({displayName: "EditButton",
         ), 
         React.createElement("div", {className: "row"}, 
           React.createElement("div", {className: "col-xs-12 referral-code-views"}, 
-            React.createElement("em", null, this.props.code.Views, " views since ", new Date(this.props.code.DateUpdated).toDateString())
+            React.createElement("em", null, this.props.code.Views, " people have viewed your code since ", new Date(this.props.code.DateUpdated).toDateString())
           )
         )
       )

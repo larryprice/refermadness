@@ -58,7 +58,7 @@ var EditButton = React.createClass({
         </div>
         <div className="row">
           <div className="col-xs-12 referral-code-views">
-            <em>{this.props.code.Views} views since {new Date(this.props.code.DateUpdated).toDateString()}</em>
+            <em>{this.props.code.Views} people have viewed your code since {new Date(this.props.code.DateUpdated).toDateString()}</em>
           </div>
         </div>
       </div>

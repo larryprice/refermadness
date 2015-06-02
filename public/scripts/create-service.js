@@ -67,7 +67,7 @@ var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
       $(".create-service-name").addClass("has-error");
       validationError = true;
     }
-    if ($("#create-service-url").val() === "") {
+    if ($("#create-service-url").val() === "" || $("#create-service-url").val().indexOf("http") === -1) {
       $(".create-service-url").addClass("has-error");
       validationError = true;
     }

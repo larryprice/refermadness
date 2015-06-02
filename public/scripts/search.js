@@ -119,7 +119,6 @@ var SearchBox = React.createClass({displayName: "SearchBox",
   edit: function(e) {
     var currentSearch = React.findDOMNode(this.refs.text).value;
     this.props.onSearchTextChange(currentSearch);
-    history.pushState(null, null, "/search?q=" + encodeURIComponent(currentSearch));
   },
   componentDidMount: function() {
     if (this.props.isReadonly !== true) {
@@ -176,19 +175,17 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       searchMap[splitVals[0]] = splitVals[1];
     });
 
-    return decodeURIComponent(searchMap["q"]);
+    return searchMap["q"] ? decodeURIComponent(searchMap["q"]) : "";
   },
   getInitialState: function() {
     var query = this.getSearchParam();
     var data = [];
     if ($("#content").attr("data-search-results")) {
       data = JSON.parse($("#content").attr("data-search-results"));
-    } else {
-      this.getFilteredData(query);
     }
     return {
       services: data.Services || [],
-      total: data.Total,
+      total: 0,
       selected: this.props.selected || -1,
       creating: this.props.creating,
       initialSearch: query
