@@ -10,6 +10,7 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"gopkg.in/mgo.v2/bson"
 
 	"strconv"
 )
@@ -88,9 +89,18 @@ func (sc *SearchControllerImpl) get(w http.ResponseWriter, r *http.Request) (sea
 	}
 
 	var total int
-	if total, err = services.FindRelevant(query, limit, skip, sc.database.Get(r)); err != nil {
+	db := sc.database.Get(r)
+	if total, err = services.FindRelevant(query, limit, skip, db); err != nil {
 		return searchResult{}, errors.New("Database error: " + err.Error())
 	}
+
+	var userID bson.ObjectId
+	if user := sc.currentUser.Get(r); user != nil {
+		userID = user.ID
+	}
+
+	analytics := new(models.Analytics)
+	analytics.AddSearch(query, limit, userID, db)
 
 	return searchResult{services, total}, nil
 }
