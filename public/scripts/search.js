@@ -71,7 +71,7 @@ var SearchResults = React.createClass({displayName: "SearchResults",
     this.props.onResultSelected(data)
   },
   standardizeResultHeights: function() {
-    var results = $(".search-result");
+    var results = $(".search-result").height("inherit");
     if (results.length > 1) {
       var standardHeight = Math.max.apply(null,
         results.map(function(idx, el) {
@@ -99,7 +99,7 @@ var SearchResults = React.createClass({displayName: "SearchResults",
     var that = this;
     var results = this.props.data.map(function (result) {
       return (
-        React.createElement(Result, {key: result.id, data: result, onSelected: that.selectResult})
+        React.createElement(Result, {key: result.ID, data: result, onSelected: that.selectResult})
       );
     });
 
@@ -154,12 +154,9 @@ var SearchPage = React.createClass({displayName: "SearchPage",
   },
   getInitialState: function() {
     var query = this.getSearchParam();
-    var data = []
+    var data = [];
     if ($("#content").attr("data-search-results")) {
-      data = JSON.parse($("#content").attr("data-search-results"));
-      if (!$.isArray(data)) {
-        data = [];
-      }
+      data = JSON.parse($("#content").attr("data-search-results")) || [];
     } else {
       this.getFilteredData(query);
     }
@@ -183,7 +180,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
       contentType: "application/json",
       success: function(data) {
         history.pushState(null, null, "/search?q=" + encodeURIComponent($(".search-box input").val()));
-        that.setState({data: data});
+        that.setState({data: data || []});
       },
       error: function(xhr) {
         console.log("got search error", xhr)
