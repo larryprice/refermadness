@@ -16,7 +16,7 @@ type DatabaseAccessor struct {
 func NewDatabaseAccessor(url, name string, key int) *DatabaseAccessor {
 	session, _ := mgo.Dial(url)
 	session.DB(name).C("service").EnsureIndex(mgo.Index{Key: []string{"search"}})
-	
+
 	return &DatabaseAccessor{session, url, name, key}
 }
 

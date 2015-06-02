@@ -141,7 +141,12 @@ func (ac *AccountControllerImpl) switchAccounts(w http.ResponseWriter, r *http.R
 
 func (ac *AccountControllerImpl) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	if user := ac.currentUser.Get(r); user != nil {
-		user.Delete(ac.database.Get(r))
+		db := ac.database.Get(r)
+
+		analytics := new(models.Analytics)
+		analytics.AddDeletedUser(user, db)
+
+		user.Delete(db)
 	}
 	ac.session.Delete(r, "UserID")
 	http.Redirect(w, r, "/", http.StatusFound)

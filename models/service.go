@@ -3,8 +3,8 @@ package models
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"time"
 	"strings"
+	"time"
 )
 
 type Service struct {
@@ -16,9 +16,9 @@ type Service struct {
 	Search      string        `bson:"search"`
 
 	// analytics information
-	CreatedDate   time.Time `bson:"created_date"`
-	LastSelected  time.Time `bson:"last_selected"`
-	SelectedCount uint      `bson:"selected_count"`
+	CreatedDate   time.Time     `bson:"created_date"`
+	LastSelected  time.Time     `bson:"last_selected"`
+	SelectedCount uint          `bson:"selected_count"`
 	CreatedBy     bson.ObjectId `bson:"created_by"`
 }
 
@@ -46,9 +46,9 @@ func (s *Service) FindByID(id bson.ObjectId, db *mgo.Database) error {
 }
 
 func (s *Service) WasSelected(db *mgo.Database) error {
-  s.SelectedCount++
-  s.LastSelected = time.Now()
-  return s.Save(db)
+	s.SelectedCount++
+	s.LastSelected = time.Now()
+	return s.Save(db)
 }
 
 func (*Service) coll(db *mgo.Database) *mgo.Collection {

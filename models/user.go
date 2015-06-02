@@ -54,17 +54,6 @@ func (*User) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("user")
 }
 
-type DeletedUser struct {
-	*User
-	DeletedDate time.Time `bson:"deleted_date"`
-	CodeCount   int       `bson:"code_count"`
-}
-
 func (u *User) Delete(db *mgo.Database) error {
-	u.delColl(db).Insert(DeletedUser{u, time.Now(), 0}) // updated analytics collection
-	return u.coll(db).RemoveId(u.ID)                    // remove user
-}
-
-func (*User) delColl(db *mgo.Database) *mgo.Collection {
-	return db.C("analytics.deleted_user")
+	return u.coll(db).RemoveId(u.ID)
 }
