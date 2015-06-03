@@ -4,6 +4,20 @@ $lightest-green: #4EC987;
 $dark-green: #008D42;
 $darkest-green: #006F34;
 
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Muli'), url(fonts/Muli.woff2) format('woff2'), url(fonts/Muli.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Monoton';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Monoton'), local('Monoton-Regular'), url(fonts/Monoton.woff2) format('woff2'), url(fonts/Monoton.woff) format('woff');
+}
+
 .btn-default,
 .btn-default:hover,
 .btn-default:focus {

@@ -16,7 +16,7 @@ type deletedUser struct {
 }
 
 func (a *Analytics) AddDeletedUser(u *User, db *mgo.Database) {
-	go db.C("analytics.deleted_user").Insert(deletedUser{u, time.Now(), 0})
+	db.C("analytics.deleted_user").Insert(deletedUser{u, time.Now(), 0})
 }
 
 type search struct {
@@ -28,5 +28,5 @@ type search struct {
 }
 
 func (a *Analytics) AddSearch(query string, limit int, userID bson.ObjectId, db *mgo.Database) {
-	go db.C("analytics.search").Insert(search{bson.NewObjectId(), query, limit, userID, time.Now()})
+	db.C("analytics.search").Insert(search{bson.NewObjectId(), query, limit, userID, time.Now()})
 }
