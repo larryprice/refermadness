@@ -150,6 +150,12 @@ var ReferralCodeEntry = React.createClass({
 
 var ReportButton = React.createClass({
   report: function() {
+    if ($("body").attr("data-logged-in") !== "true") {
+      $("#authenticate-panel").collapse("show");
+      $("#authenticate-panel")[0].scrollIntoView();
+      return;
+    }
+    
     if ($(".report-code-text").hasClass("hidden")) {
       this.props.onReportCode(this.showDefaultButtons);
     } else {
