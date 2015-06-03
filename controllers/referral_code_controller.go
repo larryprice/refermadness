@@ -28,6 +28,7 @@ func NewReferralCodeController(currentUser utils.CurrentUserAccessor, renderer *
 
 func (rc *ReferralCodeControllerImpl) Register(router *mux.Router) {
 	router.HandleFunc("/codes", rc.create).Methods("POST")
+	router.HandleFunc("/codes/random", rc.random).Methods("GET")
 }
 
 func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Request) {
@@ -83,4 +84,31 @@ func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Requ
 	}
 
 	rc.renderer.JSON(w, http.StatusCreated, refCode)
+}
+
+func (rc *ReferralCodeControllerImpl) random(w http.ResponseWriter, r *http.Request) {
+	serviceID := r.FormValue("sid")
+	if !bson.IsObjectIdHex(serviceID) {
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "Invalid service ID."})
+		return
+	}
+	db := rc.database.Get(r)
+	service := new(models.Service)
+	if err := service.FindByID(bson.ObjectIdHex(serviceID), db); err != nil {
+		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string {"error": err.Error()})
+		return
+	}
+	if !service.ID.Valid() {
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "No such service."})
+		return
+	}
+
+	refCode := new(models.ReferralCode)
+	if err := refCode.FindRandom(service.ID, db); err != nil {
+		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string {"error": err.Error()})
+		return
+	}
+	defer refCode.WasViewed(db)
+
+	rc.renderer.JSON(w, http.StatusOK, refCode)
 }

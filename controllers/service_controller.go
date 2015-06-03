@@ -106,8 +106,9 @@ func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (se
 	refCode := new(models.ReferralCode)
 	if err := refCode.FindRandom(service.ID, db); err != nil {
 		return serviceResult{}, errors.New("Internal error.")
+	} else {
+		defer refCode.WasViewed(db)
 	}
-	defer refCode.WasViewed(db)
 
 	userRefCode := new(models.ReferralCode)
 	if user := sc.currentUser.Get(r); user != nil {

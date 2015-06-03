@@ -207,21 +207,23 @@ var ReferralCodeActions = React.createClass({
       });
     });
   },
-  getNewCode: function(onComplete) {
-    console.log("GET", "/api" + window.location.pathname + "/code");
-    var that = this;
-    setTimeout(function() {
-      that.state.code = testData[0].codes[1];
-      $(".copy-code").attr("data-clipboard-text", that.state.code.code);
-      that.props.onNewCode(that.state.code);
-      onComplete();
-    });
-  },
   shuffle: function() {
     $(".shuffle-code .glyphicon").addClass("spin fast infinite");
     var that = this;
-    this.getNewCode(function() {
-      $(".shuffle-code .glyphicon").removeClass("infinite");
+    $.ajax({
+      url: "/codes/random?sid=" + that.state.code.ServiceID,
+      method: "GET",
+      contentType: "application/json",
+      success: function(code) {
+        $(".copy-code").attr("data-clipboard-text", that.state.code.Code);
+        $(".shuffle-code .glyphicon").removeClass("infinite");
+
+        that.props.onNewCode(code);
+        that.setState({code: code});
+      },
+      error: function(xhr) {
+        console.log("error getting new code", xhr);
+      }
     });
   },
   hideButtons: function() {
@@ -240,13 +242,23 @@ var ReferralCodeActions = React.createClass({
   },
   report: function(callback) {
     $(".report-code .glyphicon").addClass("spin fast infinite");
-    console.log("PUT", "/api/code/" + this.state.code.id + "/report");
 
     var that = this;
-    this.getNewCode(function() {
-      $(".report-code .glyphicon").removeClass("infinite");
-      callback();
-      that.showButtons();
+    $.ajax({
+      url: "/codes/" + that.state.code.ID + "/report",
+      success: function(code) {
+        $(".copy-code").attr("data-clipboard-text", that.state.code.Code);
+
+        $(".report-code .glyphicon").removeClass("infinite");
+        callback();
+        that.showButtons();
+
+        that.props.onNewCode(code);
+        that.setState({code: code});
+      },
+      error: function(xhr) {
+        console.log("error getting new code", xhr);
+      }
     });
   },
   render: function() {
@@ -276,7 +288,7 @@ var ReferralCode = React.createClass({
     this.state.code = code;
     $(".referral-code").addClass("fade-out");
     setTimeout(function() {
-      $(".referral-code").text(code).removeClass("fade-out").addClass("fade-in");
+      $(".referral-code").text(code.Code).removeClass("fade-out").addClass("fade-in");
     }, 300);
   },
   render: function() {
