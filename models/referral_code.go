@@ -53,8 +53,17 @@ func (c *ReferralCode) FindByUserAndService(userID, serviceID bson.ObjectId, db 
 	return c.coll(db).Find(bson.M{"user_id": userID, "service_id": serviceID}).One(&c)
 }
 
+func (c *ReferralCode) FindByID(id bson.ObjectId, db *mgo.Database) error {
+	return c.coll(db).FindId(id).One(&c)
+}
+
 func (c *ReferralCode) WasViewed(db *mgo.Database) error {
 	c.Views++
+	return c.Save(db)
+}
+
+func (c *ReferralCode) WasReported(userID bson.ObjectId, db *mgo.Database) error {
+	c.Flags++
 	return c.Save(db)
 }
 
