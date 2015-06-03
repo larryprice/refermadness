@@ -6,11 +6,11 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/models"
 	"github.com/larryprice/refermadness/utils"
+	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"net/http"
 	"strings"
-	"gopkg.in/mgo.v2/bson"
 
 	"strconv"
 )

@@ -4,6 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"time"
+	"math/rand"
 )
 
 type ReferralCode struct {
@@ -48,8 +49,19 @@ func (c *ReferralCode) Edit(code string, db *mgo.Database) error {
 	return c.Save(db)
 }
 
-func (c *ReferralCode) FindByUserAndService(userID bson.ObjectId, serviceID bson.ObjectId, db *mgo.Database) error {
+func (c *ReferralCode) FindByUserAndService(userID, serviceID bson.ObjectId, db *mgo.Database) error {
 	return c.coll(db).Find(bson.M{"user_id": userID, "service_id": serviceID}).One(&c)
+}
+
+func (c *ReferralCode) WasViewed(db *mgo.Database) error {
+	c.Views++
+	return c.Save(db)
+}
+
+func (c *ReferralCode) FindRandom(serviceID bson.ObjectId, db *mgo.Database) error {
+	q := c.coll(db).Find(bson.M{"service_id": serviceID})
+	count, _ := q.Count()
+	return q.Skip(rand.Intn(count)).Limit(1).One(c)
 }
 
 func (*ReferralCode) coll(db *mgo.Database) *mgo.Collection {

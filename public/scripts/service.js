@@ -252,7 +252,7 @@ var ReferralCodeActions = React.createClass({displayName: "ReferralCodeActions",
   render: function() {
     return (
       React.createElement("div", {className: "referral-code-actions"}, 
-        React.createElement("button", {className: "btn btn-default btn-xs copy-code", "data-clipboard-text": this.state.code}, 
+        React.createElement("button", {className: "btn btn-default btn-xs copy-code", "data-clipboard-text": this.state.code.Code}, 
           React.createElement("span", {className: "glyphicon glyphicon-copy"}), 
           "Clipboard"
         ), 
@@ -317,7 +317,7 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
 var ServicePage = React.createClass({displayName: "ServicePage",
   getInitialState: function() {
     return {
-      code: this.props.data.Code,
+      code: this.props.data.RandomCode,
       name: this.props.data.Name,
       url: this.props.data.URL,
       description: this.props.data.Description,

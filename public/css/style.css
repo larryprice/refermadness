@@ -40,7 +40,7 @@ input[type=text].disabled {
 @media (min-width: 992px) {
   .col-md-3-point-5 {
     width: 24%; } }
-button .glyphicon {
+.btn-lg .glyphicon {
   margin-right: .5em;
   top: 3px; }
 

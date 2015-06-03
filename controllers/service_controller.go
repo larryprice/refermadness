@@ -62,7 +62,7 @@ func (sc *ServiceControllerImpl) recent(w http.ResponseWriter, r *http.Request) 
 
 type serviceResult struct {
 	*models.Service
-	RandomCode string
+	RandomCode *models.ReferralCode
 	UserCode   *models.ReferralCode
 }
 
@@ -81,8 +81,10 @@ func (sc *ServiceControllerImpl) single(w http.ResponseWriter, r *http.Request) 
 			})
 			return
 		}
-		sc.renderer.JSON(w, http.StatusCreated, data)
+		sc.renderer.JSON(w, http.StatusOK, data)
 		return
+	} else if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
 	resultString, _ := json.Marshal(data)
@@ -96,16 +98,21 @@ func (sc *ServiceControllerImpl) get(w http.ResponseWriter, r *http.Request) (se
 	}
 	service := new(models.Service)
 	db := sc.database.Get(r)
-	if service.FindByID(bson.ObjectIdHex(mux.Vars(r)["id"]), db); !service.ID.Valid() {
+	if err := service.FindByID(bson.ObjectIdHex(mux.Vars(r)["id"]), db); !service.ID.Valid() || err != nil {
 		return serviceResult{}, errors.New("No such service.")
 	}
-	service.WasSelected(db)
+	defer service.WasSelected(db)
+
+	refCode := new(models.ReferralCode)
+	if err := refCode.FindRandom(service.ID, db); err != nil {
+		return serviceResult{}, errors.New("Internal error.")
+	}
+	defer refCode.WasViewed(db)
 
 	userRefCode := new(models.ReferralCode)
-
 	if user := sc.currentUser.Get(r); user != nil {
 		userRefCode.FindByUserAndService(sc.currentUser.Get(r).ID, service.ID, db)
 	}
 
-	return serviceResult{service, "", userRefCode}, nil
+	return serviceResult{service, refCode, userRefCode}, nil
 }
