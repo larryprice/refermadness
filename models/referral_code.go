@@ -14,26 +14,28 @@ type ReferralCode struct {
 	Code      string        `bson:"code"`
 
 	// Analytics
-	DateAdded      time.Time `bson:"date_added"`
-	DateUpdated    time.Time `bson:"date_updated"`
-	DateLastViewed time.Time `bson:"date_last_viewed"`
-	Views          uint      `bson:"views"`
-	Edits          uint      `bson:"edits"`
-	Flags          uint      `bson:"flags"`
+	DateAdded        time.Time `bson:"date_added"`
+	DateUpdated      time.Time `bson:"date_updated"`
+	DateLastViewed   time.Time `bson:"date_last_viewed"`
+	Views            uint      `bson:"total_views"`
+	ViewsSinceUpdate uint      `bson:"views"`
+	Edits            uint      `bson:"edits"`
+	Flags            uint      `bson:"flags"`
 }
 
 func NewReferralCode(code string, userID, serviceID bson.ObjectId) *ReferralCode {
 	return &ReferralCode{
-		ID:             bson.NewObjectId(),
-		UserID:         userID,
-		ServiceID:      serviceID,
-		Code:           code,
-		DateAdded:      time.Now(),
-		DateUpdated:    time.Now(),
-		DateLastViewed: time.Now(),
-		Views:          0,
-		Edits:          0,
-		Flags:          0,
+		ID:               bson.NewObjectId(),
+		UserID:           userID,
+		ServiceID:        serviceID,
+		Code:             code,
+		DateAdded:        time.Now(),
+		DateUpdated:      time.Now(),
+		DateLastViewed:   time.Now(),
+		Views:            0,
+		ViewsSinceUpdate: 0,
+		Edits:            0,
+		Flags:            0,
 	}
 }
 
@@ -45,6 +47,7 @@ func (c *ReferralCode) Save(db *mgo.Database) error {
 func (c *ReferralCode) Edit(code string, db *mgo.Database) error {
 	c.Code = code
 	c.Edits++
+	c.ViewsSinceUpdate = 0
 	c.DateUpdated = time.Now()
 	return c.Save(db)
 }
@@ -59,6 +62,7 @@ func (c *ReferralCode) FindByID(id bson.ObjectId, db *mgo.Database) error {
 
 func (c *ReferralCode) WasViewed(db *mgo.Database) error {
 	c.Views++
+	c.ViewsSinceUpdate++
 	return c.Save(db)
 }
 

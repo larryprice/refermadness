@@ -40,10 +40,6 @@ input[type=text].disabled {
 @media (min-width: 992px) {
   .col-md-3-point-5 {
     width: 24%; } }
-.btn-lg .glyphicon {
-  margin-right: .5em;
-  top: 3px; }
-
 .glyphicon.spin {
   animation-name: loading-spin;
   animation-duration: 1s;
@@ -195,6 +191,10 @@ body {
   transition: opacity 1s; }
   .search-box.fade-out {
     opacity: 0; }
+
+.more-results .glyphicon {
+  margin-right: .5em;
+  top: 3px; }
 
 .search-panel-message {
   transition: all 2s; }

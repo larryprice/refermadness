@@ -58,7 +58,7 @@ var EditButton = React.createClass({displayName: "EditButton",
         ), 
         React.createElement("div", {className: "row"}, 
           React.createElement("div", {className: "col-xs-12 referral-code-views"}, 
-            React.createElement("em", null, this.props.code.Views, " people have viewed your code since ", new Date(this.props.code.DateUpdated).toDateString())
+            React.createElement("em", null, this.props.code.ViewsSinceUpdate, " people have viewed your code since ", new Date(this.props.code.DateUpdated).toDateString())
           )
         )
       )
@@ -155,7 +155,7 @@ var ReportButton = React.createClass({displayName: "ReportButton",
       $("#authenticate-panel")[0].scrollIntoView();
       return;
     }
-    
+
     if ($(".report-code-text").hasClass("hidden")) {
       this.props.onReportCode(this.showDefaultButtons);
     } else {

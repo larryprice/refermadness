@@ -63,11 +63,6 @@ input[type=text].disabled {
   }
 }
 
-.btn-lg .glyphicon {
-  margin-right: .5em;
-  top: 3px;
-}
-
 .glyphicon {  
   &.spin {
     animation-name: loading-spin;
