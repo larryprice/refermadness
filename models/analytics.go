@@ -30,3 +30,12 @@ type search struct {
 func (a *Analytics) AddSearch(query string, limit int, userID bson.ObjectId, db *mgo.Database) {
 	defer db.C("analytics.search").Insert(search{bson.NewObjectId(), query, limit, userID, time.Now()})
 }
+
+type deletedReferralCode struct {
+	*ReferralCode
+	DeletedDate time.Time `bson:"deleted_date"`
+}
+
+func (a *Analytics) AddDeletedReferralCode(c *ReferralCode, db *mgo.Database) {
+	defer db.C("analytics.deleted_referral_code").Insert(deletedReferralCode{c, time.Now()})
+}

@@ -52,6 +52,10 @@ func (c *ReferralCode) Edit(code string, db *mgo.Database) error {
 	return c.Save(db)
 }
 
+func (c *ReferralCode) Delete(db *mgo.Database) error {
+	return c.coll(db).RemoveId(c.ID)
+}
+
 func (c *ReferralCode) FindByUserAndService(userID, serviceID bson.ObjectId, db *mgo.Database) error {
 	return c.coll(db).Find(bson.M{"user_id": userID, "service_id": serviceID}).One(&c)
 }

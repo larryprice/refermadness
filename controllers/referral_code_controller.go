@@ -37,15 +37,6 @@ func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Requ
 	body, _ := ioutil.ReadAll(r.Body)
 	var values map[string]string
 	json.Unmarshal(body, &values)
-	code := values["code"]
-	if code == "" {
-		// this is actually a delete!
-		// not handled currently
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
-			"error": "Delete requested - not handled",
-		})
-		return
-	}
 
 	// verify serviceID
 	rawServiceID := values["serviceId"]
@@ -67,8 +58,18 @@ func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Requ
 	}
 
 	userID := rc.currentUser.Get(r).ID
+	code := values["code"]
 	refCode := new(models.ReferralCode)
 	if refCode.FindByUserAndService(userID, serviceID, db); refCode.ID.Valid() {
+		if code == "" {
+			analytics := new(models.Analytics)
+			defer analytics.AddDeletedReferralCode(refCode, db)
+			defer refCode.Delete(db)
+
+			rc.renderer.JSON(w, http.StatusOK, nil)
+			return
+		}
+
 		if err := refCode.Edit(code, db); err != nil {
 			rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
 				"error": err.Error(),
@@ -76,6 +77,12 @@ func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Requ
 			return
 		}
 	} else {
+		if code == "" {
+			rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
+				"error": "Empty referral code not allowed",
+			})
+			return
+		}
 		refCode = models.NewReferralCode(code, rc.currentUser.Get(r).ID, service.ID)
 		if err := refCode.Save(db); err != nil {
 			rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{
