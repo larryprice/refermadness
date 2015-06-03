@@ -1,37 +1,3 @@
-var testData = [
-  {Name: "Test #1", URL: "https://test1.com", ID: "556c6221f06a07031a000001", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #2", URL: "https://example.test2.com", ID: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #3", URL: "https://3test.org", ID: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #4", URL: "https://signup.4test.net/", ID: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #5", URL: "http://testtesttesttesttest.me", ID: "5", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]}
-];
-
-var Result = React.createClass({displayName: "Result",
-  getInitialState: function() {
-    return {
-      code: this.props.data,
-    };
-  },
-  viewFull: function() {
-    this.props.onSelected(this.state.code);
-  },
-  render: function() {
-    return (
-      React.createElement("div", {className: "search-result col-md-3-point-5 col-sm-6 col-xs-12", onClick: this.viewFull}, 
-        React.createElement("h2", null, 
-          this.state.code.Name
-        ), 
-        React.createElement("h5", null, 
-          this.state.code.Description
-        ), 
-        React.createElement("h4", null, 
-          this.state.code.URL
-        )
-      )
-    );
-  }
-});
-
 var CreateResult = React.createClass({displayName: "CreateResult",
   create: function() {
     $(".search-box").addClass("fade-out");
@@ -144,25 +110,6 @@ var SearchBox = React.createClass({displayName: "SearchBox",
   }
 });
 
-var MoreResults = React.createClass({displayName: "MoreResults",
-  render: function() {
-    if (!this.props.isVisible) {
-      return null;
-    }
-
-    return (
-      React.createElement("div", {className: "more-results row"}, 
-        React.createElement("div", {className: "col-xs-12"}, 
-          React.createElement("button", {className: "btn btn-link btn-lg text-center", onClick: this.props.onMore}, 
-            React.createElement("span", {className: "glyphicon glyphicon-chevron-down"}), 
-            "Load More"
-          )
-        )
-      )
-    );
-  }
-});
-
 var SearchPage = React.createClass({displayName: "SearchPage",
   getSearchParam: function() {
     var search = window.location.search.substring(1).split("&");
@@ -270,7 +217,7 @@ var SearchPage = React.createClass({displayName: "SearchPage",
     this.setState({creating: true});
   },
   handleServiceCreated: function(service) {
-    history.pushState(null, null, "/service/" + service.id);
+    history.pushState(null, null, "/service/" + service.ID);
     this.setState({creating: false, selected: service});
   },
   render: function() {

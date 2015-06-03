@@ -29,7 +29,10 @@ var CreateServiceURL = React.createClass({
       <div className="form-group create-service-url">
         <label className="col-sm-3 col-xs-12 control-label" for="create-service-url">URL</label>
         <div className="col-sm-9 col-xs-12">
-          <input type="text" className="form-control input-lg" id="create-service-url" placeholder="URL to the service..."/>
+          <div className="input-group">
+            <div className="input-group-addon">https://</div>
+            <input type="text" className="form-control input-lg" id="create-service-url" placeholder="yourservice.com"/>
+          </div>
           <FormError />
         </div>
       </div>
@@ -67,7 +70,7 @@ var CreateServiceButton = React.createClass({
       $(".create-service-name").addClass("has-error");
       validationError = true;
     }
-    if ($("#create-service-url").val() === "" || $("#create-service-url").val().indexOf("http") === -1) {
+    if ($("#create-service-url").val() === "") {
       $(".create-service-url").addClass("has-error");
       validationError = true;
     }

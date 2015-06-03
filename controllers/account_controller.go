@@ -7,10 +7,13 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/models"
 	"github.com/larryprice/refermadness/utils"
+	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 type AccountControllerImpl struct {
@@ -22,14 +25,17 @@ type AccountControllerImpl struct {
 	database    utils.DatabaseAccessor
 	currentUser utils.CurrentUserAccessor
 	basePage    utils.BasePageCreator
+	renderer    *render.Render
 }
 
 func NewAccountController(clientID, clientSecret string, isDevelopment bool, session utils.SessionManager,
-	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator) *AccountControllerImpl {
+	database utils.DatabaseAccessor, currentUser utils.CurrentUserAccessor, basePage utils.BasePageCreator,
+	renderer *render.Render) *AccountControllerImpl {
 	scheme := "http"
 	if !isDevelopment {
 		scheme += "s"
 	}
+
 	return &AccountControllerImpl{
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -38,6 +44,7 @@ func NewAccountController(clientID, clientSecret string, isDevelopment bool, ses
 		database:     database,
 		currentUser:  currentUser,
 		basePage:     basePage,
+		renderer:     renderer,
 	}
 }
 
@@ -51,6 +58,7 @@ func (ac *AccountControllerImpl) Register(router *mux.Router) {
 	router.HandleFunc("/account", ac.account)
 	router.HandleFunc("/account/switch", ac.switchAccounts)
 	router.HandleFunc("/account/delete", ac.deleteAccount)
+	router.HandleFunc("/account/services", ac.services)
 }
 
 func (ac *AccountControllerImpl) login(w http.ResponseWriter, r *http.Request) {
@@ -159,4 +167,56 @@ func (ac *AccountControllerImpl) account(w http.ResponseWriter, r *http.Request)
 	} else {
 		http.Error(w, "Users must be logged in to view the account page.", http.StatusUnauthorized)
 	}
+}
+
+type serviceFetchResult struct {
+	*models.Services
+	Total int
+}
+
+func (ac *AccountControllerImpl) services(w http.ResponseWriter, r *http.Request) {
+	user := ac.currentUser.Get(r)
+	if user == nil {
+		ac.renderer.JSON(w, http.StatusUnauthorized, map[string]string{
+			"error": "Must be logged in to view this page",
+		})
+	}
+
+	var limit int
+	var err error
+
+	if limit, err = strconv.Atoi(r.FormValue("limit")); err != nil {
+		limit = 11
+	}
+
+	if limit > 50 {
+		limit = 50
+	}
+
+	var skip int
+	if skip, err = strconv.Atoi(r.FormValue("skip")); err != nil {
+		skip = 0
+	}
+
+	var total int
+	codes := new(models.ReferralCodes)
+	if total, err = codes.FindByUserID(user.ID, limit, skip, ac.database.Get(r)); err != nil {
+		ac.renderer.JSON(w, http.StatusInternalServerError, map[string]string{
+			"error": "There was an issue fetching codes from the database",
+		})
+	}
+
+	var serviceIDs []bson.ObjectId
+	for _, code := range []models.ReferralCode(*codes) {
+		serviceIDs = append(serviceIDs, code.ServiceID)
+	}
+
+	services := new(models.Services)
+	if err = services.FindByIDs(serviceIDs, ac.database.Get(r)); err != nil {
+		ac.renderer.JSON(w, http.StatusInternalServerError, map[string]string{
+			"error": "There was an issue fetching services from the database",
+		})
+	}
+
+	ac.renderer.JSON(w, http.StatusOK, serviceFetchResult{services, total})
 }

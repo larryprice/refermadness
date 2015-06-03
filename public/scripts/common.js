@@ -1,3 +1,48 @@
+var Result = React.createClass({displayName: "Result",
+  getInitialState: function() {
+    return {
+      service: this.props.data,
+    };
+  },
+  viewFull: function() {
+    this.props.onSelected(this.state.service);
+  },
+  render: function() {
+    return (
+      React.createElement("div", {className: "search-result col-md-3-point-5 col-sm-6 col-xs-12", onClick: this.viewFull}, 
+        React.createElement("h2", null, 
+          this.state.service.Name
+        ), 
+        React.createElement("h5", null, 
+          this.state.service.Description
+        ), 
+        React.createElement("h4", null, 
+          this.state.service.URL
+        )
+      )
+    );
+  }
+});
+
+var MoreResults = React.createClass({displayName: "MoreResults",
+  render: function() {
+    if (!this.props.isVisible) {
+      return null;
+    }
+
+    return (
+      React.createElement("div", {className: "more-results row"}, 
+        React.createElement("div", {className: "col-xs-12 text-center"}, 
+          React.createElement("button", {className: "btn btn-link btn-lg", onClick: this.props.onMore}, 
+            React.createElement("span", {className: "glyphicon glyphicon-chevron-down"}), 
+            "Load More"
+          )
+        )
+      )
+    );
+  }
+});
+
 var Title = React.createClass({displayName: "Title",
   render: function() {
     return (

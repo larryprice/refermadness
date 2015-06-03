@@ -94,5 +94,10 @@
 
   .user-referral-codes {
     border-top: .1em dotted whitesmoke;
+    padding-top: 1.5em;
+
+    > h2 {
+      margin-bottom: 1.5em;
+    }
   }
 }

@@ -1,37 +1,3 @@
-var testData = [
-  {Name: "Test #1", URL: "https://test1.com", ID: "556c6221f06a07031a000001", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #2", URL: "https://example.test2.com", ID: "2", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #3", URL: "https://3test.org", ID: "3", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #4", URL: "https://signup.4test.net/", ID: "4", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]},
-  {Name: "Test #5", URL: "http://testtesttesttesttest.me", ID: "5", codes: [{id: "1", code: "ywj-rpl"}, {id: "2", code: "123-avv"}]}
-];
-
-var Result = React.createClass({
-  getInitialState: function() {
-    return {
-      code: this.props.data,
-    };
-  },
-  viewFull: function() {
-    this.props.onSelected(this.state.code);
-  },
-  render: function() {
-    return (
-      <div className="search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.viewFull}>
-        <h2>
-          {this.state.code.Name}
-        </h2>
-        <h5>
-          {this.state.code.Description}
-        </h5>
-        <h4>
-          {this.state.code.URL}
-        </h4>
-      </div>
-    );
-  }
-});
-
 var CreateResult = React.createClass({
   create: function() {
     $(".search-box").addClass("fade-out");
@@ -144,25 +110,6 @@ var SearchBox = React.createClass({
   }
 });
 
-var MoreResults = React.createClass({
-  render: function() {
-    if (!this.props.isVisible) {
-      return null;
-    }
-
-    return (
-      <div className="more-results row">
-        <div className="col-xs-12">
-          <button className="btn btn-link btn-lg text-center" onClick={this.props.onMore}>
-            <span className="glyphicon glyphicon-chevron-down"></span>
-            Load More
-          </button>
-        </div>
-      </div>
-    );
-  }
-});
-
 var SearchPage = React.createClass({
   getSearchParam: function() {
     var search = window.location.search.substring(1).split("&");
@@ -270,7 +217,7 @@ var SearchPage = React.createClass({
     this.setState({creating: true});
   },
   handleServiceCreated: function(service) {
-    history.pushState(null, null, "/service/" + service.id);
+    history.pushState(null, null, "/service/" + service.ID);
     this.setState({creating: false, selected: service});
   },
   render: function() {

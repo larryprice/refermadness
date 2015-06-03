@@ -298,7 +298,7 @@ var ReferralCode = React.createClass({
     }, 300);
   },
   render: function() {
-    if (this.state.code) {
+    if (this.state.code && this.state.code.Code !== "") {
       return (
         <div className="row random-referral-code">
           <div className="col-xs-12">
@@ -357,7 +357,7 @@ var ServicePage = React.createClass({
               {this.state.name}
             </h1>
             <h2 className="text-center">
-              <a href={this.state.url} target="blank">{this.state.url}</a>
+              <a href={"//" + this.state.url} target="blank">{this.state.url}</a>
             </h2>
             <h4 className="text-center">
               {this.state.description}

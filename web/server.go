@@ -34,7 +34,7 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 		t.Execute(w, basePage.Get(r))
 	})
 
-	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage)
+	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage, renderer)
 	accountController.Register(router)
 	createServiceController := controllers.NewCreateServiceController(cua, basePage, renderer, dba)
 	createServiceController.Register(router)

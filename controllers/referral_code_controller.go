@@ -5,8 +5,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/larryprice/refermadness/models"
 	"github.com/larryprice/refermadness/utils"
-	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/unrolled/render.v1"
 	"io/ioutil"
 	"net/http"
@@ -98,7 +98,7 @@ func (rc *ReferralCodeControllerImpl) create(w http.ResponseWriter, r *http.Requ
 func (rc *ReferralCodeControllerImpl) random(w http.ResponseWriter, r *http.Request) {
 	serviceID := r.FormValue("sid")
 	if !bson.IsObjectIdHex(serviceID) {
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "Invalid service ID."})
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{"error": "Invalid service ID."})
 		return
 	}
 
@@ -112,16 +112,16 @@ func (rc *ReferralCodeControllerImpl) randomCode(serviceID bson.ObjectId, db *mg
 
 	service := new(models.Service)
 	if err := service.FindByID(serviceID, db); err != nil {
-		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string {"error": err.Error()})
+		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return refCode
 	}
 	if !service.ID.Valid() {
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "No such service."})
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{"error": "No such service."})
 		return refCode
 	}
 
 	if err := refCode.FindRandom(service.ID, db); err != nil {
-		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string {"error": err.Error()})
+		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return refCode
 	}
 	defer refCode.WasViewed(db)
@@ -132,28 +132,28 @@ func (rc *ReferralCodeControllerImpl) randomCode(serviceID bson.ObjectId, db *mg
 func (rc *ReferralCodeControllerImpl) report(w http.ResponseWriter, r *http.Request) {
 	u := rc.currentUser.Get(r)
 	if u == nil {
-		rc.renderer.JSON(w, http.StatusUnauthorized, map[string]string {"error": "Must be logged in to report invalid codes"})
+		rc.renderer.JSON(w, http.StatusUnauthorized, map[string]string{"error": "Must be logged in to report invalid codes"})
 		return
 	}
 
 	if !bson.IsObjectIdHex(mux.Vars(r)["id"]) {
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "Invalid BSON ID"})
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{"error": "Invalid BSON ID"})
 		return
 	}
 	code := new(models.ReferralCode)
 	db := rc.database.Get(r)
 	if err := code.FindByID(bson.ObjectIdHex(mux.Vars(r)["id"]), db); err != nil {
-		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string {"error": err.Error()})
+		rc.renderer.JSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return
 	}
 
 	if !code.ID.Valid() {
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "No such referral code"})
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{"error": "No such referral code"})
 		return
 	}
 
 	if u.ID == code.UserID {
-		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string {"error": "Don't report your own code, silly"})
+		rc.renderer.JSON(w, http.StatusBadRequest, map[string]string{"error": "Don't report your own code, silly"})
 		return
 	}
 

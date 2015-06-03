@@ -1,9 +1,64 @@
 var UserReferralCodes = React.createClass({
+  getInitialState: function() {
+    this.fetchServices();
+    return {
+      services: [],
+      total: 0
+    };
+  },
+  fetchServices: function(limit) {
+    var that = this,
+        skip = this.state ? this.state.services.length : 0;
+    $.ajax({
+      url: "/account/services?limit=11&skip=" + skip,
+      method: "GET",
+      contentType: "application/json",
+      success: function(data) {
+        that.setState({services: that.state.services.concat(data.Services || []), total: data.Total});
+      },
+      error: function(xhr) {
+        console.log("Error fetching user services", xhr)
+      }
+    });
+  },
+  standardizeResultHeights: function() {
+    var results = $(".search-result");
+    if (results.length > 1) {
+      var standardHeight = Math.max.apply(null,
+        results.map(function(idx, el) {
+          return $(el).height();
+        }).get());
+      results.each(function() {
+        $(this).height(standardHeight);
+      });
+    }
+  },
+  componentDidUpdate: function() {
+    this.standardizeResultHeights();
+  },
+  viewService: function(service) {
+    window.location.href = "/service/" + service.ID;
+  },
   render: function() {
-    return (
-      <div className="user-referral-codes container">
-      </div>
-    );
+    if (this.state.services.length > 0) {
+      var that = this;
+      var services = this.state.services.map(function (service) {
+        return (
+          <Result key={service.ID} data={service} onSelected={that.viewService} />
+        );
+      });
+      return (
+        <div className="user-referral-codes container">
+          <h2 className="text-center">Your Services</h2>
+          <div className="row">
+            {services}
+          </div>
+          <MoreResults isVisible={this.state.total > this.state.services.length} onMore={this.fetchServices} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 });
 

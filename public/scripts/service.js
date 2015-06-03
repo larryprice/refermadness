@@ -298,7 +298,7 @@ var ReferralCode = React.createClass({displayName: "ReferralCode",
     }, 300);
   },
   render: function() {
-    if (this.state.code) {
+    if (this.state.code && this.state.code.Code !== "") {
       return (
         React.createElement("div", {className: "row random-referral-code"}, 
           React.createElement("div", {className: "col-xs-12"}, 
@@ -357,7 +357,7 @@ var ServicePage = React.createClass({displayName: "ServicePage",
               this.state.name
             ), 
             React.createElement("h2", {className: "text-center"}, 
-              React.createElement("a", {href: this.state.url, target: "blank"}, this.state.url)
+              React.createElement("a", {href: "//" + this.state.url, target: "blank"}, this.state.url)
             ), 
             React.createElement("h4", {className: "text-center"}, 
               this.state.description

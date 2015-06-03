@@ -3,8 +3,8 @@ package models
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"time"
 	"math/rand"
+	"time"
 )
 
 type ReferralCode struct {
@@ -78,9 +78,24 @@ func (c *ReferralCode) WasReported(userID bson.ObjectId, db *mgo.Database) error
 func (c *ReferralCode) FindRandom(serviceID bson.ObjectId, db *mgo.Database) error {
 	q := c.coll(db).Find(bson.M{"service_id": serviceID})
 	count, _ := q.Count()
-	return q.Skip(rand.Intn(count)).Limit(1).One(c)
+	if count > 0 {
+		return q.Skip(rand.Intn(count)).Limit(1).One(c)
+	}
+	return nil
 }
 
 func (*ReferralCode) coll(db *mgo.Database) *mgo.Collection {
+	return db.C("referral_code")
+}
+
+type ReferralCodes []ReferralCode
+
+func (c *ReferralCodes) FindByUserID(userID bson.ObjectId, limit, skip int, db *mgo.Database) (int, error) {
+	q := c.coll(db).Find(bson.M{"user_id": userID})
+	total, _ := q.Count()
+	return total, q.Skip(skip).Limit(limit).All(c)
+}
+
+func (*ReferralCodes) coll(db *mgo.Database) *mgo.Collection {
 	return db.C("referral_code")
 }

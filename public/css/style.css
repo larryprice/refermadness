@@ -454,6 +454,9 @@ body {
   margin-top: .5em;
   margin-bottom: .5em; }
 .account-home .user-referral-codes {
-  border-top: .1em dotted whitesmoke; }
+  border-top: .1em dotted whitesmoke;
+  padding-top: 1.5em; }
+  .account-home .user-referral-codes > h2 {
+    margin-bottom: 1.5em; }
 
 /*# sourceMappingURL=style.css.map */

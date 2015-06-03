@@ -1,3 +1,48 @@
+var Result = React.createClass({
+  getInitialState: function() {
+    return {
+      service: this.props.data,
+    };
+  },
+  viewFull: function() {
+    this.props.onSelected(this.state.service);
+  },
+  render: function() {
+    return (
+      <div className="search-result col-md-3-point-5 col-sm-6 col-xs-12" onClick={this.viewFull}>
+        <h2>
+          {this.state.service.Name}
+        </h2>
+        <h5>
+          {this.state.service.Description}
+        </h5>
+        <h4>
+          {this.state.service.URL}
+        </h4>
+      </div>
+    );
+  }
+});
+
+var MoreResults = React.createClass({
+  render: function() {
+    if (!this.props.isVisible) {
+      return null;
+    }
+
+    return (
+      <div className="more-results row">
+        <div className="col-xs-12 text-center">
+          <button className="btn btn-link btn-lg" onClick={this.props.onMore}>
+            <span className="glyphicon glyphicon-chevron-down"></span>
+            Load More
+          </button>
+        </div>
+      </div>
+    );
+  }
+});
+
 var Title = React.createClass({
   render: function() {
     return (

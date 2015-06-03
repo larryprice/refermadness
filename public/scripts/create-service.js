@@ -29,7 +29,10 @@ var CreateServiceURL = React.createClass({displayName: "CreateServiceURL",
       React.createElement("div", {className: "form-group create-service-url"}, 
         React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-url"}, "URL"), 
         React.createElement("div", {className: "col-sm-9 col-xs-12"}, 
-          React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-url", placeholder: "URL to the service..."}), 
+          React.createElement("div", {className: "input-group"}, 
+            React.createElement("div", {className: "input-group-addon"}, "https://"), 
+            React.createElement("input", {type: "text", className: "form-control input-lg", id: "create-service-url", placeholder: "yourservice.com"})
+          ), 
           React.createElement(FormError, null)
         )
       )
@@ -67,7 +70,7 @@ var CreateServiceButton = React.createClass({displayName: "CreateServiceButton",
       $(".create-service-name").addClass("has-error");
       validationError = true;
     }
-    if ($("#create-service-url").val() === "" || $("#create-service-url").val().indexOf("http") === -1) {
+    if ($("#create-service-url").val() === "") {
       $(".create-service-url").addClass("has-error");
       validationError = true;
     }

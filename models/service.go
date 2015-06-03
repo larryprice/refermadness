@@ -10,7 +10,7 @@ import (
 type Service struct {
 	// identification information
 	ID          bson.ObjectId `bson:"_id"`
-	Name        string        `bson:"email"`
+	Name        string        `bson:"name"`
 	Description string        `bson:"description"`
 	URL         string        `bson:"url"`
 	Search      string        `bson:"search"`
@@ -23,11 +23,12 @@ type Service struct {
 }
 
 func NewService(name, description, url string, creatorID bson.ObjectId) *Service {
+	url = strings.TrimPrefix(strings.TrimPrefix(url, "http://"), "https://")
 	return &Service{
 		ID:            bson.NewObjectId(),
 		Name:          name,
-		URL:           description,
-		Description:   url,
+		URL:           url,
+		Description:   description,
 		CreatedDate:   time.Now(),
 		LastSelected:  time.Now(),
 		SelectedCount: 1,
@@ -61,6 +62,10 @@ func (s *Services) FindRelevant(query string, limit, skip int, db *mgo.Database)
 	q := s.coll(db).Find(bson.M{"search": &bson.RegEx{Pattern: strings.ToLower(query)}})
 	total, _ := q.Count()
 	return total, q.Skip(skip).Limit(limit).All(s)
+}
+
+func (s *Services) FindByIDs(ids []bson.ObjectId, db *mgo.Database) error {
+	return s.coll(db).Find(bson.M{"_id": bson.M{"$in": ids}}).Sort("name").All(s)
 }
 
 func (s *Services) FindMostPopular(limit int, db *mgo.Database) error {
