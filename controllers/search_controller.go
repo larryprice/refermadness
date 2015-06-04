@@ -10,9 +10,8 @@ import (
 	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"net/http"
-	"strings"
-
 	"strconv"
+	"strings"
 )
 
 type SearchControllerImpl struct {
