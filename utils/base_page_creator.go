@@ -10,28 +10,33 @@ type BasePageCreator interface {
 
 type BasePageCreatorImpl struct {
 	currentUser CurrentUserAccessor
+	gaKey       string
 }
 
-func NewBasePageCreator(currentUser CurrentUserAccessor) *BasePageCreatorImpl {
+func NewBasePageCreator(currentUser CurrentUserAccessor, gaKey string) *BasePageCreatorImpl {
 	return &BasePageCreatorImpl{
 		currentUser: currentUser,
+		gaKey:       gaKey,
 	}
 }
 
 type BasePage struct {
-	LoggedIn bool
-	Username string
+	LoggedIn     bool
+	Username     string
+	AnalyticsKey string
 }
 
 func (bp *BasePageCreatorImpl) Get(r *http.Request) BasePage {
 	if user := bp.currentUser.Get(r); user != nil {
 		return BasePage{
-			LoggedIn: user != nil,
-			Username: user.Email,
+			LoggedIn:     user != nil,
+			Username:     user.Email,
+			AnalyticsKey: bp.gaKey,
 		}
 	}
 	return BasePage{
-		LoggedIn: false,
-		Username: "",
+		LoggedIn:     false,
+		Username:     "",
+		AnalyticsKey: bp.gaKey,
 	}
 }

@@ -17,7 +17,8 @@ func main() {
 	dbAccessor := utils.NewDatabaseAccessor(dbURL, os.Getenv("DATABASE_NAME"), 0)
 	cuAccessor := utils.NewCurrentUserAccessor(1)
 	s := web.NewServer(*dbAccessor, *cuAccessor, os.Getenv("GOOGLE_OAUTH2_CLIENT_ID"),
-		os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("SESSION_SECRET"), isDevelopment)
+		os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET"), os.Getenv("SESSION_SECRET"),
+		isDevelopment, os.Getenv("GOOGLE_ANALYTICS_KEY"))
 
 	port := os.Getenv("PORT")
 	if port == "" {
