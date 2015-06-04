@@ -11,6 +11,7 @@ import (
 	"gopkg.in/unrolled/render.v1"
 	"html/template"
 	"net/http"
+	// "github.com/unrolled/secure"
 )
 
 type Server struct {
@@ -49,6 +50,15 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	searchController := controllers.NewSearchController(cua, basePage, renderer, dba)
 	searchController.Register(router)
 
+  // secureMiddleware := secure.New(secure.Options{
+		// 	AllowedHosts: []string{"refer-madness.com"},
+		// 	SSLRedirect: true,
+		// 	ContentTypeNosniff: true,
+		// 	BrowserXssFilter: true,
+  //     FrameDeny: true,
+  //     IsDevelopment: isDevelopment,
+  // })
+	// s.Use(negroni.HandlerFunc(secureMiddleware.HandlerFuncWithNext))
 	s.Use(sessions.Sessions("refermadness", cookiestore.New([]byte(sessionSecret))))
 	s.Use(middleware.NewDatabase(dba).Middleware())
 	s.Use(middleware.NewAuthenticator(dba, session, cua).Middleware())

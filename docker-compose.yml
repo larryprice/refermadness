@@ -1,6 +1,6 @@
 main:
-  image: golang:1.4
-  command: make
+  build: .
+  command: gin run
   env_file: .env
   volumes:
     - ./:/go/src/github.com/larryprice/refermadness
