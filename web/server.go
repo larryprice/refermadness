@@ -33,6 +33,10 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 		t, _ := template.ParseFiles("views/layout.html", "views/legal.html")
 		t.Execute(w, basePage.Get(r))
 	})
+	router.NotFoundHandler = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request) {
+		t, _ := template.ParseFiles("views/layout.html", "views/404.html")
+		t.Execute(w, basePage.Get(r))
+	})
 
 	accountController := controllers.NewAccountController(clientID, clientSecret, isDevelopment, session, dba, cua, basePage, renderer)
 	accountController.Register(router)
