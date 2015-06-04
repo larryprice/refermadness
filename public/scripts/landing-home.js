@@ -170,7 +170,7 @@ var PopularPanel = React.createClass({displayName: "PopularPanel",
 
 var RecentPanel = React.createClass({displayName: "RecentPanel",
   selectResult: function(data) {
-    window.location.href = "/service/" + data.id;
+    window.location.href = "/service/" + data.ID;
   },
   standardizeResultHeights: function() {
     var results = $(".recent-panel .search-result");
