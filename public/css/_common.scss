@@ -89,6 +89,11 @@ input[type=text].disabled {
     animation-iteration-count: 2;
     animation-timing-function: linear;
     transform-origin: 50% 50%;
+    
+    -webkit-animation-name: shake;
+    -webkit-animation-duration: 200ms;
+    -webkit-animation-iteration-count: 2;
+    -webkit-animation-timing-function: linear;
   }
 }
 

@@ -134,7 +134,7 @@ var PopularPanel = React.createClass({displayName: "PopularPanel",
       url: "/service/popular",
       contentType: "application/json",
       success: function(data) {
-        that.setState({services: data});
+        that.setState({services: data || []});
       }
     });
   },
@@ -194,7 +194,7 @@ var RecentPanel = React.createClass({displayName: "RecentPanel",
       url: "/service/recent",
       contentType: "application/json",
       success: function(data) {
-        that.setState({services: data});
+        that.setState({services: data || []});
       }
     });
   },
