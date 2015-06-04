@@ -151,7 +151,7 @@ var SearchPage = React.createClass({
         that.setState({services: data.Services || [], total: data.Total});
       },
       error: function(xhr) {
-        console.log("got search error", xhr);
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       }
     });
   },
@@ -166,7 +166,7 @@ var SearchPage = React.createClass({
         that.setState({services: that.state.services.concat(data.Services || []), total: data.Total});
       },
       error: function(xhr) {
-        console.log("got search error", xhr);
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       }
     });
   },
@@ -205,8 +205,8 @@ var SearchPage = React.createClass({
         };
         proceedToServicePage();
       },
-      error: function() {
-        console.log("der was error");
+      error: function(xhr) {
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       }
     });
   },

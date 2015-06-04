@@ -103,7 +103,7 @@ var CreateServiceButton = React.createClass({
         that.props.onServiceCreated(service);
       },
       error: function(xhr) {
-        console.log(xhr);
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       },
       complete: function() {
         $(".form-group .glyphicon").removeClass("spin infinite");

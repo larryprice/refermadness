@@ -39,7 +39,7 @@ var EditButton = React.createClass({
           that.finishEdit();
         },
         error: function(xhr) {
-          console.log("handle error", xhr);
+          noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
         }
       });
     }
@@ -98,7 +98,7 @@ var AddButton = React.createClass({
           }, 500);
         },
         error: function(xhr) {
-          console.log("handle error", xhr);
+          noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
         }
       });
     } else {
@@ -228,7 +228,7 @@ var ReferralCodeActions = React.createClass({
         that.setState({code: code});
       },
       error: function(xhr) {
-        console.log("error getting new code", xhr);
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       }
     });
   },
@@ -263,7 +263,7 @@ var ReferralCodeActions = React.createClass({
         that.setState({code: code});
       },
       error: function(xhr) {
-        console.log("error getting new code", xhr);
+        noty({text: xhr.statusText, layout: 'topLeft', timeout: 7500, type: 'error', theme: 'refermadness'});
       }
     });
   },
