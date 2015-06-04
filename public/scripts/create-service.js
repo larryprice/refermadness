@@ -27,7 +27,7 @@ var CreateServiceURL = React.createClass({displayName: "CreateServiceURL",
   render: function() {
     return (
       React.createElement("div", {className: "form-group create-service-url"}, 
-        React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-url"}, "URL"), 
+        React.createElement("label", {className: "col-sm-3 col-xs-12 control-label", for: "create-service-url"}, "Home Page"), 
         React.createElement("div", {className: "col-sm-9 col-xs-12"}, 
           React.createElement("div", {className: "input-group"}, 
             React.createElement("div", {className: "input-group-addon"}, "https://"), 

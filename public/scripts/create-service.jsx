@@ -27,7 +27,7 @@ var CreateServiceURL = React.createClass({
   render: function() {
     return (
       <div className="form-group create-service-url">
-        <label className="col-sm-3 col-xs-12 control-label" for="create-service-url">URL</label>
+        <label className="col-sm-3 col-xs-12 control-label" for="create-service-url">Home Page</label>
         <div className="col-sm-9 col-xs-12">
           <div className="input-group">
             <div className="input-group-addon">https://</div>
