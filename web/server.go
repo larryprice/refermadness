@@ -51,7 +51,7 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	searchController.Register(router)
 
 	s.Use(negroni.HandlerFunc(secure.New(secure.Options{
-			AllowedHosts: []string{"refer-madness.com"},
+			AllowedHosts: []string{"www.refer-madness.com", "refer-madness.com"},
 			SSLRedirect: true,
 			ContentTypeNosniff: true,
 			BrowserXssFilter: true,
