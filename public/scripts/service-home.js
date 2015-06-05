@@ -12,7 +12,12 @@ var ServicePanel = React.createClass({displayName: "ServicePanel",
 
 var ServiceHome = React.createClass({displayName: "ServiceHome",
   render: function() {
+    var waitToPop = /^((?!chrome).)*safari/i.test(navigator.userAgent);
     $(window).off("popstate").on("popstate", function() {
+      if (waitToPop) {
+        waitToPop = false;
+        return;
+      }
       window.location = window.location.href;
     });
 
