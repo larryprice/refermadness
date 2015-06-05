@@ -151,6 +151,16 @@ var CreateService = React.createClass({displayName: "CreateService",
             "Add it!"
           )
         ), 
+        React.createElement("div", {className: "row"}, 
+          React.createElement("div", {className: "col-xs-12 create-service-information"}, 
+            React.createElement("h4", null, 
+              "This is for informational purposes."
+            ), 
+            React.createElement("h4", null, 
+              "You'll have the chance to add your referral code after you define the service."
+            )
+          )
+        ), 
         React.createElement("form", {className: "form-horizontal"}, 
           React.createElement(CreateServiceName, null), 
           React.createElement(CreateServiceURL, null), 

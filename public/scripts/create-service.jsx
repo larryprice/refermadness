@@ -151,6 +151,16 @@ var CreateService = React.createClass({
             Add it!
           </div>
         </div>
+        <div className="row">
+          <div className="col-xs-12 create-service-information">
+            <h4>
+              This is for informational purposes.
+            </h4>
+            <h4>
+              You&apos;ll have the chance to add your referral code after you define the service.
+            </h4>
+          </div>
+        </div>
         <form className="form-horizontal">
           <CreateServiceName />
           <CreateServiceURL />
