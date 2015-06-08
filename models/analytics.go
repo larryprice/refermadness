@@ -23,7 +23,7 @@ type search struct {
 	ID     bson.ObjectId `bson:"_id"`
 	Query  string        `bson:"query"`
 	Limit  int           `bson:"limit"`
-	UserID bson.ObjectId `bson:"user_id"`
+	UserID bson.ObjectId `bson:"user_id,omitempty"`
 	Date   time.Time     `bson:"date"`
 }
 
