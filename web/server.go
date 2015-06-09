@@ -49,6 +49,8 @@ func NewServer(dba utils.DatabaseAccessor, cua utils.CurrentUserAccessor, client
 	codeController.Register(router)
 	searchController := controllers.NewSearchController(cua, basePage, renderer, dba)
 	searchController.Register(router)
+	sitemapController := controllers.NewSitemapController(dba)
+	sitemapController.Register(router)
 
 	s.Use(negroni.HandlerFunc(secure.New(secure.Options{
 		AllowedHosts:       []string{"www.refer-madness.com", "refer-madness.com"},
