@@ -1,0 +1,4 @@
+# robots.txt for https://www.refer-madness.com/
+
+User-agent: *
+Disallow: /search
